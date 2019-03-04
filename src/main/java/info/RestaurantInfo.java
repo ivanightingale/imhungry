@@ -1,6 +1,6 @@
 package info;
 
-public class RestaurantInfo extends Info implements Comparable<RestaurantInfo> {
+public class RestaurantInfo extends Info {
 	private String address;
 	private int price;
 	private int driveTime;
@@ -29,7 +29,7 @@ public class RestaurantInfo extends Info implements Comparable<RestaurantInfo> {
 	
 	public String getURL() {return url; }
 	
-	public int compareTo(RestaurantInfo other) {
-		return this.driveTime - other.driveTime;
+	public boolean equals(RestaurantInfo other) {
+		return this.name == other.name && this.address == other.address;
 	}
 }

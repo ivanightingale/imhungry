@@ -26,6 +26,10 @@ public class RecipeInfo extends Info implements Comparable<RecipeInfo> {
 	
 	public String getInstructions() { return instructions; }
 	
+	public boolean equals(RecipeInfo other) {
+		return this.name == other.name && this.prepTime == other.prepTime && this.cookTime == other.cookTime;
+	}
+	
 	public int compareTo(RecipeInfo other) {
 		return this.prepTime - other.prepTime;
 	}
