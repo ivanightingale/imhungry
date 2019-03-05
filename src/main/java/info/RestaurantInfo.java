@@ -1,6 +1,8 @@
 package info;
 
+
 public class RestaurantInfo extends Info {
+	//RestaurantInfo objects each store information of a restaurant.
 	public String address;
 	public int price;
 	public int driveTime;
