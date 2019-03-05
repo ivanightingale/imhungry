@@ -1,11 +1,11 @@
 package info;
 
 public class RestaurantInfo extends Info {
-	private String address;
-	private int price;
-	private int driveTime;
-	private String phone;
-	private String url;
+	public String address;
+	public int price;
+	public int driveTime;
+	public String phone;
+	public String url;
 	
 	
 	public RestaurantInfo(String name, int rating, String address, int price, int driveTime, String phone,
@@ -19,17 +19,12 @@ public class RestaurantInfo extends Info {
 		this.url = url;
 	}
 	
-	public String getAddress() { return address; }
-	
-	public int getPrice() { return price; }
-	
-	public int getDriveTime() { return driveTime; }
-	
-	public String getPhone() { return phone; }
-	
-	public String getURL() {return url; }
-	
+	//check whether two RestaurantInfo objects are equal. Used for biases based on lists. Many of the
+	//parameters can potentially change during a session, especially driveTime which is influenced by
+	//traffic situations. It is reasonable and sufficient to compare only the parameters involved in this
+	//function.
 	public boolean equals(RestaurantInfo other) {
-		return this.name == other.name && this.address == other.address;
+		return this.name.equals(other.name) && this.address.equals(other.address) &&
+				this.url.equals(other.url);
 	}
 }
