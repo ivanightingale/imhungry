@@ -3,6 +3,7 @@ package info;
 import java.util.ArrayList;
 
 public class RecipeInfo extends Info implements Comparable<RecipeInfo> {
+	//RecipeInfo objects each store information of a recipe.
 	public int prepTime;
 	public int cookTime;
 	public ArrayList<String> ingredients;
