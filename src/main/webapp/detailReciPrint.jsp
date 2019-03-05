@@ -128,10 +128,7 @@
 		document.getElementById("ingre1").innerHTML = "Ingredients: ";
 		document.getElementById("ingre2").innerHTML = ingre;
 		document.getElementById("instr1").innerHTML = "Instructions: ";
-		document.getElementById("instr2").innerHTML = instr;"WebContent/detail.css"
-		document.getElementById("backtoresults").src = "backToResults.png";
-		document.getElementById("printableversion").src = "printableVersion.png";
-		document.getElementById("addtolist").src = "addToList.png";
+		document.getElementById("instr2").innerHTML = instr;
 		document.getElementById("img").innerHTML = "<br><img src=\"" +img+ "\">"; //only needed by the 
 		</script>
 	</body>
