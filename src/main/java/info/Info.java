@@ -2,7 +2,7 @@ package info;
 
 //The super class of RestaurantInfo and RecipeInfo, used to store information about a restaurant and a
 //recipe, respectively.
-public class Info {
+public abstract class Info {
 	public String name;
 	public double rating;
 	
@@ -10,7 +10,6 @@ public class Info {
 	//the parameters can potentially change during a session, especially driveTime which is influenced by
 	//traffic situations. It is reasonable and sufficient to compare only the parameters involved in this
 	//function.
-	public boolean equals(Info other) {
-		return this.getClass().equals(other.getClass()) && this.name.equals(other.name);
-	}
+	@Override
+	public abstract boolean equals(Object other);
 }
