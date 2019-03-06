@@ -10,8 +10,18 @@
   	<description></description>
   	<servlet-class>results.SearchResult</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>TestServlet</servlet-name>
+  	<display-name>TestServlet</display-name>
+  	<description></description>
+  	<servlet-class>results.TestServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>SearchResult</servlet-name>
   	<url-pattern>/SearchResult</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>TestServlet</servlet-name>
+  	<url-pattern>/TestServlet</url-pattern>
   </servlet-mapping>
 </web-app>
