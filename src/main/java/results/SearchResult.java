@@ -339,50 +339,10 @@ public class SearchResult extends HttpServlet {
 	}
 	
 	
-	ArrayList<String> getCollageURLs(String s){
-		ArrayList<String> toReturn = new ArrayList<String>();
-		
-		//search query variables
-		 String key = "AIzaSyDBH2Gj3T72zj8oDA436dO8aJ_et7rftmQ";
-		 String qry = s; 
-		 String cxRecipe  = "009244685651437371811:xeqi10eq9ts";
-		 
-		 try {
-			  //recipeSearch URL
-			  URL url = new URL ("https://www.googleapis.com/customsearch/v1?key="+key+"&num="+ 10+"&cx="+cxRecipe+"&q="+qry+"&alt=json");
-			
-			  //get Recipe results  
-			  HttpURLConnection conn;
-			  conn = (HttpURLConnection) url.openConnection();
-			  conn.setRequestMethod("GET");
-			  conn.setRequestProperty("Accept", "application/json");
-
-			  BufferedReader br = new BufferedReader(new InputStreamReader ( ( conn.getInputStream() ) ) );
-			
-			  //get data from json
-			  JsonObject jObj = new JsonParser().parse(br).getAsJsonObject();
-			  JsonArray arr = jObj.getAsJsonArray("items");
-
-			  for(int i = 0; i < arr.size(); i ++){
-				
-				  JsonObject jObj2 = arr.get(i).getAsJsonObject().get("pagemap").getAsJsonObject();
-				  JsonArray arr2 = jObj2.get("recipe").getAsJsonArray();
-			 
-				  JsonArray arr3 = jObj2.get("cse_image").getAsJsonArray();
-				  for(int k = 0; k < 1; k++){
-					
-					 toReturn.add(arr3.get(k).getAsJsonObject().get("src").getAsString());
-		
-				  }
-				  
-			  }
-			  conn.disconnect();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		  
-		 
+	String getCollageURLs(String s){
+		String toReturn = null;
+		 //collage api stuff
+		//didn't put anything here cause ivan did it already
 		return toReturn;
 	}
 
