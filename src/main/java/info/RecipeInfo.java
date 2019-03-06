@@ -3,6 +3,7 @@ package info;
 import java.util.ArrayList;
 
 public class RecipeInfo extends Info implements Comparable<RecipeInfo> {
+<<<<<<< HEAD
 	private String name;
 	private String prepTime;
 	private String cookTime;
@@ -10,6 +11,15 @@ public class RecipeInfo extends Info implements Comparable<RecipeInfo> {
 	private String instructions;
 	
 	public RecipeInfo(String name, String prepTime, String cookTime, String ingredients,
+=======
+	//RecipeInfo objects each store information of a recipe.
+	public int prepTime;
+	public int cookTime;
+	public ArrayList<String> ingredients;
+	public String instructions;  //FIXME
+	
+	public RecipeInfo(String name, double rating, int prepTime, int cookTime, ArrayList<String> ingredients,
+>>>>>>> 3668ec296f94964d5697cc559239c44490768a77
 			String instructions) {
 		this.name = name;
 		this.prepTime = prepTime;
@@ -18,6 +28,7 @@ public class RecipeInfo extends Info implements Comparable<RecipeInfo> {
 		this.instructions = instructions;
 	}
 	
+<<<<<<< HEAD
 	public String getName() {return name;}
 	
 	public String getPrepTime() { return prepTime; }
@@ -36,3 +47,18 @@ public class RecipeInfo extends Info implements Comparable<RecipeInfo> {
 		//return this.prepTime - other.prepTime;
 	//}
 }
+=======
+	public int compareTo(RecipeInfo other) {
+		return this.prepTime - other.prepTime;
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if(other == this) return true;
+		if(!(other instanceof RecipeInfo)) return false;
+		RecipeInfo otherRecipeInfo = (RecipeInfo) other;
+		return this.name.equals(otherRecipeInfo.name) && this.prepTime == otherRecipeInfo.prepTime &&
+				this.cookTime == otherRecipeInfo.cookTime;
+	}
+}
+>>>>>>> 3668ec296f94964d5697cc559239c44490768a77

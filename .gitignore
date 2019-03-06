@@ -36,6 +36,7 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
+pom.properties
 
 # eclipse
 .metadata
@@ -49,6 +50,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+MANIFEST.MF
 
 # External tool builders
 .externalToolBuilders/

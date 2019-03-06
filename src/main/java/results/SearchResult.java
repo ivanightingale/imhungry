@@ -4,10 +4,14 @@ import java.io.BufferedReader;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import info.Info;
 import java.net.*;
 import java.io.Reader.*;
@@ -29,11 +33,12 @@ public class SearchResult extends HttpServlet {
 		
 		//From previous page, extract parameters
 		//uncomment once testing is complete
-	//	String userSearch = request.getParameter("search");
-		//int numResults = request.getParrameter("numResults");
-		String userSearch = "thai";
-		int numResults = 3;
-				
+		String userSearch = request.getParameter("search");
+		String numResults = request.getParameter("numResults");
+	
+		//printwriter object
+		PrintWriter out = response.getWriter();
+		
 		//Set up variables to store return value
 		boolean success = true;
 		String errorMsg = "";
@@ -47,18 +52,23 @@ public class SearchResult extends HttpServlet {
 		//get lists
 		ArrayList<Info> recipeList = recipeSearch(userSearch, numResults);
 		ArrayList<Info> restaurantList = restaurantSearch(userSearch, numResults);
-		ArrayList<String> imageURLs = getImageURLs(userSearch);
-		ArrayList<String> collageURLs = getCollageURLs(userSearch);
+		String collageURL = getCollageURLs(userSearch);
 	
 		//return content
 		if (!success){
 			//create error message
-			
+			out.println(errorMsg);
 			
 		}else{
 			//create success message
+			out.println("success!");
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("recipeList", recipeList);
+			session.setAttribute("restaurantList", restaurantList);
+			session.setAttribute("collageURL", collageURL);
+			
 		}
-		
 	
 		
 	}
@@ -91,15 +101,12 @@ public class SearchResult extends HttpServlet {
 			  JsonObject jObj = new JsonParser().parse(br).getAsJsonObject();
 			  JsonArray arr = jObj.getAsJsonArray("items");
 
-			  
-
 			  String title = null;
 			  String prepTime = null;
 			  String cookTime = null;
 			  String ingredients = null;
 			  String instructions = null;
-			  
-		
+			 	
 			  
 			 for(int i = 0 ; i < arr.size(); i ++){
 				 //add code to add info objects to info array
@@ -330,7 +337,7 @@ public class SearchResult extends HttpServlet {
 			  }
 			  conn.disconnect();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+	
 				e.printStackTrace();
 			}
 		  
