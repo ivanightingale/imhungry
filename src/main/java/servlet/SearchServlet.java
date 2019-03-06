@@ -12,8 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import info.Info;
 import info.RestaurantInfo;
@@ -22,6 +23,7 @@ import java.net.*;
 import java.io.Reader.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 /**
  * Servlet implementation class SearchResult
@@ -32,17 +34,17 @@ public class SearchServlet extends HttpServlet {
 	private static final String GOOGLE_MAPS_API_PREFIX = "https://maps.googleapis.com/maps/api";
 	private static final String MAPS_API_KEY = "AIzaSyC-iVaMeUT0xoM_wNIxJPOZrvlfLQMrI1A";
 	private static final String TOMMY_TROJAN_LOC = "34.0205663,-118.2876355";
-	
-	private static ArrayList<Info> favoritesList = new ArrayList<Info>();
-	private static ArrayList<Info> toExploreList = new ArrayList<Info>();
-	private static ArrayList<Info> doNotShowList = new ArrayList<Info>();
+
 	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO Auto-generated method stub
-        response.getWriter().append("Served at: ").append(request.getContextPath());
+		HttpSession session = request.getSession();
+		ArrayList<Info> favoritesList, toExploreList, doNotShowList;
+		favoritesList = (ArrayList<Info>)session.getAttribute("Favorites");
+		toExploreList = (ArrayList<Info>)session.getAttribute("To Explore");
+		doNotShowList = (ArrayList<Info>)session.getAttribute("Do Not Show");
         
         //From previous page, extract parameters
         //uncomment once testing is complete
@@ -62,9 +64,10 @@ public class SearchServlet extends HttpServlet {
         }
         
         //get lists
+        
+        //ArrayList<Info> restaurantList = restaurantSearch(userSearch, Integer.getInteger(numResults), doNotShowList, favoritesList);
         ArrayList<RecipeInfo> recipeList = recipeSearch(userSearch, numResults);
         ArrayList<RestaurantInfo> restaurantList = restaurantSearch(userSearch, numResults);
-        String collageURL = getCollageURLs(userSearch);
     
         //return content
         if (!success){
@@ -74,9 +77,8 @@ public class SearchServlet extends HttpServlet {
         } else {
             //create success message
             out.println("success!");
-            
-            HttpSession session = request.getSession();
-            session.setAttribute("recipeList", recipeList);
+
+            //session.setAttribute("recipeList", recipeList);
             session.setAttribute("restaurantList", restaurantList);
             session.setAttribute("collageURL", collageURL);    
         }
@@ -172,10 +174,10 @@ public class SearchServlet extends HttpServlet {
 		//assuming the worst possible case (all items in Do Not Show List appear) to encapsulate sufficient
 		//amount of restaurant information from the response
 		for(int i = 0; i < numResults + doNotShowList.size(); i++) {
-			JSONObject currentPlace = places.getJSONObject(i);
-			restaurants.add(new RestaurantInfo(currentPlace.getString("name"),
-					currentPlace.getDouble("rating"), currentPlace.getString("place_id"),
-					currentPlace.getString("vicinity"), currentPlace.getInt("price_level"), "", 0, "", ""));
+			JsonObject currentPlace = places.get(i).getAsJsonObject();
+			restaurants.add(new RestaurantInfo(currentPlace.get("name").getAsString(),
+					currentPlace.get("rating").getAsDouble(), currentPlace.get("place_id").getAsString(),
+					currentPlace.get("vicinity").getAsString(), currentPlace.get("price_level").getAsInt(), "", 0, "", ""));
 		}
 		
 		//remove all items in Do Not Show List that appear in the result
@@ -185,7 +187,7 @@ public class SearchServlet extends HttpServlet {
 		getDriveTimes(restaurants);
 		getPhoneAndURL(restaurants);
 		
-		Collections.sort(restaurants);  //sort RestaurantInfo in ascending order based on drive time
+		Collections.sort((List<RestaurantInfo>)(Object)restaurants);  //sort RestaurantInfo in ascending order based on drive time
 		
 		//move restaurants in Favorites List to the top
 		for(int i = restaurants.size() - 1; i > 0; i--) {
@@ -199,25 +201,27 @@ public class SearchServlet extends HttpServlet {
 	}
 	
 	//Create a request using place_id of all RestaurantInfo and send one request to obtain all drive times.
-	public void getDriveTimes(ArrayList<RestaurantInfo> restaurants) {
+	public void getDriveTimes(ArrayList<Info> restaurants) {
 		String driveTimeURL = "https://maps.googleapis.com/maps/api/distancematrix/" +
 				"json?units=imperial&origins=" + TOMMY_TROJAN_LOC + "&destinations=";
+
 		//concatenate the request URL to make use of the Distance Matrix API, obtaining drive times of multiple
 		//destinations in one request
-		for(int i = 0; i < restaurants.size(); i++)
-		{
+		for(int i = 0; i < restaurants.size(); i++) {
 			driveTimeURL += "place_id:" + restaurants.get(i).placeID + "%7C";
 		}
 		driveTimeURL += "&key=" + MAPS_API_KEY;
 		
+
+		//JsonArray driveTimes = new JsonParser().parse(getJSONResponse(driveTimeURL)).getAsJsonObject().get("rows").getAsJsonArray().get(0).getAsJsonObject().get("elements").getAsJsonArray();
 		//extract key part of the JSON response
 		JSONArray driveTimes = new JSONObject(getJSONResponse(driveTimeURL)).getJSONArray("rows")
 				.getJSONObject(0).getJSONArray("elements");
 		//modify respective RestaurantInfo objects, store drive time data
 		for(int i = 0; i < restaurants.size(); i++) {
-			JSONObject durationJSON = driveTimes.getJSONObject(i).getJSONObject("duration");
-			restaurants.get(i).driveTimeText = durationJSON.getString("text");
-			restaurants.get(i).driveTimeValue = durationJSON.getInt("value");
+			JsonObject durationJSON = driveTimes.get(i).getAsJsonObject().get("duration").getAsJsonObject();
+			((RestaurantInfo)(restaurants.get(i))).driveTimeText = durationJSON.get("text").getAsString();
+			((RestaurantInfo)(restaurants.get(i))).driveTimeValue = durationJSON.get("value").getAsInt();
 		}
 	}
 	
@@ -225,6 +229,12 @@ public class SearchServlet extends HttpServlet {
 	public void getPhoneAndURL(ArrayList<RestaurantInfo> restaurants) {
 		for(RestaurantInfo restaurant : restaurants) {
 			String detailURL = GOOGLE_MAPS_API_PREFIX + "/place/details/json?placeid="
+/*
+					+ ((RestaurantInfo)restaurant).placeID + "&fields=formatted_phone_number,url&key=" + API_KEY;
+			JsonObject detailsJSON = new JsonParser().parse(getJSONResponse(detailURL)).getAsJsonObject().get("result").getAsJsonObject();
+			((RestaurantInfo)restaurant).phone = detailsJSON.get("formatted_phone_number").getAsString();
+			((RestaurantInfo)restaurant).url = detailsJSON.get("url").getAsString();
+*/
 					+ restaurant.placeID + "&fields=formatted_phone_number,url&key=" + MAPS_API_KEY;
 			//extract main body of the JSON response
 			JSONObject detailsJSON = new JSONObject(getJSONResponse(detailURL)).getJSONObject("result");
