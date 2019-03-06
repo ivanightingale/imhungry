@@ -28,10 +28,14 @@ body{
 	width: 30px;
 }
 
-#submit {
+#text {
 	font: helvitca;
 	size: 100px;
-	color: red;
+	color: blue;
+	font-weight:bold;
+	position: relative;
+	top: 70px;
+	text-align:center;
 	margin-top: 30px;
 }
 
