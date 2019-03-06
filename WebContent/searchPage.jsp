@@ -21,8 +21,11 @@
 			</div>
 			
 			<br>
-			<input type = "submit" name = "submit" id ="submit" value = "Feed Me!">
-			<img id = "emoji" onclick ="transform()" src="sad.png" > 
+			<div id = "container">
+				<div id ="text">Feed Me!</div>
+				<input type="image" id = "emoji" onclick ="transform()" src="sad.png" alt="Feed MEEEE" />
+			</div>
+			
 			
 		</form>
 	</div>
