@@ -13,7 +13,6 @@ public class RestaurantInfo extends Info implements Comparable<RestaurantInfo> {
 
 	public RestaurantInfo(String name, double rating, String placeID, String address, int price, String driveTimeText,
 			int driveTimeValue, String phone, String url) {
-
 		this.name = name;
 		this.rating = rating;
 		this.placeID = placeID;
@@ -28,7 +27,6 @@ public class RestaurantInfo extends Info implements Comparable<RestaurantInfo> {
 	public int compareTo(RestaurantInfo other) {
 		return this.driveTimeValue - other.driveTimeValue;
 	}
-
 
 	@Override
 	public boolean equals(Object other) {
