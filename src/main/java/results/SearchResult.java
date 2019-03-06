@@ -28,11 +28,10 @@ public class SearchResult extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 		//From previous page, extract parameters
-		//uncomment once testing is complete
 		String userSearch = request.getParameter("search");
 		String numResults = request.getParameter("numResults");
 	
@@ -57,20 +56,20 @@ public class SearchResult extends HttpServlet {
 		//return content
 		if (!success){
 			//create error message
-			out.println(errorMsg);
-			
+			out.print("{ 'head': \n");
+			out.print(errorMsg + " \n}");
+
 		}else{
 			//create success message
-			out.println("success!");
+			String recListJson = new Gson().toJson(recipeList);
+			String restListJson = new Gson().toJson(restaurantList);
 			
-			HttpSession session = request.getSession();
-			session.setAttribute("recipeList", recipeList);
-			session.setAttribute("restaurantList", restaurantList);
-			session.setAttribute("collageURL", collageURL);
-			
+			out.print("{ 'head': 'Success', \n");
+			out.print("'body': {" + recListJson + ",\n" + restListJson +",\n"+ collageURL+"}");
+			out.print( " \n}");	
+		
 		}
 	
-		
 	}
 	
 	int getDriveTime(String s){

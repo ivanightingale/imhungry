@@ -1,6 +1,7 @@
 package info;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 public class RestaurantInfo extends Info {
 	private String name;
 	private String address;
@@ -14,6 +15,8 @@ public class RestaurantInfo extends Info {
 	public RestaurantInfo(String name, int rating, String address, String price, int driveTime, String phone,
 			String url) {
 =======
+=======
+>>>>>>> e1477d2cc702d72b39874e28c2f215818421992e
 public class RestaurantInfo extends Info implements Comparable<RestaurantInfo> {
 	//RestaurantInfo objects each store information of a restaurant.
 	public String placeID;
@@ -27,7 +30,10 @@ public class RestaurantInfo extends Info implements Comparable<RestaurantInfo> {
 	
 	public RestaurantInfo(String name, double rating, String placeID, String address, int price, String driveTimeText,
 			int driveTimeValue, String phone, String url) {
+<<<<<<< HEAD
 >>>>>>> 3668ec296f94964d5697cc559239c44490768a77
+=======
+>>>>>>> e1477d2cc702d72b39874e28c2f215818421992e
 		this.name = name;
 		this.rating = rating;
 		this.placeID = placeID;
@@ -39,6 +45,7 @@ public class RestaurantInfo extends Info implements Comparable<RestaurantInfo> {
 		this.url = url;
 	}
 	
+<<<<<<< HEAD
 <<<<<<< HEAD
 	public String getAddress() { return address; }
 	
@@ -59,12 +66,21 @@ public class RestaurantInfo extends Info implements Comparable<RestaurantInfo> {
 		return this.driveTimeValue - other.driveTimeValue;
 	}
 	
+=======
+	public int compareTo(RestaurantInfo other) {
+		return this.driveTimeValue - other.driveTimeValue;
+	}
+	
+>>>>>>> e1477d2cc702d72b39874e28c2f215818421992e
 	@Override
 	public boolean equals(Object other) {
 		if(other == this) return true;
 		if(!(other instanceof RestaurantInfo)) return false;
 		RestaurantInfo otherRestaurantInfo = (RestaurantInfo) other;
 		return this.name.equals(otherRestaurantInfo.name) && this.placeID.equals(otherRestaurantInfo.placeID);
+<<<<<<< HEAD
 >>>>>>> 3668ec296f94964d5697cc559239c44490768a77
+=======
+>>>>>>> e1477d2cc702d72b39874e28c2f215818421992e
 	}
 }
