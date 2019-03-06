@@ -1,73 +1,177 @@
-package results;
+package servlet;
 
 import java.io.BufferedReader;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import info.Info;
+import info.RestaurantInfo;
+import info.RecipeInfo;
 import java.net.*;
 import java.io.Reader.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
-import com.google.gson.*;
 /**
  * Servlet implementation class SearchResult
  */
-public class SearchResult extends HttpServlet {
+public class SearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	
+	private static final String GOOGLE_MAPS_API_PREFIX = "https://maps.googleapis.com/maps/api";
+	private static final String API_KEY = "AIzaSyC-iVaMeUT0xoM_wNIxJPOZrvlfLQMrI1A";
+	private static final String TOMMY_TROJAN_LOC = "34.0205663,-118.2876355";
+	
+	private static ArrayList<Info> favoritesList = new ArrayList<Info>();
+	private static ArrayList<Info> toExploreList = new ArrayList<Info>();
+	private static ArrayList<Info> doNotShowList = new ArrayList<Info>();
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-		
-		//From previous page, extract parameters
-		//uncomment once testing is complete
-	//	String userSearch = request.getParameter("search");
-		//int numResults = request.getParrameter("numResults");
-		String userSearch = "thai";
-		int numResults = 3;
-				
-		//Set up variables to store return value
-		boolean success = true;
-		String errorMsg = "";
-		
-		//Check for null input
-		if (userSearch == null) {
-			success = false;
-			errorMsg += "The file doesn't exist!";
-		}
-		
-		//get lists
-		ArrayList<Info> recipeList = recipeSearch(userSearch, numResults);
-		ArrayList<Info> restaurantList = restaurantSearch(userSearch, numResults);
-		ArrayList<String> imageURLs = getImageURLs(userSearch);
-		ArrayList<String> collageURLs = getCollageURLs(userSearch);
+        // TODO Auto-generated method stub
+        response.getWriter().append("Served at: ").append(request.getContextPath());
+        
+        //From previous page, extract parameters
+        //uncomment once testing is complete
+        String userSearch = request.getParameter("search");
+        String numResults = request.getParameter("numResults");
+
+        PrintWriter out = response.getWriter();
+        
+        //Set up variables to store return value
+        boolean success = true;
+        String errorMsg = "";
+        
+        //Check for null input
+        if (userSearch == null) {
+            success = false;
+            errorMsg += "The file doesn't exist!";
+        }
+        
+        //get lists
+        ArrayList<Info> recipeList = recipeSearch(userSearch, numResults);
+        ArrayList<Info> restaurantList = restaurantSearch(userSearch, numResults);
+        String collageURL = getCollageURLs(userSearch);
+    
+        //return content
+        if (!success){
+            //create error message
+            out.println(errorMsg);
+            
+        } else {
+            //create success message
+            out.println("success!");
+            
+            HttpSession session = request.getSession();
+            session.setAttribute("recipeList", recipeList);
+            session.setAttribute("restaurantList", restaurantList);
+            session.setAttribute("collageURL", collageURL);    
+        }
+        
+    }
 	
-		//return content
-		if (!success){
-			//create error message
-			
-			
-		}else{
-			//create success message
-		}
-		
 	
-		
+	
+	//Sends a "GET" request to the specified API URL and obtains the result as a String.
+	public static String getJSONResponse(String url) {
+		try {
+			URL obj = new URL(url);
+			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+			int responseCode = con.getResponseCode();
+			System.out.println("Response Code: " + responseCode);
+			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			in.close();
+			return response.toString();
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		return null;
 	}
 	
-	int getDriveTime(String s){
-		return 0;
+	public ArrayList<RestaurantInfo> restaurantSearch(String query, int numResults) {
+		ArrayList<RestaurantInfo> restaurants = new ArrayList<RestaurantInfo>();
+		String searchURL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="
+				+ TOMMY_TROJAN_LOC +"&rankby=distance&type=restaurant&keyword="
+				+ query + "&key=" + API_KEY;
+		JSONArray places = new JSONObject(getJSONResponse(searchURL)).getJSONArray("results");
+		
+		for(int i = 0; i < numResults + doNotShowList.size(); i++) {
+			JSONObject currentPlace = places.getJSONObject(i);
+			restaurants.add(new RestaurantInfo(currentPlace.getString("name"),
+					currentPlace.getDouble("rating"), currentPlace.getString("place_id"),
+					currentPlace.getString("vicinity"), currentPlace.getInt("price_level"), "", 0, "", ""));
+		}
+
+		for(Info doNotShowInfo : doNotShowList) {
+			restaurants.remove(doNotShowInfo);
+		}
+		getDriveTimes(restaurants);
+		getPhoneAndURL(restaurants);
+		
+		Collections.sort(restaurants);  //sort RestaurantInfo in ascending order based on drive time
+		
+		//move restaurants in Favorites List to the top
+		for(int i = restaurants.size() - 1; i > 0; i--) {
+			if(favoritesList.contains(restaurants.get(i))) {
+				System.out.println(i);
+				restaurants.add(0, restaurants.get(i));
+				i++;
+				restaurants.remove(i);
+			}
+		}
+    	return restaurants;
 	}
 	
-	ArrayList<Info> recipeSearch(String s, int num){
+	//Create a request using place_id of all RestaurantInfo and send one request to obtain all drive times.
+	public void getDriveTimes(ArrayList<RestaurantInfo> restaurants) {
+		String driveTimeURL = "https://maps.googleapis.com/maps/api/distancematrix/" +
+				"json?units=imperial&origins=" + TOMMY_TROJAN_LOC + "&destinations=";
+		for(int i = 0; i < restaurants.size(); i++) {
+			driveTimeURL += "place_id:" + restaurants.get(i).placeID + "%7C";
+		}
+		driveTimeURL += "&key=" + API_KEY;
+		
+		JSONArray driveTimes = new JSONObject(getJSONResponse(driveTimeURL)).getJSONArray("rows")
+				.getJSONObject(0).getJSONArray("elements");
+		for(int i = 0; i < restaurants.size(); i++) {
+			JSONObject durationJSON = driveTimes.getJSONObject(i).getJSONObject("duration");
+			restaurants.get(i).driveTimeText = durationJSON.getString("text");
+			restaurants.get(i).driveTimeValue = durationJSON.getInt("value");
+		}
+	}
+	
+	//A separate request is needed to get detailed information including phone and URL.
+	public void getPhoneAndURL(ArrayList<RestaurantInfo> restaurants) {
+		for(RestaurantInfo restaurant : restaurants) {
+			String detailURL = GOOGLE_MAPS_API_PREFIX + "/place/details/json?placeid="
+					+ restaurant.placeID + "&fields=formatted_phone_number,url&key=" + API_KEY;
+			JSONObject detailsJSON = new JSONObject(getJSONResponse(detailURL)).getJSONObject("result");
+			restaurant.phone = detailsJSON.getString("formatted_phone_number");
+			restaurant.url = detailsJSON.getString("url");
+		}
+	}
+       
+	
+	/*
+	private ArrayList<Info> recipeSearch(String s, int num){
 		ArrayList<Info> toReturn = new ArrayList<Info>();
 		
 		//search query variables
@@ -144,7 +248,7 @@ public class SearchResult extends HttpServlet {
 				
 				 toReturn.add(new Info(title, prepTime, cookTime, ingredients, instructions));
 			 }
-			  conn.disconnect();
+			  	conn.disconnect();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -153,6 +257,7 @@ public class SearchResult extends HttpServlet {
 		
 		return toReturn;
 	}
+
 
 	ArrayList<Info> restaurantSearch(String s, int num){
 		ArrayList<Info> toReturn = new ArrayList<Info>();
@@ -288,8 +393,9 @@ public class SearchResult extends HttpServlet {
 		
 		return toReturn;
 	}
+	*/
 	
-	ArrayList<String> getImageURLs(String s){
+	private ArrayList<String> getImageURLs(String s){
 		ArrayList<String> toReturn = null;
 		
 		//search query variables
@@ -339,10 +445,9 @@ public class SearchResult extends HttpServlet {
 	}
 	
 	
-	String getCollageURLs(String s){
+	private String getCollageURLs(String s){
 		String toReturn = null;
-		 //collage api stuff
-		//didn't put anything here cause ivan did it already
+		//collage api
 		return toReturn;
 	}
 
