@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+
 import info.Info;
 import info.RestaurantInfo;
 import info.RecipeInfo;
@@ -44,39 +46,36 @@ public class SearchServlet extends HttpServlet {
 		//Set up variables to store return value
 		boolean success = true;
 		String errorMsg = "";
-		
-		//Check for null input
-		if (userSearch == null) {
-			success = false;
-			errorMsg += "The file doesn't exist!";
-		}
-		
+	
 		//get lists
-		ArrayList<Info> recipeList = recipeSearch(userSearch, numResults);
-		ArrayList<Info> restaurantList = restaurantSearch(userSearch, numResults);
-		String collageURL = getCollageURLs(userSearch);
+		ArrayList<Info> recipeList = null;
+		recipeList = recipeSearch(userSearch, numResults);
+		ArrayList<Info> restaurantList = null;
+		restaurantList = restaurantSearch(userSearch, numResults);
+		String collageURL = null;
+		collageURL=getCollageURLs(userSearch);
 		
 		if (recipeList == null || restaurantList == null || collageURL == null){
 			success=false;
 			errorMsg += "Failed to generate results!";
+			
 		}
 	
 		//return content
 		if (!success){
 			//create error message
-			out.print("{ 'head': \n");
-			out.print(errorMsg + " \n}");
+			out.println("{ \"head\": \" "+errorMsg + "\" }");
 
 		}else{
 			//create success message
-			
-			out.print("success!!!");
 			String recListJson = new Gson().toJson(recipeList);
 			String restListJson = new Gson().toJson(restaurantList);
 			
-			out.print("{ 'head': 'Success', \n");
-			out.print("'body': {" + recListJson + ",\n" + restListJson +",\n"+ collageURL+"}");
-			out.print( " \n}");	
+			out.println("{ \"head\": \"Success\",");
+			out.println("\"body\": { " + recListJson + "," + restListJson +","+ collageURL+"}");
+			out.println( "}");	
+			
+			
 		
 		}
 	
