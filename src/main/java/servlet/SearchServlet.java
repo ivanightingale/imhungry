@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +29,7 @@ import java.util.Random;
 /**
  * Servlet implementation class SearchResult
  */
+@WebServlet(name = "SearchServlet", urlPatterns = "/Search")
 public class SearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -66,8 +68,8 @@ public class SearchServlet extends HttpServlet {
         //get lists
         
         //ArrayList<Info> restaurantList = restaurantSearch(userSearch, Integer.getInteger(numResults), doNotShowList, favoritesList);
-        ArrayList<RecipeInfo> recipeList = recipeSearch(userSearch, numResults);
-        ArrayList<RestaurantInfo> restaurantList = restaurantSearch(userSearch, numResults);
+        ArrayList<RecipeInfo> recipeList = recipeSearch(userSearch, numResults, doNotShowList, favoritesList);
+        ArrayList<RestaurantInfo> restaurantList = restaurantSearch(userSearch, numResults, doNotShowList, favoritesList);
     
         //return content
         if (!success){
@@ -78,9 +80,9 @@ public class SearchServlet extends HttpServlet {
             //create success message
             out.println("success!");
 
-            //session.setAttribute("recipeList", recipeList);
+            session.setAttribute("recipeList", recipeList);
             session.setAttribute("restaurantList", restaurantList);
-            session.setAttribute("collageURL", collageURL);    
+            //session.setAttribute("collageURL", collageURL);
         }
         
     }
@@ -110,37 +112,36 @@ public class SearchServlet extends HttpServlet {
 	}
 	
 	//TODO: add comments
-	public ArrayList<RecipeInfo> recipeSearch(String query, int numResults){
+	public ArrayList<RecipeInfo> recipeSearch(String query, int numResults, List<Info> doNotShowList, List<Info> favoritesList){
 		ArrayList<RecipeInfo> recipes = new ArrayList<RecipeInfo>();
 		String recipeSearchURL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/search?"
 				+ "number=" + (numResults + doNotShowList.size()) + "&query=" + query;
 		//extract key part of the JSON response
-		JSONArray recipesJSON = new JSONObject(getJSONResponse(recipeSearchURL)).getJSONArray("results");
+		JsonArray recipesJSON = new JsonParser().parse(getJSONResponse(recipeSearchURL)).getAsJsonObject().get("results").getAsJsonArray();
 		  
-		for(int i = 0 ; i < recipesJSON.length(); i++){
-			JSONObject currentRecipe = recipesJSON.getJSONObject(i);
+		for(int i = 0 ; i < recipesJSON.size(); i++){
+			JsonObject currentRecipe = recipesJSON.get(i).getAsJsonObject();
 			RecipeInfo recipe = new RecipeInfo("[No name available]", 0, 0, 0, new ArrayList<String>(), 
 					new ArrayList<String>());
-			recipe.name = currentRecipe.getString("title");
-			int recipeID = currentRecipe.getInt("id");
+			recipe.name = currentRecipe.get("title").getAsString();
+			int recipeID = currentRecipe.get("id").getAsInt();
 			String recipeDetailURL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/"
 					+ recipeID +"/information";
-			JSONObject recipeDetailJSON = new JSONObject(getJSONResponse(recipeDetailURL));
-			recipe.rating = recipeDetailJSON.getDouble("spoonacularScore") / 20.0;
+			JsonObject recipeDetailJSON = new JsonParser().parse(getJSONResponse(recipeDetailURL)).getAsJsonObject();
+			recipe.rating = recipeDetailJSON.get("spoonacularScore").getAsDouble() / 20.0;
 			try {
-				recipe.prepTime = recipeDetailJSON.getInt("preparationMinutes");
+				recipe.prepTime = recipeDetailJSON.get("preparationMinutes").getAsInt();
 			} catch(Exception e) {}
 			try {
-				recipe.cookTime = recipeDetailJSON.getInt("cookingMinutes");
+				recipe.cookTime = recipeDetailJSON.get("cookingMinutes").getAsInt();
 			} catch(Exception e) {}
-			JSONArray ingredientsJSON = recipeDetailJSON.getJSONArray("extendedIngredients");
-			for(int j = 0; j < ingredientsJSON.length(); j++) {
-				recipe.ingredients.add("" + (j + 1) + ". " + ingredientsJSON.getJSONObject(j).getString("name"));
+			JsonArray ingredientsJSON = recipeDetailJSON.get("extendedIngredients").getAsJsonArray();
+			for(int j = 0; j < ingredientsJSON.size(); j++) {
+				recipe.ingredients.add("" + (j + 1) + ". " + ingredientsJSON.get(j).getAsJsonObject().get("name").getAsString());
 			}
-			JSONArray instructionsJSON = recipeDetailJSON.getJSONArray("analyzedInstructions").getJSONObject(0)
-					.getJSONArray("steps");
-			for(int j = 0; j < instructionsJSON.length(); j++) {
-				recipe.instructions.add("" + (j + 1) + ". " + instructionsJSON.getJSONObject(j).getString("step"));
+			JsonArray instructionsJSON = recipeDetailJSON.get("analyzedInstructions").getAsJsonArray().get(0).getAsJsonObject().get("steps").getAsJsonArray();
+			for(int j = 0; j < instructionsJSON.size(); j++) {
+				recipe.instructions.add("" + (j + 1) + ". " + instructionsJSON.get(j).getAsJsonObject().get("step").getAsString());
 			}
 			recipes.add(recipe);
 		}
@@ -163,13 +164,13 @@ public class SearchServlet extends HttpServlet {
 	
 	//Given a String query and number of results expected, return an ArrayList of RestaurantInfo. The function
 	//uses several Google Maps APIs and refer to Do Not Show List and Favorites List.
-	public ArrayList<RestaurantInfo> restaurantSearch(String query, int numResults) {
+	public ArrayList<RestaurantInfo> restaurantSearch(String query, int numResults, List<Info> doNotShowList, List<Info> favoritesList) {
 		ArrayList<RestaurantInfo> restaurants = new ArrayList<RestaurantInfo>();
 		String searchURL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="
 				+ TOMMY_TROJAN_LOC +"&rankby=distance&type=restaurant&keyword="
 				+ query + "&key=" + MAPS_API_KEY;
 		//extract key part of the JSON response
-		JSONArray places = new JSONObject(getJSONResponse(searchURL)).getJSONArray("results");
+		JsonArray places = new JsonParser().parse(getJSONResponse(searchURL)).getAsJsonObject().get("results").getAsJsonArray();
 		
 		//assuming the worst possible case (all items in Do Not Show List appear) to encapsulate sufficient
 		//amount of restaurant information from the response
@@ -187,7 +188,7 @@ public class SearchServlet extends HttpServlet {
 		getDriveTimes(restaurants);
 		getPhoneAndURL(restaurants);
 		
-		Collections.sort((List<RestaurantInfo>)(Object)restaurants);  //sort RestaurantInfo in ascending order based on drive time
+		Collections.sort(restaurants);  //sort RestaurantInfo in ascending order based on drive time
 		
 		//move restaurants in Favorites List to the top
 		for(int i = restaurants.size() - 1; i > 0; i--) {
@@ -201,7 +202,7 @@ public class SearchServlet extends HttpServlet {
 	}
 	
 	//Create a request using place_id of all RestaurantInfo and send one request to obtain all drive times.
-	public void getDriveTimes(ArrayList<Info> restaurants) {
+	public void getDriveTimes(ArrayList<RestaurantInfo> restaurants) {
 		String driveTimeURL = "https://maps.googleapis.com/maps/api/distancematrix/" +
 				"json?units=imperial&origins=" + TOMMY_TROJAN_LOC + "&destinations=";
 
@@ -211,17 +212,15 @@ public class SearchServlet extends HttpServlet {
 			driveTimeURL += "place_id:" + restaurants.get(i).placeID + "%7C";
 		}
 		driveTimeURL += "&key=" + MAPS_API_KEY;
-		
 
-		//JsonArray driveTimes = new JsonParser().parse(getJSONResponse(driveTimeURL)).getAsJsonObject().get("rows").getAsJsonArray().get(0).getAsJsonObject().get("elements").getAsJsonArray();
+
 		//extract key part of the JSON response
-		JSONArray driveTimes = new JSONObject(getJSONResponse(driveTimeURL)).getJSONArray("rows")
-				.getJSONObject(0).getJSONArray("elements");
+		JsonArray driveTimes = new JsonParser().parse(getJSONResponse(driveTimeURL)).getAsJsonObject().get("rows").getAsJsonArray().get(0).getAsJsonObject().get("elements").getAsJsonArray();
 		//modify respective RestaurantInfo objects, store drive time data
 		for(int i = 0; i < restaurants.size(); i++) {
 			JsonObject durationJSON = driveTimes.get(i).getAsJsonObject().get("duration").getAsJsonObject();
-			((RestaurantInfo)(restaurants.get(i))).driveTimeText = durationJSON.get("text").getAsString();
-			((RestaurantInfo)(restaurants.get(i))).driveTimeValue = durationJSON.get("value").getAsInt();
+			restaurants.get(i).driveTimeText = durationJSON.get("text").getAsString();
+			restaurants.get(i).driveTimeValue = durationJSON.get("value").getAsInt();
 		}
 	}
 	
@@ -229,18 +228,11 @@ public class SearchServlet extends HttpServlet {
 	public void getPhoneAndURL(ArrayList<RestaurantInfo> restaurants) {
 		for(RestaurantInfo restaurant : restaurants) {
 			String detailURL = GOOGLE_MAPS_API_PREFIX + "/place/details/json?placeid="
-/*
-					+ ((RestaurantInfo)restaurant).placeID + "&fields=formatted_phone_number,url&key=" + API_KEY;
-			JsonObject detailsJSON = new JsonParser().parse(getJSONResponse(detailURL)).getAsJsonObject().get("result").getAsJsonObject();
-			((RestaurantInfo)restaurant).phone = detailsJSON.get("formatted_phone_number").getAsString();
-			((RestaurantInfo)restaurant).url = detailsJSON.get("url").getAsString();
-*/
 					+ restaurant.placeID + "&fields=formatted_phone_number,url&key=" + MAPS_API_KEY;
 			//extract main body of the JSON response
-			JSONObject detailsJSON = new JSONObject(getJSONResponse(detailURL)).getJSONObject("result");
-			//modify respective RestaurantInfo objects, store detail information
-			restaurant.phone = detailsJSON.getString("formatted_phone_number");
-			restaurant.url = detailsJSON.getString("url");
+			JsonObject detailsJSON = new JsonParser().parse(getJSONResponse(detailURL)).getAsJsonObject().get("result").getAsJsonObject();
+			restaurant.phone = detailsJSON.get("formatted_phone_number").getAsString();
+			restaurant.url = detailsJSON.get("url").getAsString();
 		}
 	}
        
