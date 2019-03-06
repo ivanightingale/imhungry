@@ -9,7 +9,7 @@ public class RecipeInfo extends Info implements Comparable<RecipeInfo> {
 	public ArrayList<String> ingredients;
 	public String instructions;  //FIXME
 	
-	public RecipeInfo(String name, int rating, int prepTime, int cookTime, ArrayList<String> ingredients,
+	public RecipeInfo(String name, double rating, int prepTime, int cookTime, ArrayList<String> ingredients,
 			String instructions) {
 		this.name = name;
 		this.rating = rating;
@@ -17,12 +17,6 @@ public class RecipeInfo extends Info implements Comparable<RecipeInfo> {
 		this.cookTime = cookTime;
 		this.ingredients = ingredients;
 		this.instructions = instructions;
-	}
-	
-	
-	//FIXME
-	public boolean equals(RecipeInfo other) {
-		return this.name == other.name && this.prepTime == other.prepTime && this.cookTime == other.cookTime;
 	}
 	
 	public int compareTo(RecipeInfo other) {
