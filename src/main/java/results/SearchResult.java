@@ -33,7 +33,7 @@ public class SearchResult extends HttpServlet {
 		
 		//From previous page, extract parameters
 		String userSearch = request.getParameter("search");
-		String numResults = request.getParameter("numResults");
+		String numResults = request.getParameter("number");
 	
 		//printwriter object
 		PrintWriter out = response.getWriter();
@@ -52,6 +52,11 @@ public class SearchResult extends HttpServlet {
 		ArrayList<Info> recipeList = recipeSearch(userSearch, numResults);
 		ArrayList<Info> restaurantList = restaurantSearch(userSearch, numResults);
 		String collageURL = getCollageURLs(userSearch);
+		
+		if (recipeList == null || restaurantList == null || collageURL == null){
+			success=false;
+			errorMsg += "Failed to generate results!";
+		}
 	
 		//return content
 		if (!success){
