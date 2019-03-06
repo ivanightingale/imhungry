@@ -1,8 +1,10 @@
 package info;
 
+import java.io.Serializable;
+
 //The super class of RestaurantInfo and RecipeInfo, used to store information about a restaurant and a
 //recipe, respectively.
-public abstract class Info {
+public abstract class Info implements Serializable{
 	public String name;
 	public double rating;
 	
