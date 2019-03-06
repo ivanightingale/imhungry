@@ -1,0 +1,61 @@
+@charset "UTF-8";
+
+body{
+	font: helvetica;
+	background-color: #f5f5f5;
+}
+
+#header{
+	font: helvetica;
+	font-size: 100px;
+	text-align: center;
+	padding-top: 100px; 
+}
+
+#format{
+	margin-top: 50px;
+	display: block;
+    text-align: center;
+}
+
+#search{
+	margin-left:120px;
+	font-size: 25px;
+}
+
+#number{
+	margin-left:20px;
+	width: 30px;
+}
+
+#submit {
+	font: helvitca;
+	size: 100px;
+	color: red;
+	margin-top: 30px;
+}
+
+#hover_text{
+	font-size: 10px;
+
+}
+
+#hover_format{
+	display: inline;
+}
+
+#hover_text{
+	margin-left:20px;
+	margin-top:20px;
+	position:absolute;
+	display: none;
+}
+#hover_format:hover #hover_text {
+  display: inline;
+}
+
+img {
+	position:absolute;
+	margin-top:10px;
+	height: 5%;
+}
