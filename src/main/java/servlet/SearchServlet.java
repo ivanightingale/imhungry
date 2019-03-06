@@ -35,15 +35,13 @@ public class SearchServlet extends HttpServlet {
 	private static final String API_KEY = "AIzaSyC-iVaMeUT0xoM_wNIxJPOZrvlfLQMrI1A";
 	private static final String TOMMY_TROJAN_LOC = "34.0205663,-118.2876355";
 
-	private ArrayList<Info> favoritesList;
-	private ArrayList<Info> toExploreList;
-	private ArrayList<Info> doNotShowList;
 	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		ArrayList<Info> favoritesList, toExploreList, doNotShowList;
 		favoritesList = (ArrayList<Info>)session.getAttribute("Favorites");
 		toExploreList = (ArrayList<Info>)session.getAttribute("To Explore");
 		doNotShowList = (ArrayList<Info>)session.getAttribute("Do Not Show");
@@ -67,7 +65,7 @@ public class SearchServlet extends HttpServlet {
         
         //get lists
         //ArrayList<Info> recipeList = recipeSearch(userSearch, numResults);
-        ArrayList<Info> restaurantList = restaurantSearch(userSearch, Integer.getInteger(numResults));
+        ArrayList<Info> restaurantList = restaurantSearch(userSearch, Integer.getInteger(numResults), doNotShowList, favoritesList);
         String collageURL = getCollageURLs(userSearch);
     
         //return content
@@ -109,7 +107,7 @@ public class SearchServlet extends HttpServlet {
 		return null;
 	}
 	
-	public ArrayList<Info> restaurantSearch(String query, int numResults) {
+	public ArrayList<Info> restaurantSearch(String query, int numResults, List<Info> doNotShowList, List<Info> favoritesList) {
 
 		ArrayList<Info> restaurants = new ArrayList<>();
 		String searchURL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="
