@@ -22,4 +22,13 @@ public class RecipeInfo extends Info implements Comparable<RecipeInfo> {
 	public int compareTo(RecipeInfo other) {
 		return this.prepTime - other.prepTime;
 	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if(other == this) return true;
+		if(!(other instanceof RecipeInfo)) return false;
+		RecipeInfo otherRecipeInfo = (RecipeInfo) other;
+		return this.name.equals(otherRecipeInfo.name) && this.prepTime == otherRecipeInfo.prepTime &&
+				this.cookTime == otherRecipeInfo.cookTime;
+	}
 }
