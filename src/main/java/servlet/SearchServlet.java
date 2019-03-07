@@ -36,6 +36,12 @@ public class SearchServlet extends HttpServlet {
 	private static final String GOOGLE_MAPS_API_PREFIX = "https://maps.googleapis.com/maps/api";
 	private static final String MAPS_API_KEY = "AIzaSyC-iVaMeUT0xoM_wNIxJPOZrvlfLQMrI1A";
 	private static final String TOMMY_TROJAN_LOC = "34.0205663,-118.2876355";
+	
+	private static final String SPOONACULAR_RECIPE_API_PREFIX = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes";
+	
+	private static final String GOOGLE_CX_API_KEY = "AIzaSyAH3GjzX5RNq1ObGtaJEuciQziHrakn4cM";
+	private static final String GOOGLE_CX_ENGINE = "001810512200125518925:d_yaufj89m8";
+	private static final int IMAGE_COLLAGE_NUM = 10;
 
 	
 	/**
@@ -94,6 +100,7 @@ public class SearchServlet extends HttpServlet {
 		try {
 			URL requestURL = new URL(url);
 			HttpURLConnection con = (HttpURLConnection) requestURL.openConnection();
+			//HTTP header for authorization of Spoonacular recipe API
 			con.setRequestProperty("X-RapidAPI-Key", "5d400066d1msh1a0901e6bb0917dp1b2dc1jsn1dcafa5afeb5");
 			int responseCode = con.getResponseCode();
 			System.out.println("Response Code: " + responseCode);
@@ -105,52 +112,66 @@ public class SearchServlet extends HttpServlet {
 			}
 			in.close();
 			return response.toString();
-		} catch(Exception e) {
-			System.out.println(e);
-		}
+		} catch(Exception e) {}
 		return null;
 	}
 	
-	//TODO: add comments
+	//Given a String query and number of results expected, return an ArrayList of RecipeInfo. The function
+	//uses 2 Spoonacular's recipe APIs and refer to Do Not Show List and Favorites List.
 	public ArrayList<RecipeInfo> recipeSearch(String query, int numResults, List<Info> doNotShowList, List<Info> favoritesList){
 		ArrayList<RecipeInfo> recipes = new ArrayList<RecipeInfo>();
-		String recipeSearchURL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/search?"
-				+ "number=" + (numResults + doNotShowList.size()) + "&query=" + query;
-		//extract key part of the JSON response
-		JsonArray recipesJSON = new JsonParser().parse(getJSONResponse(recipeSearchURL)).getAsJsonObject().get("results").getAsJsonArray();
-		  
+		//assuming the worst possible case (all items in Do Not Show List appear in result) to query sufficient
+		//amount of recipe information
+		String recipeSearchURL = SPOONACULAR_RECIPE_API_PREFIX + "/search?number="
+				+ (numResults + doNotShowList.size()) + "&query=" + query;
+		//extract relevant part of the JSON response
+		JsonArray recipesJSON = new JsonParser().parse(getJSONResponse(recipeSearchURL)).getAsJsonObject()
+				.get("results").getAsJsonArray();
+
 		for(int i = 0 ; i < recipesJSON.size(); i++){
 			JsonObject currentRecipe = recipesJSON.get(i).getAsJsonObject();
-			RecipeInfo recipe = new RecipeInfo("[No name available]", 0, 0, 0, new ArrayList<String>(), 
-					new ArrayList<String>());
-			recipe.name = currentRecipe.get("title").getAsString();
-			int recipeID = currentRecipe.get("id").getAsInt();
-			String recipeDetailURL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/"
-					+ recipeID +"/information";
-			JsonObject recipeDetailJSON = new JsonParser().parse(getJSONResponse(recipeDetailURL)).getAsJsonObject();
-			recipe.rating = recipeDetailJSON.get("spoonacularScore").getAsDouble() / 20.0;
+			//initialize current RecipeInfo object that will be added. Detail information requires another
+			//request based on the recipe's unique recipe ID
+			RecipeInfo recipe = new RecipeInfo(currentRecipe.get("title").getAsString(), 0,
+					currentRecipe.get("id").getAsInt(), 0, 0, new ArrayList<String>(), new ArrayList<String>());
+			
+			//use recipe ID to make another request for detail information
+			String recipeDetailURL = SPOONACULAR_RECIPE_API_PREFIX + "/" + recipe.recipeID +"/information";
+			JsonObject recipeDetailJSON = new JsonParser().parse(getJSONResponse(recipeDetailURL))
+					.getAsJsonObject();
+			//Spoonacular Score is a score out of 100
+			recipe.rating = recipeDetailJSON.get("spoonacularScore").getAsDouble() / 100.0 * 5.0;
 			try {
+				//not all recipes have preparation time data
 				recipe.prepTime = recipeDetailJSON.get("preparationMinutes").getAsInt();
 			} catch(Exception e) {}
 			try {
+				//not all recipes have cook time data
 				recipe.cookTime = recipeDetailJSON.get("cookingMinutes").getAsInt();
 			} catch(Exception e) {}
+			
 			JsonArray ingredientsJSON = recipeDetailJSON.get("extendedIngredients").getAsJsonArray();
 			for(int j = 0; j < ingredientsJSON.size(); j++) {
-				recipe.ingredients.add("" + (j + 1) + ". " + ingredientsJSON.get(j).getAsJsonObject().get("name").getAsString());
+				recipe.ingredients.add("- " + ingredientsJSON.get(j).getAsJsonObject()
+						.get("name").getAsString());
 			}
-			JsonArray instructionsJSON = recipeDetailJSON.get("analyzedInstructions").getAsJsonArray().get(0).getAsJsonObject().get("steps").getAsJsonArray();
+			
+			JsonArray instructionsJSON = recipeDetailJSON.get("analyzedInstructions").getAsJsonArray().get(0)
+					.getAsJsonObject().get("steps").getAsJsonArray();
 			for(int j = 0; j < instructionsJSON.size(); j++) {
-				recipe.instructions.add("" + (j + 1) + ". " + instructionsJSON.get(j).getAsJsonObject().get("step").getAsString());
+				recipe.instructions.add("" + (j + 1) + ". " + instructionsJSON.get(j).getAsJsonObject()
+						.get("step").getAsString());
 			}
 			recipes.add(recipe);
 		}
+		//remove all items in Do Not Show List that appear in the result
 		for(Info doNotShowInfo : doNotShowList) {
 			recipes.remove(doNotShowInfo);
 		}
-		Collections.sort(recipes);  //sort RestaurantInfo in ascending order based on drive time
 		
-		//move restaurants in Favorites List to the top
+		Collections.sort(recipes);  //sort RecipeInfo in ascending order based on preparation time
+		
+		//move recipes in Favorites List to the top
 		for(int i = recipes.size() - 1; i > 0; i--) {
 			if(favoritesList.contains(recipes.get(i))) {
 				recipes.add(0, recipes.get(i));
@@ -166,11 +187,11 @@ public class SearchServlet extends HttpServlet {
 	//uses several Google Maps APIs and refer to Do Not Show List and Favorites List.
 	public ArrayList<RestaurantInfo> restaurantSearch(String query, int numResults, List<Info> doNotShowList, List<Info> favoritesList) {
 		ArrayList<RestaurantInfo> restaurants = new ArrayList<RestaurantInfo>();
-		String searchURL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="
-				+ TOMMY_TROJAN_LOC +"&rankby=distance&type=restaurant&keyword="
-				+ query + "&key=" + MAPS_API_KEY;
-		//extract key part of the JSON response
-		JsonArray places = new JsonParser().parse(getJSONResponse(searchURL)).getAsJsonObject().get("results").getAsJsonArray();
+		String searchURL = GOOGLE_MAPS_API_PREFIX + "/place/nearbysearch/json?location=" + TOMMY_TROJAN_LOC
+				+"&rankby=distance&type=restaurant&keyword=" + query + "&key=" + MAPS_API_KEY;
+		//extract relevant part of the JSON response
+		JsonArray places = new JsonParser().parse(getJSONResponse(searchURL)).getAsJsonObject()
+				.get("results").getAsJsonArray();
 		
 		//assuming the worst possible case (all items in Do Not Show List appear) to encapsulate sufficient
 		//amount of restaurant information from the response
@@ -185,6 +206,7 @@ public class SearchServlet extends HttpServlet {
 		for(Info doNotShowInfo : doNotShowList) {
 			restaurants.remove(doNotShowInfo);
 		}
+		
 		getDriveTimes(restaurants);
 		getPhoneAndURL(restaurants);
 		
@@ -203,9 +225,8 @@ public class SearchServlet extends HttpServlet {
 	
 	//Create a request using place_id of all RestaurantInfo and send one request to obtain all drive times.
 	public void getDriveTimes(ArrayList<RestaurantInfo> restaurants) {
-		String driveTimeURL = "https://maps.googleapis.com/maps/api/distancematrix/" +
-				"json?units=imperial&origins=" + TOMMY_TROJAN_LOC + "&destinations=";
-
+		String driveTimeURL = GOOGLE_MAPS_API_PREFIX + "/distancematrix/json?units=imperial&origins="
+				+ TOMMY_TROJAN_LOC + "&destinations=";
 		//concatenate the request URL to make use of the Distance Matrix API, obtaining drive times of multiple
 		//destinations in one request
 		for(int i = 0; i < restaurants.size(); i++) {
@@ -214,7 +235,7 @@ public class SearchServlet extends HttpServlet {
 		driveTimeURL += "&key=" + MAPS_API_KEY;
 
 
-		//extract key part of the JSON response
+		//extract relevant part of the JSON response
 		JsonArray driveTimes = new JsonParser().parse(getJSONResponse(driveTimeURL)).getAsJsonObject().get("rows").getAsJsonArray().get(0).getAsJsonObject().get("elements").getAsJsonArray();
 		//modify respective RestaurantInfo objects, store drive time data
 		for(int i = 0; i < restaurants.size(); i++) {
@@ -231,62 +252,30 @@ public class SearchServlet extends HttpServlet {
 					+ restaurant.placeID + "&fields=formatted_phone_number,url&key=" + MAPS_API_KEY;
 			//extract main body of the JSON response
 			JsonObject detailsJSON = new JsonParser().parse(getJSONResponse(detailURL)).getAsJsonObject().get("result").getAsJsonObject();
+			//modify each RestaurantInfo objects, store phone number and URL
 			restaurant.phone = detailsJSON.get("formatted_phone_number").getAsString();
 			restaurant.url = detailsJSON.get("url").getAsString();
 		}
 	}
-       
 	
-	
-	
-	//TODO
-	private ArrayList<String> getImageURLs(String s){
-		ArrayList<String> toReturn = null;
+	//Given a String query, return an ArrayList of String storing URLs for images to present in the collage. The
+	//function uses Google Custom Search API. The engine is configured to search for recipes with images.
+	public ArrayList<String> getImageURLs(String query){
+		ArrayList<String> images = new ArrayList<String>();
 		
-		//search query variables
-		 String key = "AIzaSyDBH2Gj3T72zj8oDA436dO8aJ_et7rftmQ";
-		 String qry = s; 
-		 String cxRecipe  = "009244685651437371811:xeqi10eq9ts";
-		 
-		 try {
-			  //recipeSearch URL
-			  URL url = new URL ("https://www.googleapis.com/customsearch/v1?key="+key+"&num="+ 10+"&cx="+cxRecipe+"&q="+qry+"&alt=json");
-			
-			  //get Recipe results  
-			  HttpURLConnection conn;
-			  conn = (HttpURLConnection) url.openConnection();
-			  conn.setRequestMethod("GET");
-			  conn.setRequestProperty("Accept", "application/json");
-
-			  BufferedReader br = new BufferedReader(new InputStreamReader ( ( conn.getInputStream() ) ) );
-			
-			  //get data from json
-			  JsonObject jObj = new JsonParser().parse(br).getAsJsonObject();
-			  JsonArray arr = jObj.getAsJsonArray("items");
-
-			  for(int i = 0; i < arr.size(); i ++){
-				
-				  JsonObject pagemap = arr.get(i).getAsJsonObject().get("pagemap").getAsJsonObject();
-				  JsonArray arrRecipe = pagemap.get("recipe").getAsJsonArray();
-			 
-				  JsonArray arrImages = pagemap.get("cse_image").getAsJsonArray();
-				  for(int k = 0; k < 1; k++){
-					
-					 toReturn.add(arrImages.get(k).getAsJsonObject().get("src").getAsString());
+		String recipeSearchURL = "https://www.googleapis.com/customsearch/v1?key=" + GOOGLE_CX_API_KEY
+				+ "&num=" + IMAGE_COLLAGE_NUM + "&cx=" + GOOGLE_CX_ENGINE + "&q=" + query + "&alt=json";
+		//extract relevant of the JSON response
+		JsonArray recipesWithImages = new JsonParser().parse(getJSONResponse(recipeSearchURL)).getAsJsonObject()
+				.get("items").getAsJsonArray();
+		//store URL of this recipe to the list
+		for(int i = 0; i < recipesWithImages.size(); i++) {
+			JsonObject recipeJSON  = recipesWithImages.get(i).getAsJsonObject().get("pagemap").getAsJsonObject()
+					.get("recipe").getAsJsonArray().get(0).getAsJsonObject();
+			images.add(recipeJSON.get("image_url").getAsString());
+		}
 		
-				  }
-				 
-				
-				  
-			  }
-			  conn.disconnect();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		  
-		 
-		return toReturn;
+		return images;
 	}
 
 }

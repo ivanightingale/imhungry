@@ -4,15 +4,17 @@ import java.util.ArrayList;
 
 public class RecipeInfo extends Info implements Comparable<RecipeInfo> {
 	//RecipeInfo objects each store information of a recipe.
+	public int recipeID;
 	public int prepTime;
 	public int cookTime;
 	public ArrayList<String> ingredients;
-	public ArrayList<String> instructions;  //FIXME
+	public ArrayList<String> instructions;
 	
-	public RecipeInfo(String name, double rating, int prepTime, int cookTime, ArrayList<String> ingredients,
-			ArrayList<String> instructions) {
+	public RecipeInfo(String name, double rating, int recipeID, int prepTime, int cookTime,
+			ArrayList<String> ingredients, ArrayList<String> instructions) {
 		this.name = name;
 		this.rating = rating;
+		this.recipeID = recipeID;
 		this.prepTime = prepTime;
 		this.cookTime = cookTime;
 		this.ingredients = ingredients;
@@ -28,7 +30,6 @@ public class RecipeInfo extends Info implements Comparable<RecipeInfo> {
 		if(other == this) return true;
 		if(!(other instanceof RecipeInfo)) return false;
 		RecipeInfo otherRecipeInfo = (RecipeInfo) other;
-		return this.name.equals(otherRecipeInfo.name) && this.prepTime == otherRecipeInfo.prepTime &&
-				this.cookTime == otherRecipeInfo.cookTime;
+		return this.recipeID == otherRecipeInfo.recipeID;
 	}
 }
