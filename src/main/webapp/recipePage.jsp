@@ -3,8 +3,8 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>detailReciP</title>
-		<link rel="stylesheet" type="text/css" href="detail.css" />
+		<title>Recipe Page</title>
+		<link rel="stylesheet" type="text/css" href="detailedPage.css" />
 	</head>
 	<body>
 		<div class = "textinfo">
@@ -26,6 +26,33 @@
 				<span id="instr1"></span>
 				<div id="instr2"></div>
 			</div>
+		
+		<form action = "searchServlet">
+    <div class = "backToResults">
+    	<input type="image" id = "backtoresults" name="profile" value= "OK" src= "OK" />
+    </div>
+    </form>
+    
+    <form action = "detailReciPrint.jsp">
+    <div class = "printableVersion">
+    	<input type="image" id = "printableversion" name="profile" value= "OK" src= "OK" />
+    </div>
+    </form>    
+     <form onsubmit = "return detailedPageAddItem()">
+    <div class = "addToList">
+    	<input type="image" id = "addtolist" name="profile" value= "OK" src= "OK" />
+    </div>
+    </form>
+
+    
+	<div class="dropDown" style="width:200px;">
+	  <select id = "dropdown">
+	    <option value="invalid">&nbsp</option>
+	    <option value="Favorites">Favorites</option>
+	    <option value="To Explore">To Explore</option>
+	    <option value="Do Not Show">Do Not Show</option>
+	  </select>
+	</div>	
 
 	<script>
 		var x, i, j, selElmnt, a, b, c;
@@ -136,6 +163,9 @@
 			document.getElementById("instr2").innerHTML += instr[i];
 			document.getElementById("instr2").innerHTML += "<br />";
 		}
+		document.getElementById("backtoresults").src = "backToResults.png";
+		document.getElementById("printableversion").src = "printableVersion.png";
+		document.getElementById("addtolist").src = "addToList.png";
 		document.getElementById("img").innerHTML = "<br><img src=\"" +img+ "\">"; //only needed by the 
 		</script>
 	</body>

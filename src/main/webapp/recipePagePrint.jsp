@@ -3,54 +3,29 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>detailres</title>
-		<link rel="stylesheet" type="text/css" href="detail.css" />
+		<title>Recipe Page Print Version</title>
+		<link rel="stylesheet" type="text/css" href="detailedPage.css" />
 	</head>
 	<body>
 		<div class = "textinfo">
 			<p id="title"></p>
-			<div class = "address">
-				<span id="address1"></span>
-				<a href = "" id ="address2"></a>
+			<p id="img"></p> <!-- only will be needed in the recipe page -->
+			<div class = "prepT">
+				<span id ="prept1"></span>
+				<span id ="prept2"></span>
 			</div>
-			<div class ="tel">
-				<span id="tel1"></span>
-				<span id="tel2"></span>
+			<div class ="cookT">
+				<span id="cookt1"></span>
+				<span id="cookt2"></span>
 			</div>
-			<div class ="website">
-				<span id="website1"></span>
-				<a href = "" id ="website2"></a>
+			<div class ="ingre">
+				<span id="ingre1"></span>
+				<div id="ingre2"></div>
 			</div>
-		</div>
-		
-		<p id="img"></p> <!-- only will be needed in the recipe page -->
-		
-		<form action = "searchServlet">
-    <div class = "backToResults">
-    	<input type="image" id = "backtoresults" name="profile" value= "OK" src= "OK" />
-    </div>
-    </form>
-    
-    <form action = "detailResPrint.jsp">
-    <div class = "printableVersion">
-    	<input type="image" id = "printableversion" name="profile" value= "OK" src= "OK" />
-    </div>
-    </form>    
-     <form onsubmit = "return detailedPageAddItem()">
-    <div class = "addToList">
-    	<input type="image" id = "addtolist" name="profile" value= "OK" src= "OK" />
-    </div>
-    </form>
-
-    
-	<div class="dropDown" style="width:200px;">
-	  <select id = "dropdown">
-	    <option value="invalid">&nbsp</option>
-	    <option value="Favorites">Favorites</option>
-	    <option value="To Explore">To Explore</option>
-	    <option value="Do Not Show">Do Not Show</option>
-	  </select>
-	</div>
+			<div class ="instr">
+				<span id="instr1"></span>
+				<div id="instr2"></div>
+			</div>
 
 	<script>
 		var x, i, j, selElmnt, a, b, c;
@@ -133,38 +108,35 @@
 		/*
 		//uncomment this part once Luke has figured it out
 		var result = localStorage.getItem('restaurantArray')[i];
-		var title = result.title;
-		var address = result.address;
-		var tel = result.tel;
-		var website = result.website; //assume this doesn't have "http://" included
-		var websiteHTTP = "http://"+website;
-		var img = result.img; //only will be needed in the recipe page
+		//logic is same as res page, except that for ingredients and instructions, they should really be arrays
+		//I will not implement the iterative methods here, as I have no way to test agaisnt it
 		*/
-		
 		//comment out this part once what's above is on duty. this part for testing purposes only
-		var title =  "USC Italian Restaurant";
-		var address = "1616 McClintock Ave.";
-		var tel = "(213)110-0110";
-		var website = "www.github.com"
-		var img = "";
-		var websiteHTTP = "http://"+website;
-		var temp = address.replace(" ","+");
-		var addressHTTP = "https://www.google.com/maps/dir/Tommy+Trojan,+801-899+Childs+Way,+Los+Angeles,+CA+90089/" + temp;
-		
+		var title =  "Best spaghetti";
+		var pt = "10 min";
+		var ct = "10 min";
+		var ingre = ["- Spaghetti", "- Volvo", "- Justin Timberlake"]; // should really be an array using += method
+		var instr = ["1. Add spaghetti", "2. Add Volvo", "3. Add Justin Timberlake"]; //should really be an array using += method
+		var img = "invalid.gif";
 		
 		document.getElementById("title").innerHTML = title;
-		document.getElementById("address1").innerHTML = "Address: ";
-		document.getElementById("address2").innerHTML = address;
-		document.getElementById("address2").href = addressHTTP;
-		document.getElementById("tel1").innerHTML = "Tel. "
-		document.getElementById("tel2").innerHTML = tel;
-		document.getElementById("website1").innerHTML = "Website: "
-		document.getElementById("website2").href = websiteHTTP;
-		document.getElementById("website2").innerHTML = website;
-		document.getElementById("backtoresults").src = "backToResults.png";
-		document.getElementById("printableversion").src = "printableVersion.png";
-		document.getElementById("addtolist").src = "addToList.png";
-		//document.getElementById("img").innerHTML = "<br><img src=\"" +img+ "\">"; //only needed by the 
+		document.getElementById("prept1").innerHTML = "Prep Time: ";
+		document.getElementById("prept2").innerHTML = pt;
+		document.getElementById("cookt1").innerHTML = "Cook Time: ";
+		document.getElementById("cookt2").innerHTML = ct;
+		document.getElementById("ingre1").innerHTML = "Ingredients: ";
+		for (i = 0; i < ingre.length; i++)
+		{
+			document.getElementById("ingre2").innerHTML += ingre[i];
+			document.getElementById("ingre2").innerHTML += "<br />";
+		}
+		document.getElementById("instr1").innerHTML = "Instructions: ";
+		for (i = 0; i < instr.length; i++)
+		{
+			document.getElementById("instr2").innerHTML += instr[i];
+			document.getElementById("instr2").innerHTML += "<br />";
+		}
+		document.getElementById("img").innerHTML = "<br><img src=\"" +img+ "\">"; //only needed by the 
 		</script>
 	</body>
 </html>
