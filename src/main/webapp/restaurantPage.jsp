@@ -31,7 +31,7 @@
     </div>
     </form>
     
-    <form action = "detailResPrint.jsp">
+    <form action = "restaurantPagePrint.jsp">
     <div class = "printableVersion">
     	<input type="image" id = "printableversion" name="profile" value= "OK" src= "OK" />
     </div>

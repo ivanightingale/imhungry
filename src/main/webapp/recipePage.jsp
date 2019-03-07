@@ -33,7 +33,7 @@
     </div>
     </form>
     
-    <form action = "detailReciPrint.jsp">
+    <form action = "recipePagePrint.jsp">
     <div class = "printableVersion">
     	<input type="image" id = "printableversion" name="profile" value= "OK" src= "OK" />
     </div>
