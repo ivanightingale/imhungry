@@ -1,5 +1,7 @@
 <html>
+<head>
+    <script>window.location="/searchPage.jsp"</script>
+</head>
 <body>
-<h2>Hello World!</h2>
 </body>
 </html>

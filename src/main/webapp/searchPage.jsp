@@ -11,7 +11,7 @@
 <body>
 	<div id = "header">I'm Hungry </div>
 	<div id = "format">
-		<form action = "Search" method = "GET">
+		<form action = "resultPage.jsp" method = "GET">
 			<input type = "text" name = "search" id = "search" placeholder = "Enter Food" required>
 			<div id = hover_format>
 				<input type = "number" name = "number" id = "number" value = "5" min= "1">
