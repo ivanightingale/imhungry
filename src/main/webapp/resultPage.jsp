@@ -106,6 +106,8 @@
             var res = document.createElement("div");
             res.setAttribute("class","item");
             res.setAttribute("id","Res_item" + i);
+            res.setAttribute("onclick","window.location='restaurantPage.jsp?i="+i+"'");
+            res.setAttribute("style","cursor:pointer;");
             res.appendChild(sec1);
             res.appendChild(sec2);
             res.appendChild(divider);
@@ -147,6 +149,8 @@
             var res = document.createElement("div");
             res.setAttribute("class","item");
             res.setAttribute("id","Rec_item" + i);
+            res.setAttribute("onclick","window.location='recipePage.jsp?i="+i+"'");
+            res.setAttribute("style","cursor:pointer;");
             res.appendChild(sec1);
             res.appendChild(sec2);
             res.appendChild(divider);
