@@ -31,25 +31,9 @@
 	<div id = "container">
 		<div id = "column1">
 			<div class = "sub_header">Restaurants</div>
-			<div class = "item" id = "Res_item1">
-				<div class ="Res_section1">Section 1</div>
-				<div class ="Res_section2">Section 2</div>
-				<div class = "divider"></div>
-				<div class ="Res_section3">Section 3</div>
-				<div class ="Res_section4">Section 4</div>
-				<div class ="Res_section5">Section 5</div>
-			</div>
 		</div>
 		<div id = "column2">
 			<div class = "sub_header">Recipe</div>
-			<div class = "item" id = "Rec_item1">
-				<div class ="Rec_section1">Section 1</div>
-				<div class ="Rec_section2">Section 2</div>
-				<div class = "divider"></div>
-				<div class ="Rec_section3">Section 3</div>
-				<div class ="Rec_section4">Section 4</div>
-				<div class ="Rec_section5">Section 5</div>
-			</div>
 		</div>
 	</div>
 
@@ -57,14 +41,14 @@
     <script src="js/parseQueryString.js"></script>
     <script>
         var query = parseQuery(window.location.search);
-        /* ****** Uncomment when SearchServlet is ready
+        /* ****** TODO: Uncomment when SearchServlet is ready
         var xhttp = new XMLHttpRequest();
         xhttp.open("GET", "/Search?search="+query.search+"&number="+query.number, false);
         xhttp.send();
         var response = JSON.parse(xhttp.response);
         var results = response.body;
         */
-        // ******* Testing only
+        // ******* TODO: Testing only
         results = [[{
             name: "Test Restaurant - Starbucks",
             rating: 3,
@@ -78,6 +62,7 @@
         }], [{
             name: "Test Recipe",
             rating: 5,
+            price: 10,
             recipeID: 12345,
             prepTime: 5,
             cookTime: 10,
@@ -85,11 +70,92 @@
             instructions: ["GHIJ", "KLMNO", "PQRSTU"],
             imageURL: "https://foodrevolution.org/wp-content/uploads/2018/04/blog-featured-diabetes-20180406-1330.jpg"
         }]];
-        // ******* End test section
+        // ******* TODO: End test section
         //Store results in local storage
         window.localStorage.setItem("search", query.search);
         window.localStorage.setItem("searchResults", JSON.stringify(results));
-        //Use results object to populate page after this (need SearchServlet implemented)
+
+        var col1 = document.getElementById("column1");
+        for(var i = 0; i < results[0].length; i++) {
+            var sec1 = document.createElement("div");
+            sec1.setAttribute("class", "Res_section1");
+            sec1.innerHTML = results[0][i].name;
+
+            var sec2 = document.createElement("div");
+            sec2.setAttribute("class", "Res_section2");
+            for(var j = 0; j < 5; j++) {
+                if(j < results[0][i].rating) sec2.innerHTML += '⭐';
+                else sec2.innerHTML += '☆';
+            }
+
+            var divider = document.createElement("div");
+            divider.setAttribute("class", "divider");
+
+            var sec3 = document.createElement("div");
+            sec3.setAttribute("class", "Res_section3");
+            sec3.innerHTML = results[0][i].driveTimeText;
+
+            var sec4 = document.createElement("div");
+            sec4.setAttribute("class", "Res_section4");
+            sec4.innerHTML = results[0][i].address;
+
+            var sec5 = document.createElement("div");
+            sec5.setAttribute("class", "Res_section5");
+            sec5.innerHTML = results[0][i].price.toString();
+
+            var res = document.createElement("div");
+            res.setAttribute("class","item");
+            res.setAttribute("id","Res_item" + i);
+            res.appendChild(sec1);
+            res.appendChild(sec2);
+            res.appendChild(divider);
+            res.appendChild(sec3);
+            res.appendChild(sec4);
+            res.appendChild(sec5);
+
+            col1.appendChild(res);
+        }
+
+        var col2 = document.getElementById("column2");
+        for(var i = 0; i < results[0].length; i++) {
+            var sec1 = document.createElement("div");
+            sec1.setAttribute("class", "Rec_section1");
+            sec1.innerHTML = results[1][i].name;
+
+            var sec2 = document.createElement("div");
+            sec2.setAttribute("class", "Rec_section2");
+            for(var j = 0; j < 5; j++) {
+                if(j < results[1][i].rating) sec2.innerHTML += '⭐';
+                else sec2.innerHTML += '☆';
+            }
+
+            var divider = document.createElement("div");
+            divider.setAttribute("class", "divider");
+
+            var sec3 = document.createElement("div");
+            sec3.setAttribute("class", "Rec_section3");
+            sec3.innerHTML = results[1][i].prepTime;
+
+            var sec4 = document.createElement("div");
+            sec4.setAttribute("class", "Rec_section4");
+            sec4.innerHTML = results[1][i].cookTime;
+
+            var sec5 = document.createElement("div");
+            sec5.setAttribute("class", "Rec_section5");
+            sec5.innerHTML = results[1][i].price.toString();
+
+            var res = document.createElement("div");
+            res.setAttribute("class","item");
+            res.setAttribute("id","Rec_item" + i);
+            res.appendChild(sec1);
+            res.appendChild(sec2);
+            res.appendChild(divider);
+            res.appendChild(sec3);
+            res.appendChild(sec4);
+            res.appendChild(sec5);
+
+            col2.appendChild(res);
+        }
     </script>
 
 </body>

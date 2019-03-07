@@ -11,6 +11,7 @@ var ingre = result.ingredients;
 var instr = result.instructions;
 var img = result.imageURL;
 
+document.title = "Recipe: " + title;
 document.getElementById("title").innerHTML = title;
 document.getElementById("prept2").innerHTML = pt;
 document.getElementById("cookt2").innerHTML = ct;
