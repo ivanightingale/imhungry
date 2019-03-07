@@ -10,7 +10,7 @@ public class RecipeInfo extends Info implements Comparable<RecipeInfo> {
 	public ArrayList<String> ingredients;
 	public ArrayList<String> instructions;
 	
-	public RecipeInfo(String name, double rating, int recipeID, int prepTime, int cookTime,
+	public RecipeInfo(String name, int rating, int recipeID, int prepTime, int cookTime,
 			ArrayList<String> ingredients, ArrayList<String> instructions) {
 		this.name = name;
 		this.rating = rating;
@@ -21,10 +21,12 @@ public class RecipeInfo extends Info implements Comparable<RecipeInfo> {
 		this.instructions = instructions;
 	}
 	
+	//used for sorting in ascending order based on prepTime.
 	public int compareTo(RecipeInfo other) {
 		return this.prepTime - other.prepTime;
 	}
 	
+	//two Spoonacular recipes must be the same if they have identical Spoonacular recipe IDs.
 	@Override
 	public boolean equals(Object other) {
 		if(other == this) return true;

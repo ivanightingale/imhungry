@@ -140,7 +140,7 @@ public class SearchServlet extends HttpServlet {
 			JsonObject recipeDetailJSON = new JsonParser().parse(getJSONResponse(recipeDetailURL))
 					.getAsJsonObject();
 			//Spoonacular Score is a score out of 100
-			recipe.rating = recipeDetailJSON.get("spoonacularScore").getAsDouble() / 100.0 * 5.0;
+			recipe.rating = (int)(recipeDetailJSON.get("spoonacularScore").getAsDouble() / 100 * 5);
 			try {
 				//not all recipes have preparation time data
 				recipe.prepTime = recipeDetailJSON.get("preparationMinutes").getAsInt();
@@ -198,7 +198,7 @@ public class SearchServlet extends HttpServlet {
 		for(int i = 0; i < numResults + doNotShowList.size(); i++) {
 			JsonObject currentPlace = places.get(i).getAsJsonObject();
 			restaurants.add(new RestaurantInfo(currentPlace.get("name").getAsString(),
-					currentPlace.get("rating").getAsDouble(), currentPlace.get("place_id").getAsString(),
+					(int)currentPlace.get("rating").getAsDouble(), currentPlace.get("place_id").getAsString(),
 					currentPlace.get("vicinity").getAsString(), currentPlace.get("price_level").getAsInt(), "", 0, "", ""));
 		}
 		
