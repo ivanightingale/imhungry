@@ -133,8 +133,8 @@ public class SearchServlet extends HttpServlet {
 			//initialize current RecipeInfo object that will be added. Detail information requires another
 			//request based on the recipe's unique recipe ID
 			RecipeInfo recipe = new RecipeInfo(currentRecipe.get("title").getAsString(), 0,
-					currentRecipe.get("id").getAsInt(), 30, 30, new ArrayList<String>(), new ArrayList<String>());
-
+					currentRecipe.get("id").getAsInt(), 30, 30, new ArrayList<String>(), new ArrayList<String>(), "");
+			
 			//use recipe ID to make another request for detail information
 			String recipeDetailURL = SPOONACULAR_RECIPE_API_PREFIX + "/" + recipe.recipeID +"/information";
 			JsonObject recipeDetailJSON = new JsonParser().parse(getJSONResponse(recipeDetailURL))
@@ -149,28 +149,30 @@ public class SearchServlet extends HttpServlet {
 				//not all recipes have cook time data
 				recipe.cookTime = recipeDetailJSON.get("cookingMinutes").getAsInt();
 			} catch(Exception e) {}
-
+			
 			JsonArray ingredientsJSON = recipeDetailJSON.get("extendedIngredients").getAsJsonArray();
 			for(int j = 0; j < ingredientsJSON.size(); j++) {
 				recipe.ingredients.add("- " + ingredientsJSON.get(j).getAsJsonObject()
 						.get("name").getAsString());
 			}
-
+			
 			JsonArray instructionsJSON = recipeDetailJSON.get("analyzedInstructions").getAsJsonArray().get(0)
 					.getAsJsonObject().get("steps").getAsJsonArray();
 			for(int j = 0; j < instructionsJSON.size(); j++) {
 				recipe.instructions.add("" + (j + 1) + ". " + instructionsJSON.get(j).getAsJsonObject()
 						.get("step").getAsString());
 			}
+			
+			recipe.imageURL = recipeDetailJSON.get("image").getAsString();
 			recipes.add(recipe);
 		}
 		//remove all items in Do Not Show List that appear in the result
 		for(Info doNotShowInfo : doNotShowList) {
 			recipes.remove(doNotShowInfo);
 		}
-
+		
 		Collections.sort(recipes);  //sort RecipeInfo in ascending order based on preparation time
-
+		
 		//move recipes in Favorites List to the top
 		for(int i = recipes.size() - 1; i > 0; i--) {
 			if(favoritesList.contains(recipes.get(i))) {

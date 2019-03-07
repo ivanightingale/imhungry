@@ -4,6 +4,7 @@ public class RestaurantInfo extends Info implements Comparable<RestaurantInfo> {
 	//RestaurantInfo objects each store information of a restaurant.
 	public String placeID;  //Google Maps unique place ID
 	public String address;
+	public int price;
 	public String driveTimeText;  //e.g. "10 min", for display
 	public int driveTimeValue;  //drive time expressed in seconds, used for comparison and sorting
 	public String phone;
