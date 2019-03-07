@@ -10,34 +10,37 @@
 		<div class = "textinfo">
 			<p id="title"></p>
 			<div class = "address">
-				<span id="address1"></span>
+				<span id="address1">Address:</span>
 				<a href = "" id ="address2"></a>
 			</div>
 			<div class ="tel">
-				<span id="tel1"></span>
+				<span id="tel1">Phone number:</span>
 				<span id="tel2"></span>
 			</div>
 			<div class ="website">
-				<span id="website1"></span>
+				<span id="website1">Website:</span>
 				<a href = "" id ="website2"></a>
 			</div>
 		</div>
 
         <form action = "resultPage.jsp">
             <div class = "backToResults">
-                <input type="image" id = "backtoresults" name="profile" value= "OK" src= "resources/backToResults.png" />
+                <input type="hidden" id="queryStringInput" name="search" value="" />
+                <input type="hidden" id="numberResultsInput" name="number" value="" />
+                <input type="image" id = "backtoresults" name="profile" src= "resources/backToResults.png" />
             </div>
         </form>
 
-        <form action = "recipePagePrint.jsp">
+        <form action = "restaurantPagePrint.jsp">
             <div class = "printableVersion">
-                <input type="image" id = "printableversion" name="profile" value= "OK" src= "resources/printableVersion.png" />
+                <input type="hidden" id="indexInput" name="i" value="">
+                <input type="image" id = "printableversion" name="profile" src= "resources/printableVersion.png" />
             </div>
         </form>
 
         <form onsubmit = "return restaurantPageAddItem()">
             <div class = "addToList">
-                <input type="image" id = "addtolist" name="profile" value= "OK" src= "resources/addToList.png" />
+                <input type="image" id = "addtolist" name="profile" src= "resources/addToList.png" />
             </div>
         </form>
 
@@ -53,39 +56,7 @@
 
         <script src="js/dropdown.js"></script>
         <script src="js/ListClient.js"></script>
-		<script>
-		/*
-		//uncomment this part once Luke has figured it out
-		var result = localStorage.getItem('restaurantArray')[i];
-		var title = result.title;
-		var address = result.address;
-		var tel = result.tel;
-		var website = result.website; //assume this doesn't have "http://" included
-		var websiteHTTP = "http://"+website;
-		var img = result.img; //only will be needed in the recipe page
-		*/
-		
-		//comment out this part once what's above is on duty. this part for testing purposes only
-		var title =  "USC Italian Restaurant";
-		var address = "1616 McClintock Ave.";
-		var tel = "(213)110-0110";
-		var website = "www.github.com";
-		var img = "";
-		var websiteHTTP = "http://"+website;
-		var temp = address.replace(" ","+");
-		var addressHTTP = "https://www.google.com/maps/dir/Tommy+Trojan,+801-899+Childs+Way,+Los+Angeles,+CA+90089/" + temp;
-		
-		
-		document.getElementById("title").innerHTML = title;
-		document.getElementById("address1").innerHTML = "Address: ";
-		document.getElementById("address2").innerHTML = address;
-		document.getElementById("address2").href = addressHTTP;
-		document.getElementById("tel1").innerHTML = "Tel. ";
-		document.getElementById("tel2").innerHTML = tel;
-		document.getElementById("website1").innerHTML = "Website: ";
-		document.getElementById("website2").href = websiteHTTP;
-		document.getElementById("website2").innerHTML = website;
-		//document.getElementById("img").innerHTML = "<br><img src=\"" +img+ "\">"; //only needed by the 
-		</script>
+        <script src="js/parseQueryString.js"></script>
+		<script src="js/restaurantPage.js"></script>
 	</body>
 </html>
