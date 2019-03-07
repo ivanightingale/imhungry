@@ -133,7 +133,7 @@ public class SearchServlet extends HttpServlet {
 			//initialize current RecipeInfo object that will be added. Detail information requires another
 			//request based on the recipe's unique recipe ID
 			RecipeInfo recipe = new RecipeInfo(currentRecipe.get("title").getAsString(), 0,
-					currentRecipe.get("id").getAsInt(), 0, 0, new ArrayList<String>(), new ArrayList<String>());
+					currentRecipe.get("id").getAsInt(), 30, 30, new ArrayList<String>(), new ArrayList<String>());
 			
 			//use recipe ID to make another request for detail information
 			String recipeDetailURL = SPOONACULAR_RECIPE_API_PREFIX + "/" + recipe.recipeID +"/information";
