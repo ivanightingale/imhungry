@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Recipe Page</title>
-		<link rel="stylesheet" type="text/css" href="detailedPage.css" />
+		<link rel="stylesheet" type="text/css" href="css/detailedPage.css" />
 	</head>
 	<body>
 		<div class = "textinfo">
@@ -30,19 +30,19 @@
 
         <form action = "resultPage.jsp">
             <div class = "backToResults">
-                <input type="image" id = "backtoresults" name="profile" value= "OK" src= "backToResults.png" />
+                <input type="image" id = "backtoresults" name="profile" value= "OK" src= "resources/backToResults.png" />
             </div>
         </form>
     
 		<form action = "recipePagePrint.jsp">
             <div class = "printableVersion">
-                <input type="image" id = "printableversion" name="profile" value= "OK" src= "printableVersion.png" />
+                <input type="image" id = "printableversion" name="profile" value= "OK" src= "resources/printableVersion.png" />
             </div>
 		</form>
 
         <form onsubmit = "return recipeAddItem()">
             <div class = "addToList">
-                <input type="image" id = "addtolist" name="profile" value= "OK" src= "addToList.png" />
+                <input type="image" id = "addtolist" name="profile" value= "OK" src= "resources/addToList.png" />
             </div>
         </form>
 
@@ -56,8 +56,8 @@
             </select>
         </div>
 
-        <script src="dropdown.js"></script>
-        <script src="ListClient.js"></script>
+        <script src="js/dropdown.js"></script>
+        <script src="js/ListClient.js"></script>
 		<script>
 		/*
 		//uncomment this part once Luke has figured it out

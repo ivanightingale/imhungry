@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Recipe Page Print Version</title>
-		<link rel="stylesheet" type="text/css" href="detailedPage.css" />
+		<link rel="stylesheet" type="text/css" href="css/detailedPage.css" />
 	</head>
 	<body>
 		<div class = "textinfo">
@@ -28,7 +28,7 @@
 			</div>
 		</div>
 
-        <script src="dropdown.js"></script>
+        <script src="js/dropdown.js"></script>
 		<script>
 		/*
 		//uncomment this part once Luke has figured it out

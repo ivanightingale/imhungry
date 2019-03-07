@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="resultPage.css" />
+	<link rel="stylesheet" type="text/css" href="css/resultPage.css" />
 	<meta charset="UTF-8">
 	<title>Result Page</title>
 </head>
@@ -102,7 +102,7 @@
 		</div>
 	</div>
 
-    <script src="dropdown.js"></script>
+    <script src="js/dropdown.js"></script>
 
 </body>
 </html>

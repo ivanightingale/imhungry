@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Restaurant Page Print Version</title>
-		<link rel="stylesheet" type="text/css" href="detailedPage.css" />
+		<link rel="stylesheet" type="text/css" href="css/detailedPage.css" />
 	</head>
 	<body>
 		<div class = "textinfo">
@@ -23,7 +23,7 @@
 			</div>
 		</div>
 
-		<script src="dropdown.js"></script>
+		<script src="js/dropdown.js"></script>
 		<script>
 		/*
 		//uncomment this part once Luke has figured it out
@@ -40,7 +40,7 @@
 		var title =  "USC Italian Restaurant";
 		var address = "1616 McClintock Ave.";
 		var tel = "(213)110-0110";
-		var website = "www.github.com"
+		var website = "www.github.com";
 		var img = "";
 		var temp = address.replace(" ","+");
 		
@@ -48,9 +48,9 @@
 		document.getElementById("title").innerHTML = title;
 		document.getElementById("address1").innerHTML = "Address: ";
 		document.getElementById("address2").innerHTML = address;
-		document.getElementById("tel1").innerHTML = "Tel. "
+		document.getElementById("tel1").innerHTML = "Tel. ";
 		document.getElementById("tel2").innerHTML = tel;
-		document.getElementById("website1").innerHTML = "Website: "
+		document.getElementById("website1").innerHTML = "Website: ";
 		document.getElementById("website2").innerHTML = website;
 		//document.getElementById("img").innerHTML = "<br><img src=\"" +img+ "\">"; //only needed by the 
 		</script>

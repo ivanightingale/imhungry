@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="searchPage.css" />
+<link rel="stylesheet" type="text/css" href="css/searchPage.css" />
 <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
 <meta charset="UTF-8">
 <title>Search Page</title>

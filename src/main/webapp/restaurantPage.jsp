@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Restaurant Page</title>
-		<link rel="stylesheet" type="text/css" href="detailedPage.css" />
+		<link rel="stylesheet" type="text/css" href="css/detailedPage.css" />
 	</head>
 	<body>
 		<div class = "textinfo">
@@ -25,19 +25,19 @@
 
         <form action = "resultPage.jsp">
             <div class = "backToResults">
-                <input type="image" id = "backtoresults" name="profile" value= "OK" src= "backToResults.png" />
+                <input type="image" id = "backtoresults" name="profile" value= "OK" src= "resources/backToResults.png" />
             </div>
         </form>
 
         <form action = "recipePagePrint.jsp">
             <div class = "printableVersion">
-                <input type="image" id = "printableversion" name="profile" value= "OK" src= "printableVersion.png" />
+                <input type="image" id = "printableversion" name="profile" value= "OK" src= "resources/printableVersion.png" />
             </div>
         </form>
 
         <form onsubmit = "return restaurantPageAddItem()">
             <div class = "addToList">
-                <input type="image" id = "addtolist" name="profile" value= "OK" src= "addToList.png" />
+                <input type="image" id = "addtolist" name="profile" value= "OK" src= "resources/addToList.png" />
             </div>
         </form>
 
@@ -51,8 +51,8 @@
             </select>
         </div>
 
-        <script src="dropdown.js"></script>
-        <script src="ListClient.js"></script>
+        <script src="js/dropdown.js"></script>
+        <script src="js/ListClient.js"></script>
 		<script>
 		/*
 		//uncomment this part once Luke has figured it out
@@ -69,7 +69,7 @@
 		var title =  "USC Italian Restaurant";
 		var address = "1616 McClintock Ave.";
 		var tel = "(213)110-0110";
-		var website = "www.github.com"
+		var website = "www.github.com";
 		var img = "";
 		var websiteHTTP = "http://"+website;
 		var temp = address.replace(" ","+");
@@ -80,9 +80,9 @@
 		document.getElementById("address1").innerHTML = "Address: ";
 		document.getElementById("address2").innerHTML = address;
 		document.getElementById("address2").href = addressHTTP;
-		document.getElementById("tel1").innerHTML = "Tel. "
+		document.getElementById("tel1").innerHTML = "Tel. ";
 		document.getElementById("tel2").innerHTML = tel;
-		document.getElementById("website1").innerHTML = "Website: "
+		document.getElementById("website1").innerHTML = "Website: ";
 		document.getElementById("website2").href = websiteHTTP;
 		document.getElementById("website2").innerHTML = website;
 		//document.getElementById("img").innerHTML = "<br><img src=\"" +img+ "\">"; //only needed by the 

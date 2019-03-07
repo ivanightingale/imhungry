@@ -5,7 +5,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>List Management</title>
-		<link rel="stylesheet" type="text/css" href="listPage.css" />
+		<link rel="stylesheet" type="text/css" href="css/listPage.css" />
 	</head>
 	<body>
 		<form action="listPage.jsp" method="GET">
@@ -42,8 +42,8 @@
 			</select>
 		</div>
 
-		<script src="dropdown.js"></script>
-		<script src="ListClient.js"></script>
+		<script src="js/dropdown.js"></script>
+		<script src="js/ListClient.js"></script>
 		<script>
 
 		</script>
