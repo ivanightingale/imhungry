@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>LibraMate</title>
+		<title>DetailReci</title>
 		<link rel="stylesheet" type="text/css" href="detail.css" />
 	</head>
 	<body>
@@ -143,8 +142,8 @@
 		var title =  "Best spaghetti";
 		var pt = "10 min";
 		var ct = "10 min";
-		var ingre = "- Spaghetti"; // should really be an array using += method
-		var instr = "1. Add spaghetti"; //should really be an array using += method
+		var ingre = ["- Spaghetti", "- Volvo", "- Justin Timberlake"]; // should really be an array using += method
+		var instr = ["1. Add spaghetti", "2. Add Volvo", "3. Add Justin Timberlake"]; //should really be an array using += method
 		var img = "invalid.gif";
 		
 		document.getElementById("title").innerHTML = title;
@@ -153,9 +152,17 @@
 		document.getElementById("cookt1").innerHTML = "Cook Time: ";
 		document.getElementById("cookt2").innerHTML = ct;
 		document.getElementById("ingre1").innerHTML = "Ingredients: ";
-		document.getElementById("ingre2").innerHTML = ingre;
+		for (i = 0; i < ingre.length; i++)
+		{
+			document.getElementById("ingre2").innerHTML += ingre[i];
+			document.getElementById("ingre2").innerHTML += "<br />";
+		}
 		document.getElementById("instr1").innerHTML = "Instructions: ";
-		document.getElementById("instr2").innerHTML = instr;
+		for (i = 0; i < instr.length; i++)
+		{
+			document.getElementById("instr2").innerHTML += instr[i];
+			document.getElementById("instr2").innerHTML += "<br />";
+		}
 		document.getElementById("backtoresults").src = "backToResults.png";
 		document.getElementById("printableversion").src = "printableVersion.png";
 		document.getElementById("addtolist").src = "addToList.png";
