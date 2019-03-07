@@ -11,11 +11,10 @@ public class RecipeInfo extends Info implements Comparable<RecipeInfo> {
 	public ArrayList<String> instructions;
 	public String imageURL;
 	
-	public RecipeInfo(String name, int rating, int price, int recipeID, int prepTime, int cookTime,
+	public RecipeInfo(String name, int rating, int recipeID, int prepTime, int cookTime,
 			ArrayList<String> ingredients, ArrayList<String> instructions, String imageURL) {
 		this.name = name;
 		this.rating = rating;
-		this.price = price;
 		this.recipeID = recipeID;
 		this.prepTime = prepTime;
 		this.cookTime = cookTime;

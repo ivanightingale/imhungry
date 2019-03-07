@@ -4,6 +4,7 @@ public class RestaurantInfo extends Info implements Comparable<RestaurantInfo> {
 	//RestaurantInfo objects each store information of a restaurant.
 	public String placeID;  //Google Maps unique place ID
 	public String address;
+	public String priceLevel;
 	public String driveTimeText;  //e.g. "10 min", for display
 	public int driveTimeValue;  //drive time expressed in seconds, used for comparison and sorting
 	public String phone;
@@ -16,7 +17,11 @@ public class RestaurantInfo extends Info implements Comparable<RestaurantInfo> {
 		this.rating = rating;
 		this.placeID = placeID;
 		this.address = address;
-		this.price = price;
+		//convert int value of price level to String consists of dollar signs
+		priceLevel = "";
+		for(int i = 0; i < price; i++) {
+			priceLevel += "$";
+		}
 		this.driveTimeText = driveTimeText;
 		this.driveTimeValue = driveTimeValue;
 		this.phone = phone;
