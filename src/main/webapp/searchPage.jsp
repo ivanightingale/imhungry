@@ -11,7 +11,7 @@
 <body>
 	<div id = "header">I'm Hungry </div>
 	<div id = "format">
-		<form action = "Search" method = "Post">
+		<form action = "Search" method = "GET">
 			<input type = "text" name = "search" id = "search" placeholder = "Enter Food" required>
 			<div id = hover_format>
 				<input type = "number" name = "number" id = "number" value = "5" min= "1">
@@ -21,17 +21,19 @@
 			</div>
 			
 			<br>
-			<input type = "submit" name = "submit" id ="submit" value = "Feed Me!">
-			<img id = "emoji" onclick ="transform()" src="sad.png" > 
+			<input type = "image" src="resources/grumpy.png" onmousedown="sadToHappy()" onmouseup="happyToSad()" onmouseleave="happyToSad()" name = "submit" id ="submit" value = "Feed Me!">
 			
 		</form>
 	</div>
 <script>
-function transform()
-{
-	var image = document.getElementById('emoji');
-	image.src = "happy.png";
-}
+    function happyToSad()
+    {
+        document.getElementById("submit").src = "resources/grumpy.png";
+    }
+    function sadToHappy()
+    {
+        document.getElementById("submit").src = "resources/smile.png";
+    }
 </script>
 
 </body>
