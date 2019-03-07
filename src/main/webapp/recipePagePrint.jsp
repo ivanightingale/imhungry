@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>LibraMate</title>
-		<link rel="stylesheet" type="text/css" href="detail.css" />
+		<title>Recipe Page Print Version</title>
+		<link rel="stylesheet" type="text/css" href="detailedPage.css" />
 	</head>
 	<body>
 		<div class = "textinfo">
@@ -27,33 +26,6 @@
 				<span id="instr1"></span>
 				<div id="instr2"></div>
 			</div>
-		
-		<form action = "searchServlet">
-    <div class = "backToResults">
-    	<input type="image" id = "backtoresults" name="profile" value= "OK" src= "OK" />
-    </div>
-    </form>
-    
-    <form action = "detailReciPrint.jsp">
-    <div class = "printableVersion">
-    	<input type="image" id = "printableversion" name="profile" value= "OK" src= "OK" />
-    </div>
-    </form>    
-     <form onsubmit = "return detailedPageAddItem()">
-    <div class = "addToList">
-    	<input type="image" id = "addtolist" name="profile" value= "OK" src= "OK" />
-    </div>
-    </form>
-
-    
-	<div class="dropDown" style="width:200px;">
-	  <select id = "dropdown">
-	    <option value="invalid">&nbsp</option>
-	    <option value="Favorites">Favorites</option>
-	    <option value="To Explore">To Explore</option>
-	    <option value="Do Not Show">Do Not Show</option>
-	  </select>
-	</div>	
 
 	<script>
 		var x, i, j, selElmnt, a, b, c;
@@ -143,8 +115,8 @@
 		var title =  "Best spaghetti";
 		var pt = "10 min";
 		var ct = "10 min";
-		var ingre = "- Spaghetti"; // should really be an array using += method
-		var instr = "1. Add spaghetti"; //should really be an array using += method
+		var ingre = ["- Spaghetti", "- Volvo", "- Justin Timberlake"]; // should really be an array using += method
+		var instr = ["1. Add spaghetti", "2. Add Volvo", "3. Add Justin Timberlake"]; //should really be an array using += method
 		var img = "invalid.gif";
 		
 		document.getElementById("title").innerHTML = title;
@@ -153,12 +125,17 @@
 		document.getElementById("cookt1").innerHTML = "Cook Time: ";
 		document.getElementById("cookt2").innerHTML = ct;
 		document.getElementById("ingre1").innerHTML = "Ingredients: ";
-		document.getElementById("ingre2").innerHTML = ingre;
+		for (i = 0; i < ingre.length; i++)
+		{
+			document.getElementById("ingre2").innerHTML += ingre[i];
+			document.getElementById("ingre2").innerHTML += "<br />";
+		}
 		document.getElementById("instr1").innerHTML = "Instructions: ";
-		document.getElementById("instr2").innerHTML = instr;
-		document.getElementById("backtoresults").src = "backToResults.png";
-		document.getElementById("printableversion").src = "printableVersion.png";
-		document.getElementById("addtolist").src = "addToList.png";
+		for (i = 0; i < instr.length; i++)
+		{
+			document.getElementById("instr2").innerHTML += instr[i];
+			document.getElementById("instr2").innerHTML += "<br />";
+		}
 		document.getElementById("img").innerHTML = "<br><img src=\"" +img+ "\">"; //only needed by the 
 		</script>
 	</body>
