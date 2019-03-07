@@ -1,18 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>LibraMate</title>
-		<link rel="stylesheet" type="text/css" href="detail.css" />
+		<title>Restaurant Page</title>
+		<link rel="stylesheet" type="text/css" href="detailedPage.css" />
 	</head>
 	<body>
 		<div class = "textinfo">
 			<p id="title"></p>
 			<div class = "address">
 				<span id="address1"></span>
-				<span id ="address2"></span>
+				<a href = "" id ="address2"></a>
 			</div>
 			<div class ="tel">
 				<span id="tel1"></span>
@@ -20,12 +19,38 @@
 			</div>
 			<div class ="website">
 				<span id="website1"></span>
-				<span id ="website2"></span]>
+				<a href = "" id ="website2"></a>
 			</div>
 		</div>
 		
 		<p id="img"></p> <!-- only will be needed in the recipe page -->
 		
+		<form action = "searchServlet">
+    <div class = "backToResults">
+    	<input type="image" id = "backtoresults" name="profile" value= "OK" src= "OK" />
+    </div>
+    </form>
+    
+    <form action = "restaurantPagePrint.jsp">
+    <div class = "printableVersion">
+    	<input type="image" id = "printableversion" name="profile" value= "OK" src= "OK" />
+    </div>
+    </form>    
+     <form onsubmit = "return detailedPageAddItem()">
+    <div class = "addToList">
+    	<input type="image" id = "addtolist" name="profile" value= "OK" src= "OK" />
+    </div>
+    </form>
+
+    
+	<div class="dropDown" style="width:200px;">
+	  <select id = "dropdown">
+	    <option value="invalid">&nbsp</option>
+	    <option value="Favorites">Favorites</option>
+	    <option value="To Explore">To Explore</option>
+	    <option value="Do Not Show">Do Not Show</option>
+	  </select>
+	</div>
 
 	<script>
 		var x, i, j, selElmnt, a, b, c;
@@ -122,16 +147,23 @@
 		var tel = "(213)110-0110";
 		var website = "www.github.com"
 		var img = "";
+		var websiteHTTP = "http://"+website;
 		var temp = address.replace(" ","+");
+		var addressHTTP = "https://www.google.com/maps/dir/Tommy+Trojan,+801-899+Childs+Way,+Los+Angeles,+CA+90089/" + temp;
 		
 		
 		document.getElementById("title").innerHTML = title;
 		document.getElementById("address1").innerHTML = "Address: ";
 		document.getElementById("address2").innerHTML = address;
+		document.getElementById("address2").href = addressHTTP;
 		document.getElementById("tel1").innerHTML = "Tel. "
 		document.getElementById("tel2").innerHTML = tel;
 		document.getElementById("website1").innerHTML = "Website: "
+		document.getElementById("website2").href = websiteHTTP;
 		document.getElementById("website2").innerHTML = website;
+		document.getElementById("backtoresults").src = "backToResults.png";
+		document.getElementById("printableversion").src = "printableVersion.png";
+		document.getElementById("addtolist").src = "addToList.png";
 		//document.getElementById("img").innerHTML = "<br><img src=\"" +img+ "\">"; //only needed by the 
 		</script>
 	</body>
