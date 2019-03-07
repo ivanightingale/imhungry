@@ -2,7 +2,7 @@ package info;
 
 public class RestaurantInfo extends Info implements Comparable<RestaurantInfo> {
 	//RestaurantInfo objects each store information of a restaurant.
-	public String placeID;
+	public String placeID;  //Google Maps unique place ID
 	public String address;
 	public int price;
 	public String driveTimeText;  //e.g. "10 min", for display
@@ -24,10 +24,12 @@ public class RestaurantInfo extends Info implements Comparable<RestaurantInfo> {
 		this.url = url;
 	}
 	
+	//used for sorting in ascending order based on driveTimeValue.
 	public int compareTo(RestaurantInfo other) {
 		return this.driveTimeValue - other.driveTimeValue;
 	}
 	
+	//two restaurants must be the same if they have identical names and place IDs.
 	@Override
 	public boolean equals(Object other) {
 		if(other == this) return true;
