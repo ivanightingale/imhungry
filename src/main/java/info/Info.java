@@ -6,7 +6,7 @@ import java.io.Serializable;
 //recipe, respectively.
 public abstract class Info implements Serializable{
 	public String name;
-	public double rating;
+	public int rating;
 	
 	//check whether two Info objects can be treated as the same. Used for biases based on lists. Many of
 	//the parameters can potentially change during a session, especially driveTime which is influenced by
