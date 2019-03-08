@@ -52,10 +52,11 @@ public class ListServlet extends HttpServlet
         try
         {
             Message reqMessage = gson.fromJson(reqBody, Message.class);
-            String listName = ((Message) reqMessage.body).header;
+            Message reqListAndItem = gson.fromJson((String)reqMessage.body, Message.class);
+            String listName = reqListAndItem.header;
             if(!listName.equals("Favorites") && !listName.equals("To Explore") && !listName.equals("Do Not Show"))
                 throw new Exception("Invalid list name.");
-            String infoJson = (String) ((Message) reqMessage.body).body;
+            String infoJson = (String)reqListAndItem.body;
 
             JsonObject info = new JsonParser().parse(infoJson).getAsJsonObject();
             Type infoType;
@@ -63,23 +64,27 @@ public class ListServlet extends HttpServlet
             else if(info.has("placeID")) infoType = RestaurantInfo.class;
             else throw new Exception("Unknown item type.");
 
-            Info item = gson.fromJson(infoJson, Info.class);
+            Info item = gson.fromJson(infoJson, infoType);
             List<Info> list = (List<Info>)session.getAttribute(listName);
             switch(reqMessage.header)
             {
                 case "addItem":
-                    list.add(item);
+                    if(!list.contains(item)) list.add(item);
                     respWriter.println(gson.toJson(new Message("Added to list "+listName)));
                     break;
                 case "removeItem":
                     list.remove(item);
                     respWriter.println(gson.toJson(new Message("Removed from list "+listName)));
                     break;
+                case "resetLists":
+                    session.invalidate();
+                    break;
                 default:
                     throw new Exception("Invalid action.");
             }
         } catch(Exception e) {
-            respWriter.println(gson.toJson(new Message("Invalid request!")));
+            e.printStackTrace();
+            respWriter.println(gson.toJson(new Message("Invalid Response!\n"+e.getMessage())));
             respWriter.close();
         }
         respWriter.close();

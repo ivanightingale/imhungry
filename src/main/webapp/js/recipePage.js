@@ -3,7 +3,13 @@ if(document.getElementById("numberResultsInput") != null) document.getElementByI
 
 var query = parseQuery(window.location.search);
 if(document.getElementById("indexInput") != null) document.getElementById("indexInput").value = query.i;
-var result = JSON.parse(localStorage.getItem('searchResults'))[1][query.i];
+var result = null;
+if(query.i >= 0) {
+    result = JSON.parse(localStorage.getItem('searchResults'))[1][query.i];
+}
+else {
+    result = JSON.parse(localStorage.getItem('listItem'));
+}
 var title =  result.name;
 var pt = result.prepTime;
 var ct = result.cookTime;

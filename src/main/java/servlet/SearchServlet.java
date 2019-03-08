@@ -50,14 +50,25 @@ public class SearchServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		ArrayList<Info> favoritesList, toExploreList, doNotShowList;
-		favoritesList = (ArrayList<Info>)session.getAttribute("Favorites");
-		toExploreList = (ArrayList<Info>)session.getAttribute("To Explore");
-		doNotShowList = (ArrayList<Info>)session.getAttribute("Do Not Show");
+		if(session.isNew() || session.getAttribute("Favorites") == null) {
+			favoritesList = new ArrayList<>();
+			toExploreList = new ArrayList<>();
+			doNotShowList = new ArrayList<>();
+			session.setAttribute("Favorites", favoritesList);
+			session.setAttribute("To Explore", toExploreList);
+			session.setAttribute("Do Not Show", doNotShowList);
+		}
+		else
+		{
+			favoritesList = (ArrayList<Info>) session.getAttribute("Favorites");
+			toExploreList = (ArrayList<Info>) session.getAttribute("To Explore");
+			doNotShowList = (ArrayList<Info>) session.getAttribute("Do Not Show");
+		}
 
         //From previous page, extract parameters
         //uncomment once testing is complete
         String userSearch = request.getParameter("search");
-        int numResults = Integer.parseInt(request.getParameter("numResults"));
+        int numResults = Integer.parseInt(request.getParameter("number"));
 
         PrintWriter out = response.getWriter();
 

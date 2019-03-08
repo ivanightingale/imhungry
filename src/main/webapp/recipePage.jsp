@@ -43,13 +43,12 @@
             </div>
 		</form>
 
-        <form onsubmit = "return recipeAddItem()">
+        <form onsubmit = "addItem(document.getElementById('dropdown').value, result); return false;">
             <div class = "addToList">
                 <input type="image" id = "addtolist" name="profile" value= "OK" src= "resources/addToList.png" />
             </div>
         </form>
 
-    
         <div class="dropDown" style="width:200px;">
             <select id = "dropdown">
                 <option value="invalid">&nbsp</option>
