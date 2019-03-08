@@ -210,6 +210,7 @@ public class SearchServlet extends HttpServlet {
 		//assuming the worst possible case (all items in Do Not Show List appear) to encapsulate sufficient
 		//amount of restaurant information from the response
 		for(int i = 0; i < numResults + doNotShowList.size(); i++) {
+			if(i >= places.size()) break;
 			JsonObject currentPlace = places.get(i).getAsJsonObject();
 			restaurants.add(new RestaurantInfo(currentPlace.get("name").getAsString(),
 					(int)currentPlace.get("rating").getAsDouble(), currentPlace.get("place_id").getAsString(),
