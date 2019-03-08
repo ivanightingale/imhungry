@@ -13,10 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.ivan.apipg.info.Info;
-import org.ivan.apipg.info.RecipeInfo;
-import org.ivan.apipg.info.RestaurantInfo;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
