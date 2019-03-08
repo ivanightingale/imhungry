@@ -95,14 +95,18 @@ public class SearchServlet extends HttpServlet {
 
         } else {
             //create success message
+			//Cast result arrays to arrays of their parent's types
+			//This cast is potentially dangerous, but OK because we 100% know that recipe and restaurantList can also be represented as List<Info>s
             List<Info> castedRecipeList = (ArrayList<Info>)(Object)recipeList;
             List<Info> castedRestaurantList = (ArrayList<Info>)(Object)restaurantList;
+            //Stick them into a 2D array
             List<List<Info>> results = new ArrayList<>();
             results.add(castedRestaurantList);
             results.add(castedRecipeList);
+            //Put together the Search Result and Message object, convert to Json, and reply.
             out.println(new Gson().toJson(new Message("Success",new SearchResult(results, urlList))));
         }
-
+		out.close();
     }
 
 
@@ -170,6 +174,7 @@ public class SearchServlet extends HttpServlet {
 			
 			JsonArray analyzedInstructions = recipeDetailJSON.get("analyzedInstructions").getAsJsonArray();
             JsonArray instructionsJSON;
+            //Not all recipes have instructions
 			if(analyzedInstructions.size() > 0) {
 			    instructionsJSON = analyzedInstructions.get(0).getAsJsonObject().get("steps").getAsJsonArray();
                 for(int j = 0; j < instructionsJSON.size(); j++) {

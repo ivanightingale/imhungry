@@ -2,6 +2,7 @@ package info;
 
 import java.io.Serializable;
 
+//A simple class that holds a String and an Object, good for communication
 public class Message implements Serializable
 {
 	public String header;
