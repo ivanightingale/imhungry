@@ -27,15 +27,15 @@ Scenario: Recipe Page should be able to generate a printable version
 Scenario: clicking on "Return to Results Page" redirects to Results Page
 
 	When I search for "chicken" and expect 5 results
-	And press "search" button
+	And press "submit" button
 	And press a recipe
-	And press "return to results page" button
-	Then I should see the "Results" page
+	And press "backtoresults" button
+	Then I should see the "Result" page
 #8, 9
 Scenario: recipe can be added to a predefined list
 
 	When I search for "chicken" and expect 5 results
-	And press "search" button
+	And press "submit" button
 	And press a recipe
 	And select the list "Favorites List"
 	And press "add to list" button
