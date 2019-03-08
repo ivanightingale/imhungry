@@ -36,3 +36,7 @@ When(/^select the list "([^"]*)"$/) do |listName|
     find('.select-selected').click
     find('div', :text => listName).click
 end
+
+Then(/^I should see an info item$/) do
+    expect(page).to have_css('#item0')
+end

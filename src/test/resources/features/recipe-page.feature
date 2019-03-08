@@ -37,9 +37,9 @@ Scenario: recipe can be added to a predefined list
 	When I search for "chicken" and expect 5 results
 	And press "submit" button
 	And press a recipe
-	And select the list "Favorites List"
+	And select the list "Favorites"
 	And press "add to list" button
 	And press "return to results page" button
 	And select the list "Favorites"
-	And press "manage list" button
+	And press "manage_list" button
 	Then I should see an info item
