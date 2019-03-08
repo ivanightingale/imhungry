@@ -5,7 +5,7 @@ var query = parseQuery(window.location.search);
 //Configure printable button to show the correct printable page (the one corresponding to this page)
 if(document.getElementById("indexInput") != null) document.getElementById("indexInput").value = query.i;
 var result = null;
-//If the user arriveed here from search page, load from the results array, otherwise, load from the specially saved item from the lists page
+//If the user arrived here from search page, load from the results array, otherwise, load from the specially saved item from the lists page
 if(query.i >= 0) {
     result = JSON.parse(localStorage.getItem('searchResults'))[1][query.i];
 }

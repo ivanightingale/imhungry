@@ -118,11 +118,10 @@ public class SearchServlet extends HttpServlet {
 			HttpURLConnection con = (HttpURLConnection) requestURL.openConnection();
 			//HTTP header for authorization of Spoonacular recipe API
 			con.setRequestProperty("X-RapidAPI-Key", SPOONACULAR_RAPID_API_KEY);
-			int responseCode = con.getResponseCode();
-			System.out.println("Response Code: " + responseCode);
 			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 			String inputLine;
 			StringBuffer response = new StringBuffer();
+			//use StringBuffer to read JSON response line by line
 			while ((inputLine = in.readLine()) != null) {
 				response.append(inputLine);
 			}
@@ -153,14 +152,21 @@ public class SearchServlet extends HttpServlet {
 			
 			//use recipe ID to make another request for detail information
 			String recipeDetailURL = SPOONACULAR_RECIPE_API_PREFIX + "/" + recipe.recipeID +"/information";
-			JsonObject recipeDetailJSON = new JsonParser().parse(getJSONResponse(recipeDetailURL))
-					.getAsJsonObject();
+			JsonObject recipeDetailJSON;
+			//very occasionally, recipe does not have detail information and is skipped
+			try {
+				recipeDetailJSON = new JsonParser().parse(getJSONResponse(recipeDetailURL)).getAsJsonObject();
+			} catch(NullPointerException e) {
+				continue;
+			}
 			//Spoonacular Score is a score out of 100
 			recipe.rating = (int)(recipeDetailJSON.get("spoonacularScore").getAsDouble() / 100 * 5);
+			
 			try {
 				//not all recipes have preparation time data
 				recipe.prepTime = recipeDetailJSON.get("preparationMinutes").getAsInt();
 			} catch(Exception e) {}
+			
 			try {
 				//not all recipes have cook time data
 				recipe.cookTime = recipeDetailJSON.get("cookingMinutes").getAsInt();
@@ -172,9 +178,10 @@ public class SearchServlet extends HttpServlet {
 						.get("name").getAsString());
 			}
 			
+			//Most recipe data include instructions divided into steps. When the field "analyzedInstructions"
+			//does not exist, try to obtain "steps" which is one string with all instructions.
 			JsonArray analyzedInstructions = recipeDetailJSON.get("analyzedInstructions").getAsJsonArray();
             JsonArray instructionsJSON;
-            //Not all recipes have instructions
 			if(analyzedInstructions.size() > 0) {
 			    instructionsJSON = analyzedInstructions.get(0).getAsJsonObject().get("steps").getAsJsonArray();
                 for(int j = 0; j < instructionsJSON.size(); j++) {
