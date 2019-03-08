@@ -18,11 +18,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import info.Info;
-import info.Message;
-import info.RestaurantInfo;
-import info.RecipeInfo;
-import javafx.util.Pair;
+import info.*;
 
 import java.net.*;
 import java.io.Reader.*;
@@ -104,7 +100,7 @@ public class SearchServlet extends HttpServlet {
             List<List<Info>> results = new ArrayList<>();
             results.add(castedRestaurantList);
             results.add(castedRecipeList);
-            out.println(new Gson().toJson(new Message("Success",new Pair<List<List<Info>>, List<String>>(results, urlList))));
+            out.println(new Gson().toJson(new Message("Success",new SearchResult(results, urlList))));
         }
 
     }
