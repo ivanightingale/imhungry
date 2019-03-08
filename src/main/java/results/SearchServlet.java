@@ -81,8 +81,14 @@ public class SearchServlet extends HttpServlet {
 			
 			String recListJson = new Gson().toJson(recipeList);
 			String restListJson = new Gson().toJson(restaurantList);
+			String collageJson = new Gson().toJson(collageURL);
 			
 			//return result array
+			out.print("{ \n \"head\": \""+ errorMsg +"\", \n");
+            out.print("\"body\" :[ { \"recipelist\": " +recipeJson+ "}, { \"restaurantlist\": " + restaurantJson+"}, { \"collageURLs\": "+collageJson+"  } ]");
+            out.print("\n}");
+			
+            //other way with 2d arraylist : incomplete
 			//out.println(gsonn.toJson(new Message(errorMsg, )) );
 			
 			
