@@ -168,12 +168,21 @@ public class SearchServlet extends HttpServlet {
 						.get("name").getAsString());
 			}
 			
-			JsonArray instructionsJSON = recipeDetailJSON.get("analyzedInstructions").getAsJsonArray().get(0)
-					.getAsJsonObject().get("steps").getAsJsonArray();
-			for(int j = 0; j < instructionsJSON.size(); j++) {
-				recipe.instructions.add("" + (j + 1) + ". " + instructionsJSON.get(j).getAsJsonObject()
-						.get("step").getAsString());
-			}
+			JsonArray analyzedInstructions = recipeDetailJSON.get("analyzedInstructions").getAsJsonArray();
+            JsonArray instructionsJSON;
+			if(analyzedInstructions.size() > 0) {
+			    instructionsJSON = analyzedInstructions.get(0).getAsJsonObject().get("steps").getAsJsonArray();
+                for(int j = 0; j < instructionsJSON.size(); j++) {
+                    recipe.instructions.add("" + (j + 1) + ". " + instructionsJSON.get(j).getAsJsonObject()
+                            .get("step").getAsString());
+                }
+            }
+			else if (!recipeDetailJSON.get("instructions").toString().equals("null")) {
+			    recipe.instructions.add(recipeDetailJSON.get("instructions").getAsString());
+            }
+            else {
+			    recipe.instructions.add("Instructions weren't found for this recipe, sorry!");
+            }
 			
 			recipe.imageURL = recipeDetailJSON.get("image").getAsString();
 			recipes.add(recipe);
