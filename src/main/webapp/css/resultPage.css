@@ -1,31 +1,37 @@
 @charset "UTF-8";
 body{
-	font: helvetica;
+	font-family: Helvetica,sans-serif;
 	background-color: #f5f5f5;
 }
 
 #header{
-	font: helvetica;
+	font-family: Helvetica,sans-serif;
 	font-size: 70px;
 	text-align: center;
-	padding-top: 100px; 
+	padding-top: 5vh;
 }
 
 #collage {
-	height: 350px;
-	margin-left: 25%;
-	margin-right: 25%;
-	outline: 2px dashed black;
+	overflow: hidden;
+	position: relative;
+	height: 50vh;
+	width: 50vw;
+	margin-left: 25vw;
+	margin-right: 25vw;
 }
 
-img{
-	height:300px;
-	width:300px;
-	position: absolute;
+.imageDiv{
+	position:absolute;
+	top:0;
+	left:0;
+	height:30vh;
+	width:30vw;
+}
+
+.imageDiv img{
+	max-height:100%;
 	align-items:center;
 }
-
-
 
 .dropDown {
   position: absolute;
