@@ -264,12 +264,12 @@ public class SearchServlet extends HttpServlet {
 	public void getPhoneAndURL(ArrayList<RestaurantInfo> restaurants) {
 		for(RestaurantInfo restaurant : restaurants) {
 			String detailURL = GOOGLE_MAPS_API_PREFIX + "/place/details/json?placeid="
-					+ restaurant.placeID + "&fields=formatted_phone_number,url&key=" + MAPS_API_KEY;
+					+ restaurant.placeID + "&fields=formatted_phone_number,website&key=" + MAPS_API_KEY;
 			//extract main body of the JSON response
 			JsonObject detailsJSON = new JsonParser().parse(getJSONResponse(detailURL)).getAsJsonObject().get("result").getAsJsonObject();
 			//modify each RestaurantInfo objects, store phone number and URL
 			restaurant.phone = detailsJSON.get("formatted_phone_number").getAsString();
-			restaurant.url = detailsJSON.get("url").getAsString();
+			restaurant.url = detailsJSON.get("website").getAsString();
 		}
 	}
 
