@@ -16,7 +16,7 @@ Scenario: clicking on an info item redirects to the restaurant or recipe page
 	And select the list "Favorites"
 	And press "manage_list" button
 	And press an info item
-	Then I should see the "Recipe" page
+	Then I should see the "Restaurant" page
 #3
 Scenario: an item can be removed from a list
 	When I search for "chicken" and expect 5 results
