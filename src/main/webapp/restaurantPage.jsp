@@ -10,15 +10,15 @@
 		<div class = "textinfo">
 			<p id="title"></p>
 			<div class = "address">
-				<span id="address1">Address:</span>
+				<span id="address1" style="font-size: 2rem">Address:</span>
 				<a href = "" id ="address2"></a>
 			</div>
 			<div class ="tel">
-				<span id="tel1">Phone number:</span>
+				<span id="tel1" style="font-size: 2rem">Phone number:</span>
 				<span id="tel2"></span>
 			</div>
 			<div class ="website">
-				<span id="website1">Website:</span>
+				<span id="website1" style="font-size: 2rem">Website:</span>
 				<a href = "" id ="website2"></a>
 			</div>
 		</div>
@@ -27,24 +27,24 @@
             <div class = "backToResults">
                 <input type="hidden" id="queryStringInput" name="search" value="" />
                 <input type="hidden" id="numberResultsInput" name="number" value="cache" />
-                <input type="image" id = "backtoresults" name="profile" src= "resources/backToResults.png" />
+                <button type="submit" id = "backtoresults">Back to Results</button>
             </div>
         </form>
 
         <form action = "restaurantPagePrint.jsp">
             <div class = "printableVersion">
                 <input type="hidden" id="indexInput" name="i" value="">
-                <input type="image" id = "printableversion" name="profile" src= "resources/printableVersion.png" />
+                <button type="submit" id = "printableversion">Printable Version</button>
             </div>
         </form>
 
         <form onsubmit = "addItem(document.getElementById('dropdown').value, result); document.getElementById('numberResultsInput').value = JSON.parse(localStorage.getItem('searchResults'))[0].length; return false;">
             <div class = "addToList">
-                <input type="image" id = "addtolist" name="profile" src= "resources/addToList.png" />
+                <button type="submit" id = "addtolist">Add to List</button>
             </div>
         </form>
 
-        <div class="dropDown" style="width:200px;">
+        <div class="dropDown">
             <select id = "dropdown">
                 <option value="invalid">&nbsp</option>
                 <option value="Favorites">Favorites</option>

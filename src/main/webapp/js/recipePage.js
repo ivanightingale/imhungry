@@ -18,8 +18,8 @@ var img = result.imageURL;
 
 document.title = "Recipe: " + title;
 document.getElementById("title").innerHTML = title;
-document.getElementById("prept2").innerHTML = pt;
-document.getElementById("cookt2").innerHTML = ct;
+document.getElementById("prept2").innerHTML = pt + " minutes";
+document.getElementById("cookt2").innerHTML = ct + " minutes";
 for (i = 0; i < ingre.length; i++)
 {
     document.getElementById("ingre2").innerHTML += ingre[i];
