@@ -12,11 +12,6 @@ Scenario: Results Page should display an appropriate title
 	And press "submit" button
 	Then I should see a title for "chicken"
 #3
-Scenario: there should be a drop down box where no predefined list is selected
-
-	When I search for "chicken" and expect 5 results
-	And press "submit" button
-	Then I should see an element "dropdown"
 #4
 Scenario: clicking "Manage List" button redirects to List Management Page
 
@@ -56,5 +51,5 @@ Scenario: clicking on a recipe redirects to Recipe Page
 #8
 Scenario: clicking on "Return to Search Page" redirects to Search Page
 
-	When press "return to search" button
+	When press "Back to Search" button
 	Then I should see the "Search" page

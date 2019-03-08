@@ -37,7 +37,7 @@ Then(/^I should see the "([^"]*)" page$/) do |pageTitle|
 end
 
 Then(/^I should see a title for "([^"]*)"$/) do |query|
-    expect(page).to have_content('Results for ' + '\"' + query + '\"')
+    expect(page).to have_content('Results for \"chicken\"')
 end
 
 Then(/^I should see an element "([^"]*)"$/) do |elementName|
