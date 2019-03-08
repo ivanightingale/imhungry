@@ -7,14 +7,14 @@ Background:
 Scenario: Recipe Page displays appropriate information
 
 	When I search for "chicken" and expect 5 results
-	And press "search" button
+	And press "submit" button
 	And press a recipe
-	Then I should see an element "recipe name"
-	And I should see an element "recipe image"
-	And I should see an element "recipe prep time"
-	And I should see an element "recipe cook time"
-	And I should see an element "recipe ingredients"
-	And I should see an element "recipe instructions"
+	Then I should see an element "title"
+	And I should see an element "img"
+	And I should see an element "prept1"
+	And I should see an element "cookt1"
+	And I should see an element "ingre1"
+	And I should see an element "instr1"
 #6
 Scenario: Recipe Page should be able to generate a printable version
 
