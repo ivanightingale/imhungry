@@ -38,7 +38,8 @@ public class SearchServlet extends HttpServlet {
 	private static final String TOMMY_TROJAN_LOC = "34.0205663,-118.2876355";
 
 	private static final String SPOONACULAR_RECIPE_API_PREFIX = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes";
-
+	private static final String SPOONACULAR_RAPID_API_KEY = "5d400066d1msh1a0901e6bb0917dp1b2dc1jsn1dcafa5afeb5";
+	
 	private static final String GOOGLE_CX_API_KEY = "AIzaSyAH3GjzX5RNq1ObGtaJEuciQziHrakn4cM";
 	private static final String GOOGLE_CX_ENGINE = "001810512200125518925:d_yaufj89m8";
 	private static final int IMAGE_COLLAGE_NUM = 10;
@@ -112,7 +113,7 @@ public class SearchServlet extends HttpServlet {
 			URL requestURL = new URL(url);
 			HttpURLConnection con = (HttpURLConnection) requestURL.openConnection();
 			//HTTP header for authorization of Spoonacular recipe API
-			con.setRequestProperty("X-RapidAPI-Key", "5d400066d1msh1a0901e6bb0917dp1b2dc1jsn1dcafa5afeb5");
+			con.setRequestProperty("X-RapidAPI-Key", SPOONACULAR_RAPID_API_KEY);
 			int responseCode = con.getResponseCode();
 			System.out.println("Response Code: " + responseCode);
 			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -272,22 +273,20 @@ public class SearchServlet extends HttpServlet {
 	}
 
 	//Given a String query, return an ArrayList of String storing URLs for images to present in the collage. The
-	//function uses Google Custom Search API. The engine is configured to search for recipes with images.
+	//function uses Google Custom Search API. The search engine is configured to search for images.
 	public ArrayList<String> getImageURLs(String query){
 		ArrayList<String> images = new ArrayList<String>();
-
-		String recipeSearchURL = "https://www.googleapis.com/customsearch/v1?key=" + GOOGLE_CX_API_KEY
-				+ "&num=" + IMAGE_COLLAGE_NUM + "&cx=" + GOOGLE_CX_ENGINE + "&q=" + query + "&alt=json";
+		
+		String imageSearchURL = "https://www.googleapis.com/customsearch/v1?key=" + GOOGLE_CX_API_KEY
+				+ "&num=" + IMAGE_COLLAGE_NUM + "&cx=" + GOOGLE_CX_ENGINE + "&q=" + query + "%20food&alt=json&searchType=image";
 		//extract relevant of the JSON response
-		JsonArray recipesWithImages = new JsonParser().parse(getJSONResponse(recipeSearchURL)).getAsJsonObject()
+		JsonArray imagesJSON = new JsonParser().parse(getJSONResponse(imageSearchURL)).getAsJsonObject()
 				.get("items").getAsJsonArray();
-		//store URL of this recipe to the list
-		for(int i = 0; i < recipesWithImages.size(); i++) {
-			JsonObject recipeJSON  = recipesWithImages.get(i).getAsJsonObject().get("pagemap").getAsJsonObject()
-					.get("recipe").getAsJsonArray().get(0).getAsJsonObject();
-			images.add(recipeJSON.get("image_url").getAsString());
+		//store URL of this image to the list
+		for(int i = 0; i < imagesJSON.size(); i++) {
+			images.add(imagesJSON.get(i).getAsJsonObject().get("link").getAsString());
 		}
-
+		
 		return images;
 	}
 

@@ -28,5 +28,5 @@ Then(/^I should see the "([^"]*)" page$/) do |pageTitle|
 end
 
 Then(/^I should see an element "([^"]*)"$/) do |elementName|
-    
+
 end
