@@ -64,21 +64,22 @@ public class SearchServlet extends HttpServlet {
 		//return content
 		if (!success){
 			//create error message
-			out.println("{ \"head\": \" "+errorMsg + "\" }");
+			String returnResult = "{ \"head\": \" "+errorMsg + "\" }";
+			out.println( new Message(errorMsg, returnResult) );
+
 
 		}else{
 			//create success message
-		
+			errorMsg = "success";
+			
+			
 			String recListJson = new Gson().toJson(recipeList);
 			String restListJson = new Gson().toJson(restaurantList);
 			
-			out.println("{ \"head\": \"Success\",");
-			out.println("\"body\": [{ " + recListJson + "," + restListJson +","+ collageURL+"}]");
-			out.println( "}");	
+			//return result array
+			//out.println(new Message(errorMsg, ) );
 			
-			session.setAttribute("recipeList", recipeList);
-            session.setAttribute("restaurantList", restaurantList);
-            //session.setAttribute("collageURL", collageURL);
+			
 		
 		}
 	
