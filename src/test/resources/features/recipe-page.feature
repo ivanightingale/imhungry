@@ -41,5 +41,6 @@ Scenario: recipe can be added to a predefined list
 	And press "addtolist" button
 	And press "backtoresults" button
 	And select the list "Favorites"
+	And select the list "Favorites"
 	And press "manage_list" button
 	Then I should see an info item
