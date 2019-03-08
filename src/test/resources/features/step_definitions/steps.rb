@@ -25,5 +25,5 @@ Then(/^I should see the "([^"]*)" page$/) do |pageTitle|
 end
 
 Then(/^I should see an element "([^"]*)"$/) do |elementName|
-    expect_page.to have_css('#' + elementName)
+    expect(page).to have_css('#' + elementName)
 end
