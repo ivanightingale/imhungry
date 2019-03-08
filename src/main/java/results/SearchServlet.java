@@ -36,11 +36,26 @@ public class SearchServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//From previous page, extract parameters
-		String userSearch = request.getParameter("search");
-		String numResults = request.getParameter("number");
-	
+		HttpSession session = request.getSession();
+		ArrayList<Info> favoritesList, toExploreList, doNotShowList;
+		if(session.isNew() || session.getAttribute("Favorites") == null) {
+			favoritesList = new ArrayList<>();
+			toExploreList = new ArrayList<>();
+			doNotShowList = new ArrayList<>();
+			session.setAttribute("Favorites", favoritesList);
+			session.setAttribute("To Explore", toExploreList);
+			session.setAttribute("Do Not Show", doNotShowList);
+		}
+		else
+		{
+			favoritesList = (ArrayList<Info>) session.getAttribute("Favorites");
+			toExploreList = (ArrayList<Info>) session.getAttribute("To Explore");
+			doNotShowList = (ArrayList<Info>) session.getAttribute("Do Not Show");
+		}
+
+        //From previous page, extract parameters
+        String userSearch = request.getParameter("search");
+        int numResults = Integer.parseInt(request.getParameter("number"));
 		//printwriter object
 		PrintWriter out = response.getWriter();
 		
@@ -48,14 +63,13 @@ public class SearchServlet extends HttpServlet {
 		boolean success = true;
 		String errorMsg = "";
 	
-		//get lists
-		ArrayList<Info> recipeList = null;
-		recipeList = recipeSearch(userSearch, numResults);
-		ArrayList<Info> restaurantList = null;
-		restaurantList = restaurantSearch(userSearch, numResults);
-		String collageURL = null;
-		collageURL=getCollageURLs(userSearch);
-		
+		 //get lists
+
+        //ArrayList<Info> restaurantList = restaurantSearch(userSearch, Integer.getInteger(numResults), doNotShowList, favoritesList);
+        ArrayList<RecipeInfo> recipeList = recipeSearch(userSearch, numResults, doNotShowList, favoritesList);
+        ArrayList<RestaurantInfo> restaurantList = restaurantSearch(userSearch, numResults, doNotShowList, favoritesList);
+        ArrayList<String>collageURL = getImageURLs(userSearch);
+        
 		if (recipeList == null || restaurantList == null || collageURL == null){
 			success=false;
 			errorMsg += "Failed to generate results!";
