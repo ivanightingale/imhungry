@@ -6,7 +6,17 @@ Background:
 
 #1
 #2
+Scenario: Results Page should display an appropriate title
+
+	When I search for "chicken" and expect 5 results
+	And press "submit" button
+	Then I should see a title for "chicken"
 #3
+Scenario: there should be a drop down box where no predefined list is selected
+
+	When I search for "chicken" and expect 5 results
+	And press "submit" button
+	Then I should see an element "dropdown"
 #4
 Scenario: clicking "Manage List" button redirects to List Management Page
 
@@ -16,7 +26,13 @@ Scenario: clicking "Manage List" button redirects to List Management Page
 	And press "manage_list" button
 	Then I should see the "List Management" page
 
-#5, 5a
+#5
+#5a, 6a
+Scenario: number of restaurant and recipe results are as specified
+
+	When I search for "chicken" and expect 5 results
+	And press "submit" button
+	Then I should see  "5" results
 #5b
 #5c
 Scenario: clicking on a restaurant redirects to Restaurant Page
@@ -26,7 +42,7 @@ Scenario: clicking on a restaurant redirects to Restaurant Page
 	And press a restaurant
 	Then I should see the "Restaurant" page
 
-#6, 6a
+#6
 #6b
 #6c
 Scenario: clicking on a recipe redirects to Recipe Page

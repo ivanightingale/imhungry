@@ -36,8 +36,17 @@ Then(/^I should see the "([^"]*)" page$/) do |pageTitle|
     expect(page).to have_title pageTitle
 end
 
+Then(/^I should see a title for "([^"]*)"$/) do |query|
+    expect(page).to have_content('Results for ' + '\"' + query + '\"')
+end
+
 Then(/^I should see an element "([^"]*)"$/) do |elementName|
     expect(page).to have_css('#' + elementName)
+end
+
+Then(/^I should see  "([^"]*)" results$/) do |numResults|
+    expect(page).to have_no_css('#Res_item' + numResults)
+    expect(page).to have_no_css('#Rec_item' + numResults)
 end
 
 Then(/^I should see the printable version page$/) do
