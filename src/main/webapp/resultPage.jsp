@@ -41,7 +41,7 @@
     <script>
         var query = parseQuery(window.location.search);
         //Have to replace '+'s with ' 's before displaying name to user
-        document.getElementById("header").innerHTML = 'Results for "' + query.search.replace(/\+/g, ' ') + '"';
+        document.getElementById("header").innerHTML = 'Results for ' + query.search.replace(/\+/g, ' ');
         var results;
         var imageURLs;
         //To reduce server overhead and improve performance, the page will only search from the server if it was arrived at from the search page
