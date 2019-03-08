@@ -41,16 +41,22 @@
     <script>
         var query = parseQuery(window.location.search);
         document.getElementById("header").innerHTML = 'Results for "' + query.search + '"';
-        var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "/Search?search="+query.search+"&number="+query.number, false);
-        xhttp.send();
-        console.log(xhttp.response);
-        /* ****** TODO: Uncomment when SearchServlet is ready
-        var response = JSON.parse(xhttp.response);
-        var results = response.body;
-        */
-        // ******* TODO: Testing only
-        results = [[{
+        var results;
+        var imageURLs;
+        if(query.number == "cache") {
+            results = JSON.parse(localStorage.getItem("searchResults"));
+            imageURLs = JSON.parse(localStorage.getItem("imageURLs"));
+        }
+        else {
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("GET", "/Search?search=" + query.search + "&number=" + query.number, false);
+            xhttp.send();
+            console.log(JSON.parse(xhttp.response));
+            var response = JSON.parse(xhttp.response);
+            results = response.body.key;
+            imageURLs = response.body.value;
+        }
+        /*results = [[{
             name: "Test Restaurant - Starbucks",
             rating: 3,
             placeID: "2PC9+M4 Los Angeles, California",
@@ -69,41 +75,41 @@
             ingredients: ["A", "BC", "DEF"],
             instructions: ["GHIJ", "KLMNO", "PQRSTU"],
             imageURL: "https://foodrevolution.org/wp-content/uploads/2018/04/blog-featured-diabetes-20180406-1330.jpg"
-        }]];
-        // ******* TODO: End test section
+        }]];*/
         //Store results in local storage
         window.localStorage.setItem("search", query.search);
         window.localStorage.setItem("searchResults", JSON.stringify(results));
+        window.localStorage.setItem("imageURLs", JSON.stringify(imageURLs));
 
         var col1 = document.getElementById("column1");
-        for(var i = 0; i < results[0].length; i++) {
-            var sec1 = document.createElement("div");
+        for(let i = 0; i < results[0].length; i++) {
+            let sec1 = document.createElement("div");
             sec1.setAttribute("class", "Res_section1");
             sec1.innerHTML = results[0][i].name;
 
-            var sec2 = document.createElement("div");
+            let sec2 = document.createElement("div");
             sec2.setAttribute("class", "Res_section2");
-            for(var j = 0; j < 5; j++) {
+            for(let j = 0; j < 5; j++) {
                 if(j < results[0][i].rating) sec2.innerHTML += '⭐';
                 else sec2.innerHTML += '☆';
             }
 
-            var divider = document.createElement("div");
+            let divider = document.createElement("div");
             divider.setAttribute("class", "divider");
 
-            var sec3 = document.createElement("div");
+            let sec3 = document.createElement("div");
             sec3.setAttribute("class", "Res_section3");
             sec3.innerHTML = results[0][i].driveTimeText;
 
-            var sec4 = document.createElement("div");
+            let sec4 = document.createElement("div");
             sec4.setAttribute("class", "Res_section4");
             sec4.innerHTML = results[0][i].address;
 
-            var sec5 = document.createElement("div");
+            let sec5 = document.createElement("div");
             sec5.setAttribute("class", "Res_section5");
             sec5.innerHTML = results[0][i].priceLevel;
 
-            var res = document.createElement("div");
+            let res = document.createElement("div");
             res.setAttribute("class","item");
             res.setAttribute("id","Res_item" + i);
             res.setAttribute("onclick","window.location='restaurantPage.jsp?i="+i+"'");
@@ -119,30 +125,30 @@
         }
 
         var col2 = document.getElementById("column2");
-        for(var i = 0; i < results[0].length; i++) {
-            var sec1 = document.createElement("div");
+        for(let i = 0; i < results[1].length; i++) {
+            let sec1 = document.createElement("div");
             sec1.setAttribute("class", "Rec_section1");
             sec1.innerHTML = results[1][i].name;
 
-            var sec2 = document.createElement("div");
+            let sec2 = document.createElement("div");
             sec2.setAttribute("class", "Rec_section2");
-            for(var j = 0; j < 5; j++) {
+            for(let j = 0; j < 5; j++) {
                 if(j < results[1][i].rating) sec2.innerHTML += '⭐';
                 else sec2.innerHTML += '☆';
             }
 
-            var divider = document.createElement("div");
+            let divider = document.createElement("div");
             divider.setAttribute("class", "divider");
 
-            var sec3 = document.createElement("div");
+            let sec3 = document.createElement("div");
             sec3.setAttribute("class", "Rec_section3");
-            sec3.innerHTML = results[1][i].prepTime;
+            sec3.innerHTML = results[1][i].prepTime + " min";
 
-            var sec4 = document.createElement("div");
+            let sec4 = document.createElement("div");
             sec4.setAttribute("class", "Rec_section4");
-            sec4.innerHTML = results[1][i].cookTime;
+            sec4.innerHTML = results[1][i].cookTime + " min";
 
-            var res = document.createElement("div");
+            let res = document.createElement("div");
             res.setAttribute("class","item");
             res.setAttribute("id","Rec_item" + i);
             res.setAttribute("onclick","window.location='recipePage.jsp?i="+i+"'");

@@ -13,13 +13,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import info.Info;
+import info.Message;
 import info.RestaurantInfo;
 import info.RecipeInfo;
+import javafx.util.Pair;
+
 import java.net.*;
 import java.io.Reader.*;
 import java.util.ArrayList;
@@ -84,10 +88,9 @@ public class SearchServlet extends HttpServlet {
         }
 
         //get lists
-
-        //ArrayList<Info> restaurantList = restaurantSearch(userSearch, Integer.getInteger(numResults), doNotShowList, favoritesList);
         ArrayList<RecipeInfo> recipeList = recipeSearch(userSearch, numResults, doNotShowList, favoritesList);
         ArrayList<RestaurantInfo> restaurantList = restaurantSearch(userSearch, numResults, doNotShowList, favoritesList);
+        ArrayList<String> urlList = getImageURLs(userSearch);
 
         //return content
         if (!success){
@@ -96,11 +99,12 @@ public class SearchServlet extends HttpServlet {
 
         } else {
             //create success message
-            out.println("success!");
-
-            session.setAttribute("recipeList", recipeList);
-            session.setAttribute("restaurantList", restaurantList);
-            //session.setAttribute("collageURL", collageURL);
+            List<Info> castedRecipeList = (ArrayList<Info>)(Object)recipeList;
+            List<Info> castedRestaurantList = (ArrayList<Info>)(Object)restaurantList;
+            List<List<Info>> results = new ArrayList<>();
+            results.add(castedRestaurantList);
+            results.add(castedRecipeList);
+            out.println(new Gson().toJson(new Message("Success",new Pair<List<List<Info>>, List<String>>(results, urlList))));
         }
 
     }
@@ -167,13 +171,21 @@ public class SearchServlet extends HttpServlet {
 				recipe.ingredients.add("- " + ingredientsJSON.get(j).getAsJsonObject()
 						.get("name").getAsString());
 			}
-			
-			JsonArray instructionsJSON = recipeDetailJSON.get("analyzedInstructions").getAsJsonArray().get(0)
-					.getAsJsonObject().get("steps").getAsJsonArray();
-			for(int j = 0; j < instructionsJSON.size(); j++) {
-				recipe.instructions.add("" + (j + 1) + ". " + instructionsJSON.get(j).getAsJsonObject()
-						.get("step").getAsString());
-			}
+            JsonArray analyzedInstructions = recipeDetailJSON.get("analyzedInstructions").getAsJsonArray();
+            JsonArray instructionsJSON;
+			if(analyzedInstructions.size() > 0) {
+			    instructionsJSON = analyzedInstructions.get(0).getAsJsonObject().get("steps").getAsJsonArray();
+                for(int j = 0; j < instructionsJSON.size(); j++) {
+                    recipe.instructions.add("" + (j + 1) + ". " + instructionsJSON.get(j).getAsJsonObject()
+                            .get("step").getAsString());
+                }
+            }
+			else if (!recipeDetailJSON.get("instructions").toString().equals("null")){
+			    recipe.instructions.add(recipeDetailJSON.get("instructions").getAsString());
+            }
+            else {
+			    recipe.instructions.add("Instructions weren't found for this recipe, sorry!");
+            }
 			
 			recipe.imageURL = recipeDetailJSON.get("image").getAsString();
 			recipes.add(recipe);
@@ -210,6 +222,7 @@ public class SearchServlet extends HttpServlet {
 		//assuming the worst possible case (all items in Do Not Show List appear) to encapsulate sufficient
 		//amount of restaurant information from the response
 		for(int i = 0; i < numResults + doNotShowList.size(); i++) {
+			if(i >= places.size()) break;
 			JsonObject currentPlace = places.get(i).getAsJsonObject();
 			restaurants.add(new RestaurantInfo(currentPlace.get("name").getAsString(),
 					(int)currentPlace.get("rating").getAsDouble(), currentPlace.get("place_id").getAsString(),
@@ -263,12 +276,12 @@ public class SearchServlet extends HttpServlet {
 	public void getPhoneAndURL(ArrayList<RestaurantInfo> restaurants) {
 		for(RestaurantInfo restaurant : restaurants) {
 			String detailURL = GOOGLE_MAPS_API_PREFIX + "/place/details/json?placeid="
-					+ restaurant.placeID + "&fields=formatted_phone_number,url&key=" + MAPS_API_KEY;
+					+ restaurant.placeID + "&fields=formatted_phone_number,website&key=" + MAPS_API_KEY;
 			//extract main body of the JSON response
 			JsonObject detailsJSON = new JsonParser().parse(getJSONResponse(detailURL)).getAsJsonObject().get("result").getAsJsonObject();
 			//modify each RestaurantInfo objects, store phone number and URL
 			restaurant.phone = detailsJSON.get("formatted_phone_number").getAsString();
-			restaurant.url = detailsJSON.get("url").getAsString();
+			restaurant.url = detailsJSON.get("website").getAsString();
 		}
 	}
 

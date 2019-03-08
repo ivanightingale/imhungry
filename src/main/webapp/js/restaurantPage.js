@@ -1,5 +1,4 @@
 if(document.getElementById("queryStringInput") != null) document.getElementById("queryStringInput").value = localStorage.getItem('search');
-if(document.getElementById("numberResultsInput") != null) document.getElementById("numberResultsInput").value = JSON.parse(localStorage.getItem('searchResults'))[0].length;
 
 var query = parseQuery(window.location.search);
 if(document.getElementById("indexInput") != null) document.getElementById("indexInput").value = query.i;
