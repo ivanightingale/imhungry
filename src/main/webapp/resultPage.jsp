@@ -40,7 +40,7 @@
     <script src="js/parseQueryString.js"></script>
     <script>
         var query = parseQuery(window.location.search);
-        document.getElementById("header").innerHTML = 'Results for "' + query.search + '"';
+        document.getElementById("header").innerHTML = 'Results for "' + query.search.replace(/\+/g, ' ') + '"';
         var results;
         var imageURLs;
         if(query.number == "cache") {
@@ -150,14 +150,17 @@
             img.setAttribute("src", imageURLs[i]);
             img.setAttribute("class", "image");
             imgdiv.appendChild(img);
-            let x = 2*(i%5-1)*20+Math.floor(Math.random()*20);
-            let y = 2*(i%2)*50+Math.floor(Math.random()*20)-20;
+            let x = 2*(i%5-1)*20+Math.floor(Math.random()*30);
+            let y = 2*(i%2)*50+Math.floor(Math.random()*30)-20;
             /*let x = Math.floor(Math.random()*200)-50;
             let y = Math.floor(Math.random()*200);*/
             let rot = Math.floor(Math.random()*90)-45;
-            imgdiv.setAttribute("style", "-webkit-transform: translate("+x+"%, "+y+"%) rotate("+rot+"deg);" +
-                "-ms-transform: translate("+x+"%, "+y+"%) rotate("+rot+"deg);" +
-                "transform: translate("+x+"%, "+y+"%) rotate("+rot+"deg);");
+            let scale = Math.random()*0.2+0.9;
+            let z = Math.floor(Math.random()*50);
+            imgdiv.setAttribute("style", "-webkit-transform: translate("+x+"%, "+y+"%) rotate("+rot+"deg) scale("+scale+");" +
+                "-ms-transform: translate("+x+"%, "+y+"%) rotate("+rot+"deg) scale("+scale+");" +
+                "transform: translate("+x+"%, "+y+"%) rotate("+rot+"deg) scale("+scale+");" +
+                "z-index:"+z+";");
             collage.appendChild(imgdiv);
         }
     </script>

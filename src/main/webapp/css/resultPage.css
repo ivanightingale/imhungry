@@ -25,8 +25,8 @@ body{
 	position:absolute;
 	top:0;
 	left:0;
-	height:30vh;
-	width:30vw;
+	height:35vh;
+	width:35vw;
 }
 
 .imageDiv img{
@@ -193,10 +193,8 @@ input[type=submit] {
 }
 
 
-
-
-.item:nth-child(even) {background-color:#6D6D6D;}
-.item:nth-child(odd) {background-color:#A8A8A8;}
+.item:nth-child(odd) {background-color:#6D6D6D;}
+.item:nth-child(even) {background-color:#A8A8A8;}
 
 
 #column1 {
