@@ -12,16 +12,16 @@
 	<div id = "header">I'm Hungry </div>
 	<div id = "format">
 		<form action = "resultPage.jsp" method = "GET">
-			<input type = "text" name = "search" id = "search" placeholder = "Enter Food" required>
+			<input type = "text" name = "search" id = "search" placeholder = "Enter Food" required />
 			<div id = hover_format>
-				<input type = "number" name = "number" id = "number" value = "5" min= "1">
+				<input type = "number" name = "number" id = "number" value = "5" min= "1" />
 				<div id = "hover_text">
 					Number of items to show in results
 				</div>
 			</div>
 			
 			<br>
-			<input type = "image" src="resources/grumpy.png" onmousedown="sadToHappy()" onmouseup="happyToSad()" onmouseleave="happyToSad()" name = "submit" id ="submit" value = "Feed Me!">
+			<input type = "image" src="resources/grumpy.png" onmousedown="sadToHappy()" onmouseleave="happyToSad()" name = "submit" id ="submit" value = "Feed Me!" />
 			
 		</form>
 	</div>

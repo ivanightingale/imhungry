@@ -6,9 +6,10 @@ body{
 
 #header{
 	font-family: Helvetica,sans-serif;
-	font-size: 70px;
+	font-size: 5rem;
 	text-align: center;
 	padding-top: 5vh;
+	margin-bottom: 3vh;
 }
 
 #collage {
@@ -24,8 +25,8 @@ body{
 	position:absolute;
 	top:0;
 	left:0;
-	height:30vh;
-	width:30vw;
+	height:35vh;
+	width:35vw;
 }
 
 .imageDiv img{
@@ -34,12 +35,11 @@ body{
 }
 
 .dropDown {
-  position: absolute;
-   	left:80%;
-   	top:20%;
-   	transform: scale(0.85);
-   	font-size:16px;
-  
+    position: absolute;
+	width:15vw;
+   	right:5vw;
+   	top:21vh;
+	font-size:1rem;
 }
 
 .dropDown select {
@@ -95,111 +95,123 @@ body{
 input[type=submit] {
     background:#A8A8A8; 
     color: white;
-    text-decoration: bold;
-    width:190px;
+    width:15vw;
+	border: 0;
+	box-shadow: none;
+	border-radius: 0;
+	font-size:1.5rem;
+	cursor: pointer;
+	padding: 0;
 }
 
 #manage_list{
 	position: absolute;
-   	left:80%;
-   	top:26%;
-   	transform: scale(0.85);
-   	font-size:16px;
+   	right:5vw;
+   	top:calc(21vh + 3rem);
 }
 
 #back_search{
 	position: absolute;
-   	left:80%;	
-   	top:30%;
-   	transform: scale(0.85);
-   	font-size:16px;
+   	right:5vw;
+   	top:calc(21vh + 6rem);
 }
 
 .item {
 	width: 100%;
-	height: 100px;
-	overflow: auto;
+	height: 5rem;
 }
 
 .item_format {
 	display: inline;
 	overflow: auto;
 }
-.Res_section5{
-	float:right;
-}
-.Rec_section5{
-	float:right;
-}
+
 .divider{
-	margin-top:20px;
+	margin-top:0rem;
 }
 
-.Res_section1{
-	display:inline;
+.Res_section1, .Res_section2, .Res_section3, .Res_section4{
+	display:inline-block;
+	margin-right: 1rem;
+	margin-left: 1rem;
+	height: 2.5rem;
+	line-height: 2.5rem;
 }
-.Res_section2{
-	display:inline;
+
+.Res_section1, .Res_section3 {
+	min-width: 10vw;
 }
-.Res_section3{
-	display:inline;
+
+.Res_section2, .Res_section4 {
+	max-width: calc(26vw - 5rem);
+	overflow-x: auto;
+	vertical-align: bottom;
 }
-.Res_section4{
-	display:inline;
-}
+
 .Res_section5{
-	display:inline;
+	float:right;
+	width: 5rem;
+	font-size: 2rem;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	height: 2.5rem;
+	line-height: 2.5rem;
+	transform: translateY(-1.25rem);
 }
-.Rec_section1{
-	display:inline;
+
+.Rec_section1, .Rec_section2, .Rec_section3, .Rec_section4{
+	display:inline-block;
+	margin-right: 1rem;
+	margin-left: 1rem;
+	height: 2.5rem;
+	line-height: 2.5rem;
 }
-.Rec_section2{
-	display:inline;
+
+.Rec_section1, .Rec_section3 {
+	min-width: 15vw;
 }
-.Rec_section3{
-	display:inline;
-}
-.Rec_section4{
-	display:inline;
-}
-.Rec_section5{
-	display:inline;
+
+.Rec_section2, .Rec_section4 {
+	max-width: calc(26vw - 5rem);
+	overflow-x: auto;
+	vertical-align: bottom;
 }
 
 #container{
-	margin-top:30px;
-	height: 50%;
+	margin-top:3vh;
 	display: flex;
 	align-items: center;
-	justify-content: space-around;
-	font-size:24px;
+	justify-content: space-evenly;
+	font-size:1rem;
+	margin-bottom: 10vh;
 }
 
 .item{
 	background-color: #6D6D6D;
-	margin-top:30px;
+	margin-top:3vh;
 }
 
 
-
-
-.item:nth-child(even) {background-color:#6D6D6D;}
-.item:nth-child(odd) {background-color:#A8A8A8;}
+.item:nth-child(odd) {background-color:#6D6D6D;}
+.item:nth-child(even) {background-color:#A8A8A8;}
 
 
 #column1 {
-	width:35%;
+	position: relative;
+	width:45%;
 	background-color: #f5f5f5;	
 
 }
 
 #column2 {
-	width:35%;
+	position: relative;
+	width:45%;
 	background-color: #f5f5f5;
 }
 
 .sub_header{
-	font-size:40px;
+	font-size:3rem;
 	text-align: center;
 	background-color: #f5f5f5;
 }

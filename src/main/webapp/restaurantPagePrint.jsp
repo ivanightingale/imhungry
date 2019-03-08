@@ -10,15 +10,15 @@
 		<div class = "textinfo">
 			<p id="title"></p>
 			<div class = "address">
-				<span id="address1">Address:</span>
+				<span id="address1" style="font-size: 2rem">Address:</span>
 				<a href = "" id ="address2"></a>
 			</div>
 			<div class ="tel">
-				<span id="tel1">Phone number:</span>
+				<span id="tel1" style="font-size: 2rem">Phone number:</span>
 				<span id="tel2"></span>
 			</div>
 			<div class ="website">
-				<span id="website1">Website:</span>
+				<span id="website1" style="font-size: 2rem">Website:</span>
 				<a href = "" id ="website2"></a>
 			</div>
 		</div>

@@ -1,185 +1,142 @@
-			body {
-	 	   		background-color: #f5f5f5;
-		   		margin = 0;
-		   		padding = 0;
-		   		font-family: Helvetica;
-			}
-			
-			a{
-				font-family: "Helvetica";
-		    	color: inherit;
-		    	text-decoration:none;
-			}
-			
-			a:hover
-			{
-				color: DodgerBlue;
-			}
-		
-			.backToResults {
-				overflow: hidden;
-				position: fixed;
-		    	margin-bottom:0;
-		    	left:60%;
-		    	top:36%;
-		    	transform: scale(0.7);
-			}
-			
-			.printableVersion {
-				overflow: hidden;
-				position: fixed;
-		    	margin-bottom:0;
-		    	left:60%;
-		    	top:30%;
-		    	transform: scale(0.7);
-			}
-			
-			.addToList {
-				overflow: hidden;
-				position: fixed;
-		    	margin-bottom:0;
-		    	left:60%;
-		    	top:48%;
-		    	transform: scale(0.7);
-			}
-			
-			.dropDown {
-			  position: absolute;
-				position: fixed;
-		    	left:61.8%;
-		    	top:42.5%;
-		    	transform: scale(0.85);
-		    	font-size:16px;
-			  
-			}
-			
-			.dropDown select {
-			  display: none; 
-			}
-			
-			.select-selected {
-			  background-color: White;
-			}
-			
-			.select-selected:after {
-			  position: absolute;
-			  content: "";
-			  top: 14px;
-			  right: 10px;
-			  width: 0;
-			  height: 0;
-			  border: 6px solid transparent;
-			  border-color: #6d6d6d transparent transparent transparent;
-			}
-			
-			.select-selected.select-arrow-active:after {
-			  border-color: transparent transparent #6d6d6d transparent;
-			  top: 7px;
-			}
-			
-			.select-items div,.select-selected {
-			  color: #6d6d6d;
-			  padding: 8px 16px;
-			  border: 1px solid transparent;
-			  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
-			  cursor: pointer;
-			  user-select: none;
-			}
-			
-			.select-items {
-			  position: absolute;
-			  background-color: White;
-			  top: 100%;
-			  left: 0;
-			  right: 0;
-			  z-index: 99;
-			}
-			
-			.select-hide {
-			  display: none;
-			}
-			
-			.select-items div:hover, .same-as-selected {
-			  background-color: rgba(0, 0, 0, 0.1);
-			}
-			
-			.gif
-			{
-				overflow: hidden;
-				position: fixed;
-		    	left:68%;
-		    	top:6%;
-			}
-			.gif img
-			{
-				width:6%;
-		    	height:auto;
-			}
-			.textinfo
-			{
-			position:absolute;
-		    	left:15%;
-		    	top:20%;
-		    	width:45%;
-		    	color: #6d6d6d;
-			}
-			
-			#title
-			{
-			font-family: "Helvetica";
-		    	font-weight: bold;
-		    	color: #6d6d6d;
-		    	font-size:30px;
-			}
-		
-			#address1
-			{
-			font-family: "Helvetica";
-		    	font-weight: bold;
-		    	color:#6d6d6d;
-		    	font-size:20px;
-			}
-			#tel1
-			{
-			font-family: "Helvetica";
-		    	font-weight: bold;
-		    	color: #6d6d6d;
-		    	font-size:20px;
-			}
-			#website1
-			{
-			font-family: "Helvetica";
-		    	font-weight: bold;
-		    	color: #6d6d6d;
-		    	font-size:20px;
-			}
-			
-			#prept1
-			{
-			font-family: "Helvetica";
-		    	font-weight: bold;
-		    	color:#6d6d6d;
-		    	font-size:20px;
-			}
-			#cookt1
-			{
-			font-family: "Helvetica";
-		    	font-weight: bold;
-		    	color: #6d6d6d;
-		    	font-size:20px;
-			}
-			#ingre1
-			{
-			font-family: "Helvetica";
-		    	font-weight: bold;
-		    	color: #6d6d6d;
-		    	font-size:20px;
-			}
-			#instr1
-			{
-			font-family: "Helvetica";
-		    	font-weight: bold;
-		    	color: #6d6d6d;
-		    	font-size:20px;
-			}
+body {
+	background-color: #f5f5f5;
+	margin: 0;
+	padding: 0;
+	font-family: Helvetica, sans-serif;
+}
+
+a{
+	font-family: Helvetica, sans-serif;
+	color: inherit;
+	text-decoration:none;
+}
+
+a:hover
+{
+	color: DodgerBlue;
+}
+
+button[type=submit] {
+	background:#A8A8A8;
+	color: white;
+	width:15vw;
+	min-width: 12rem;
+	border: 0;
+	box-shadow: none;
+	border-radius: 0;
+	font-size:1.5rem;
+	cursor: pointer;
+	padding: 0;
+}
+
+.backToResults {
+	position: fixed;
+	margin-bottom:0;
+	right: 20vw;
+	top:calc(20vh + 3rem)
+}
+
+.printableVersion {
+	position: fixed;
+	margin-bottom:0;
+	right: 20vw;
+	top:20vh;
+}
+
+.addToList {
+	position: fixed;
+	margin-bottom:0;
+	right: 20vw;
+	top:calc(20vh + 9rem);
+}
+
+.dropDown {
+	position: fixed;
+	width:15vw;
+	min-width: 12rem;
+	right:20vw;
+	top:calc(20vh + 6rem);
+	font-size:1rem;
+}
+
+.dropDown select {
+  display: none;
+}
+
+.select-selected {
+  background-color: White;
+}
+
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 14px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #6d6d6d transparent transparent transparent;
+}
+
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent #6d6d6d transparent;
+  top: 7px;
+}
+
+.select-items div,.select-selected {
+  color: #6d6d6d;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+  user-select: none;
+}
+
+.select-items {
+  position: absolute;
+  background-color: White;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+}
+
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover, .same-as-selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.gif
+{
+	overflow: hidden;
+	position: fixed;
+	left:68%;
+	top:6%;
+}
+.gif img
+{
+	width:6%;
+	height:auto;
+}
+.textinfo
+{
+	position:absolute;
+	left: 20vw;
+	top: 20vh;
+	width: 40vw;
+	color: #6d6d6d;
+	font-size: 1rem;
+}
+
+#title
+{
+	margin-top: 0;
+	font-family: Helvetica, sans-serif;
+	font-weight: bold;
+	color: #6d6d6d;
+	font-size:3rem;
+}
 			
