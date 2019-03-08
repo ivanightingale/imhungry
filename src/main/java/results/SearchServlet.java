@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import info.Info;
 import info.RestaurantInfo;
@@ -60,12 +61,17 @@ public class SearchServlet extends HttpServlet {
 			errorMsg += "Failed to generate results!";
 			
 		}
-	
+		
+		
+		GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.create();
+
 		//return content
 		if (!success){
 			//create error message
 			String returnResult = "{ \"head\": \" "+errorMsg + "\" }";
-			out.println( new Message(errorMsg, returnResult) );
+			
+			out.println( gson.toJson ( (new Message(errorMsg, returnResult) ) ) ) ;
 
 
 		}else{
@@ -77,7 +83,7 @@ public class SearchServlet extends HttpServlet {
 			String restListJson = new Gson().toJson(restaurantList);
 			
 			//return result array
-			//out.println(new Message(errorMsg, ) );
+			//out.println(gsonn.toJson(new Message(errorMsg, )) );
 			
 			
 		
