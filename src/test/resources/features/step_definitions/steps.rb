@@ -20,6 +20,14 @@ When(/^press a recipe$/) do
     find('#Rec_item0').click
 end
 
+When(/^press a restaurant$/) do
+    find('#Res_item0').click
+end
+
+When(/^press the "([^"]*)"$/) do |elementName|
+    find('#' + elementName).click
+end
+
 Then(/^I should see the "([^"]*)" page$/) do |pageTitle|
     expect(page).to have_title pageTitle
 end
