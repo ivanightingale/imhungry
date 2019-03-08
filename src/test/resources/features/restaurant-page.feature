@@ -19,7 +19,7 @@ Scenario: clicking on the address redirects to Google Maps directions page
 	When I search for "chicken" and expect 5 results
 	And press "submit" button
 	And press a restaurant
-	And press the "address"
+	And press the "address1"
 	Then I should see the "Google Maps" page
 #1b
 Scenario: clicking on the link redirects to restaurant website
@@ -27,7 +27,7 @@ Scenario: clicking on the link redirects to restaurant website
 	When I search for "chicken" and expect 5 results
 	And press "submit" button
 	And press a restaurant
-	And press the "website"
+	And press the "website1"
 	Then I should see the "" page
 #2
 Scenario: Restaurant Page should be able to generate a printable version
