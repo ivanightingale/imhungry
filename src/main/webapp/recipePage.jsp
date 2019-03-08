@@ -49,7 +49,7 @@
             </div>
         </form>
 
-        <div class="dropDown" style="width:200px;">
+        <div class="dropDown">
             <select id = "dropdown">
                 <option value="invalid">&nbsp</option>
                 <option value="Favorites">Favorites</option>
