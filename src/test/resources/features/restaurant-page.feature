@@ -44,7 +44,7 @@ Scenario: clicking on "Return to Results Page" redirects to Results Page
 	And press "submit" button
 	And press a restaurant
 	And press "backtoresults" button
-	Then I should see the "Results" page
+	Then I should see the "Result" page
 #4, 5
 Scenario: restaurant can be added to a predefined list
 
