@@ -52,8 +52,8 @@
             xhttp.open("GET", "/Search?search=" + query.search + "&number=" + query.number, false);
             xhttp.send();
             var response = JSON.parse(xhttp.response);
-            results = response.body.key;
-            imageURLs = response.body.value;
+            results = response.body.results;
+            imageURLs = response.body.imageURLs;
         }
         //Store results in local storage
         window.localStorage.setItem("search", query.search);
