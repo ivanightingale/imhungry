@@ -8,19 +8,18 @@
 	<title>Result Page</title>
 </head>
 <body>
-	<div id = "header">Results for X</div>
+	<div id = "header">Results</div>
 	<div id = "collage"></div>
-
-	<div class="dropDown" style="width:200px;">
-        <select id = "dropdown">
-            <option value="invalid">&nbsp</option>
-            <option value="Favorites">Favorites</option>
-            <option value="To Explore">To Explore</option>
-            <option value="Do Not Show">Do Not Show</option>
-        </select>
-	</div>
 	
 	<form action="listPage.jsp">
+        <div class="dropDown" style="width:200px;">
+            <select id = "dropdown" name="list">
+                <option value="invalid">&nbsp</option>
+                <option value="Favorites">Favorites</option>
+                <option value="To Explore">To Explore</option>
+                <option value="Do Not Show">Do Not Show</option>
+            </select>
+        </div>
    	 	<input type="submit" id = "manage_list" value="Manage List" />
 	</form>
 	
@@ -41,10 +40,12 @@
     <script src="js/parseQueryString.js"></script>
     <script>
         var query = parseQuery(window.location.search);
-        /* ****** TODO: Uncomment when SearchServlet is ready
+        document.getElementById("header").innerHTML = 'Results for "' + query.search + '"';
         var xhttp = new XMLHttpRequest();
         xhttp.open("GET", "/Search?search="+query.search+"&number="+query.number, false);
         xhttp.send();
+        console.log(xhttp.response);
+        /* ****** TODO: Uncomment when SearchServlet is ready
         var response = JSON.parse(xhttp.response);
         var results = response.body;
         */
@@ -54,7 +55,7 @@
             rating: 3,
             placeID: "2PC9+M4 Los Angeles, California",
             address: "642 W 34th St, Los Angeles, CA 90007",
-            price: 5,
+            priceLevel: "$",
             driveTimeText: "2 min",
             driveTimeValue: 120,
             phone: "(213) 740-6285",
@@ -62,7 +63,6 @@
         }], [{
             name: "Test Recipe",
             rating: 5,
-            price: 10,
             recipeID: 12345,
             prepTime: 5,
             cookTime: 10,
@@ -101,7 +101,7 @@
 
             var sec5 = document.createElement("div");
             sec5.setAttribute("class", "Res_section5");
-            sec5.innerHTML = results[0][i].price.toString();
+            sec5.innerHTML = results[0][i].priceLevel;
 
             var res = document.createElement("div");
             res.setAttribute("class","item");
@@ -142,10 +142,6 @@
             sec4.setAttribute("class", "Rec_section4");
             sec4.innerHTML = results[1][i].cookTime;
 
-            var sec5 = document.createElement("div");
-            sec5.setAttribute("class", "Rec_section5");
-            sec5.innerHTML = results[1][i].price.toString();
-
             var res = document.createElement("div");
             res.setAttribute("class","item");
             res.setAttribute("id","Rec_item" + i);
@@ -156,7 +152,6 @@
             res.appendChild(divider);
             res.appendChild(sec3);
             res.appendChild(sec4);
-            res.appendChild(sec5);
 
             col2.appendChild(res);
         }
