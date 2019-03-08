@@ -8,22 +8,22 @@
 	</head>
 	<body>
         <div class = "textinfo">
-            <p id="title"></p>
+            <p id="title" style="margin-bottom: 1rem"></p>
             <p id="img"></p>
             <div class = "prepT">
-                <span id ="prept1">Prep Time:</span>
+                <span id ="prept1" style="font-size:2rem">Prep Time:</span>
                 <span id ="prept2"></span>
             </div>
             <div class ="cookT">
-                <span id="cookt1">Cook Time:</span>
+                <span id="cookt1" style="font-size:2rem">Cook Time:</span>
                 <span id="cookt2"></span>
             </div>
             <div class ="ingre">
-                <span id="ingre1">Ingredients:</span>
+                <span id="ingre1" style="font-size:2rem">Ingredients:</span>
                 <div id="ingre2"></div>
             </div>
             <div class ="instr">
-                <span id="instr1">Instructions:</span>
+                <span id="instr1" style="font-size:2rem">Instructions:</span>
                 <div id="instr2"></div>
             </div>
         </div>

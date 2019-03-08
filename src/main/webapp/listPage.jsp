@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<form action="listPage.jsp" method="GET">
-			<div class="dropDown" style="width:200px;">
+			<div class="dropDown">
 				<select id = "dropdown" name="list">
 					<option value="invalid">&nbsp</option>
 					<option value="Favorites">Favorites</option>
@@ -72,7 +72,7 @@
 
                         sec3 = document.createElement("div");
                         sec3.setAttribute("class", "item_format3");
-                        sec3.innerHTML = list[i].driveTimeText;
+                        sec3.innerHTML = list[i].driveTimeText + " away";
 
                         sec4 = document.createElement("div");
                         sec4.setAttribute("class", "item_format4");
@@ -99,11 +99,15 @@
 
                         sec3 = document.createElement("div");
                         sec3.setAttribute("class", "item_format3");
-                        sec3.innerHTML = list[i].prepTime;
+                        sec3.innerHTML = list[i].prepTime + " min prep time";
 
                         sec4 = document.createElement("div");
                         sec4.setAttribute("class", "item_format4");
-                        sec4.innerHTML = list[i].cookTime;
+                        sec4.innerHTML = list[i].cookTime + " min cook time";
+
+                        sec5 = document.createElement("div");
+                        sec5.setAttribute("class", "item_format5");
+                        sec5.innerHTML = "   ";
                     }
                     let changeButton = document.createElement("button");
                     changeButton.setAttribute("id", "changeButton"+i);
@@ -146,6 +150,9 @@
                     res.appendChild(sec3);
                     res.appendChild(sec4);
                     if (sec5 != null) res.appendChild(sec5);
+                    let divider2 = document.createElement("div");
+                    divider2.setAttribute("class", "divider");
+                    res.appendChild(divider2);
                     res.appendChild(changeButton);
                     res.appendChild(removeButton);
 

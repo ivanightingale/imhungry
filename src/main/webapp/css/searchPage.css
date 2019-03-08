@@ -1,42 +1,43 @@
 @charset "UTF-8";
 
 body{
-	font: helvetica;
+	font-family: Helvetica, sans-serif;
 	background-color: #f5f5f5;
 }
 
 #header{
-	font: helvetica;
-	font-size: 100px;
+	font-family: Helvetica, sans-serif;
+	font-size: 10rem;
 	text-align: center;
-	padding-top: 100px; 
+	padding-top: 20vh;
 }
 
 #format{
-	margin-top: 50px;
+	margin-top: 5vh;
 	display: block;
     text-align: center;
 }
 
 #search{
-	margin-left:120px;
-	font-size: 25px;
+	width: 25vw;
+	font-size: 2rem;
 }
 
 #number{
-	margin-left:20px;
-	width: 30px;
+	font-size: 2rem;
+	margin-left:1rem;
+	width: 4rem;
 }
 
 #submit {
-	font: helvitca;
-	size: 100px;
+	font-family: Helvetica, sans-serif;
+	size: 10vw;
 	color: red;
-	margin-top: 30px;
+	margin-top: 5vh;
 }
 
 #hover_text{
-	font-size: 10px;
+	font-size: 1rem;
 
 }
 
@@ -45,17 +46,11 @@ body{
 }
 
 #hover_text{
-	margin-left:20px;
-	margin-top:20px;
+	margin-left:1rem;
+	margin-top:1rem;
 	position:absolute;
 	display: none;
 }
 #hover_format:hover #hover_text {
   display: inline;
-}
-
-img {
-	position:absolute;
-	margin-top:10px;
-	height: 5%;
 }
