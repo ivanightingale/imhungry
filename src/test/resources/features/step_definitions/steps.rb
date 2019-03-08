@@ -20,6 +20,10 @@ When(/^press a recipe$/) do
     find('#Rec_item0').click
 end
 
+When(/^press the third recipe$/) do
+    find('#Rec_item2').click
+end
+
 When(/^press a restaurant$/) do
     find('#Res_item0').click
 end
@@ -36,8 +40,8 @@ Then(/^I should see the "([^"]*)" page$/) do |pageTitle|
     expect(page).to have_title pageTitle
 end
 
-Then(/^I should see a title for "([^"]*)"$/) do |query|
-    expect(page).to have_content('Results for ' + query)
+Then(/^I should see a title "([^"]*)"$/) do |query|
+    expect(page).to have_content(query)
 end
 
 Then(/^I should see an element "([^"]*)"$/) do |elementName|
@@ -47,6 +51,14 @@ end
 Then(/^I should see  "([^"]*)" results$/) do |numResults|
     expect(page).to have_no_css('#Res_item' + numResults)
     expect(page).to have_no_css('#Rec_item' + numResults)
+end
+
+Then(/^I should see "([^"]*)" on the top of recipes$/) do |recipeName|
+    expect(page).to have_css('#Rec_item0', text: 'recipeName')
+end
+
+Then(/^I should not see recipe "([^"]*)"$/) do |recipeName|
+    expect(page).to have_no_content(recipeName)
 end
 
 Then(/^I should see the printable version page$/) do
