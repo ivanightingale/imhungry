@@ -71,7 +71,7 @@ public class SearchServlet extends HttpServlet {
 			//create error message
 			String returnResult = "{ \"head\": \" "+errorMsg + "\" }";
 			
-			out.println( gson.toJson ( (new Message(errorMsg, returnResult) ) ) ) ;
+			out.println( gson.toJson ( new Message(errorMsg, returnResult) )  ) ;
 
 
 		}else{
@@ -90,8 +90,7 @@ public class SearchServlet extends HttpServlet {
 			
             //other way with 2d arraylist : incomplete
 			//out.println(gsonn.toJson(new Message(errorMsg, )) );
-			
-			
+		
 		
 		}
 	
