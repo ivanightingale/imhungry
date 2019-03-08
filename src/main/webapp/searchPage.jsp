@@ -26,6 +26,7 @@
 		</form>
 	</div>
 <script>
+    //Functions to switch emoji states
     function happyToSad()
     {
         document.getElementById("submit").src = "resources/grumpy.png";

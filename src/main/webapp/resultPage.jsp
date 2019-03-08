@@ -40,9 +40,12 @@
     <script src="js/parseQueryString.js"></script>
     <script>
         var query = parseQuery(window.location.search);
+        //Have to replace '+'s with ' 's before displaying name to user
         document.getElementById("header").innerHTML = 'Results for "' + query.search.replace(/\+/g, ' ') + '"';
         var results;
         var imageURLs;
+        //To reduce server overhead and improve performance, the page will only search from the server if it was arrived at from the search page
+        //or if a list was modified on the last page. Otherwise, it'll load the results from localStorage (much faster).
         if(query.number == "cache") {
             results = JSON.parse(localStorage.getItem("searchResults"));
             imageURLs = JSON.parse(localStorage.getItem("imageURLs"));
@@ -60,8 +63,10 @@
         window.localStorage.setItem("searchResults", JSON.stringify(results));
         window.localStorage.setItem("imageURLs", JSON.stringify(imageURLs));
 
+        //First, populate restaurant results
         var col1 = document.getElementById("column1");
         for(let i = 0; i < results[0].length; i++) {
+            //Create each sub section for the entry and populate it with data and attributes
             let sec1 = document.createElement("div");
             sec1.setAttribute("class", "Res_section1");
             sec1.innerHTML = results[0][i].name;
@@ -88,9 +93,11 @@
             sec5.setAttribute("class", "Res_section5");
             sec5.innerHTML = results[0][i].priceLevel;
 
+            //Create the actual entry element and set the previous subsections to be its children
             let res = document.createElement("div");
             res.setAttribute("class","item");
             res.setAttribute("id","Res_item" + i);
+            //Sets the onclick so that you can navigate to the proper detailed page.
             res.setAttribute("onclick","window.location='restaurantPage.jsp?i="+i+"'");
             res.setAttribute("style","cursor:pointer;");
             res.appendChild(sec1);
@@ -100,9 +107,11 @@
             res.appendChild(sec4);
             res.appendChild(sec5);
 
+            //Add the entry to the proper place on the page
             col1.appendChild(res);
         }
 
+        //Same process as above, but for recipe results
         var col2 = document.getElementById("column2");
         for(let i = 0; i < results[1].length; i++) {
             let sec1 = document.createElement("div");
@@ -141,26 +150,31 @@
             col2.appendChild(res);
         }
 
+        //Assemble the collage
         var collage = document.getElementById("collage");
         for(let i = 0; i < imageURLs.length; i++) {
+            //Create a div to hold this image
             let imgdiv = document.createElement("div");
             imgdiv.setAttribute("class", "imageDiv");
             imgdiv.setAttribute("id", "image"+i);
+            //Create the img element
             let img = document.createElement("img");
             img.setAttribute("src", imageURLs[i]);
             img.setAttribute("class", "image");
+            //Add the img to the div
             imgdiv.appendChild(img);
+            //Generate a set of randomized position, rotation angle, scaling factor, and z index
             let x = 2*(i%5-1)*20+Math.floor(Math.random()*30);
             let y = 2*(i%2)*50+Math.floor(Math.random()*30)-20;
-            /*let x = Math.floor(Math.random()*200)-50;
-            let y = Math.floor(Math.random()*200);*/
             let rot = Math.floor(Math.random()*90)-45;
             let scale = Math.random()*0.2+0.9;
             let z = Math.floor(Math.random()*50);
+            //Apply a style to the element that applies the above transformations to it
             imgdiv.setAttribute("style", "-webkit-transform: translate("+x+"%, "+y+"%) rotate("+rot+"deg) scale("+scale+");" +
                 "-ms-transform: translate("+x+"%, "+y+"%) rotate("+rot+"deg) scale("+scale+");" +
                 "transform: translate("+x+"%, "+y+"%) rotate("+rot+"deg) scale("+scale+");" +
                 "z-index:"+z+";");
+            //Add the element to the collage
             collage.appendChild(imgdiv);
         }
     </script>
