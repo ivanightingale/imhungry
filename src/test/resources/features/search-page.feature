@@ -11,5 +11,5 @@ Scenario: the default page should be Search Page
 Scenario: initiating the search redirects to Results Page
 
 	When I search for "chicken" and expect 5 results
-	And press "search" button
-	Then I should see the "Results" page
+	And press "submit" button
+	Then I should see the "Result" page
