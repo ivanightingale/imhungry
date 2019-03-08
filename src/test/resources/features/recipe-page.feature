@@ -38,8 +38,8 @@ Scenario: recipe can be added to a predefined list
 	And press "submit" button
 	And press a recipe
 	And select the list "Favorites"
-	And press "add to list" button
-	And press "return to results page" button
+	And press "addtolist" button
+	And press "backtoresults" button
 	And select the list "Favorites"
 	And press "manage_list" button
 	Then I should see an info item
