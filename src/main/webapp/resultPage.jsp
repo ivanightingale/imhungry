@@ -51,31 +51,10 @@
             var xhttp = new XMLHttpRequest();
             xhttp.open("GET", "/Search?search=" + query.search + "&number=" + query.number, false);
             xhttp.send();
-            console.log(JSON.parse(xhttp.response));
             var response = JSON.parse(xhttp.response);
             results = response.body.key;
             imageURLs = response.body.value;
         }
-        /*results = [[{
-            name: "Test Restaurant - Starbucks",
-            rating: 3,
-            placeID: "2PC9+M4 Los Angeles, California",
-            address: "642 W 34th St, Los Angeles, CA 90007",
-            priceLevel: "$",
-            driveTimeText: "2 min",
-            driveTimeValue: 120,
-            phone: "(213) 740-6285",
-            url: "starbucks.com"
-        }], [{
-            name: "Test Recipe",
-            rating: 5,
-            recipeID: 12345,
-            prepTime: 5,
-            cookTime: 10,
-            ingredients: ["A", "BC", "DEF"],
-            instructions: ["GHIJ", "KLMNO", "PQRSTU"],
-            imageURL: "https://foodrevolution.org/wp-content/uploads/2018/04/blog-featured-diabetes-20180406-1330.jpg"
-        }]];*/
         //Store results in local storage
         window.localStorage.setItem("search", query.search);
         window.localStorage.setItem("searchResults", JSON.stringify(results));
@@ -160,6 +139,26 @@
             res.appendChild(sec4);
 
             col2.appendChild(res);
+        }
+
+        var collage = document.getElementById("collage");
+        for(let i = 0; i < imageURLs.length; i++) {
+            let imgdiv = document.createElement("div");
+            imgdiv.setAttribute("class", "imageDiv");
+            imgdiv.setAttribute("id", "image"+i);
+            let img = document.createElement("img");
+            img.setAttribute("src", imageURLs[i]);
+            img.setAttribute("class", "image");
+            imgdiv.appendChild(img);
+            let x = 2*(i%5-1)*20+Math.floor(Math.random()*20);
+            let y = 2*(i%2)*50+Math.floor(Math.random()*20)-20;
+            /*let x = Math.floor(Math.random()*200)-50;
+            let y = Math.floor(Math.random()*200);*/
+            let rot = Math.floor(Math.random()*180)-90;
+            imgdiv.setAttribute("style", "-webkit-transform: translate("+x+"%, "+y+"%) rotate("+rot+"deg);" +
+                "-ms-transform: translate("+x+"%, "+y+"%) rotate("+rot+"deg);" +
+                "transform: translate("+x+"%, "+y+"%) rotate("+rot+"deg);");
+            collage.appendChild(imgdiv);
         }
     </script>
 
