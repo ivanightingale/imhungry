@@ -19,10 +19,10 @@ Scenario: Recipe Page displays appropriate information
 Scenario: Recipe Page should be able to generate a printable version
 
 	When I search for "chicken" and expect 5 results
-	And press "search" button
+	And press "submit" button
 	And press a recipe
-	And press "printable version" button
-	Then I should see the "Recipe Printable Version" page
+	And press "printableversion" button
+	Then I should see the printable version page
 #7
 Scenario: clicking on "Return to Results Page" redirects to Results Page
 

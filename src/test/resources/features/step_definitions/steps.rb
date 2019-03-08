@@ -27,3 +27,7 @@ end
 Then(/^I should see an element "([^"]*)"$/) do |elementName|
     expect(page).to have_css('#' + elementName)
 end
+
+Then(/^I should see the printable version page$/) do
+    expect(page).to have_no_css('image')
+end
