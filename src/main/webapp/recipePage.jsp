@@ -31,21 +31,21 @@
         <form action = "resultPage.jsp">
             <div class = "backToResults">
                 <input type="hidden" id="queryStringInput" name="search" value="" />
-                <input type="hidden" id="numberResultsInput" name="number" value="" />
-                <input type="image" id = "backtoresults" name="profile" value= "OK" src= "resources/backToResults.png" />
+                <input type="hidden" id="numberResultsInput" name="number" value="cache" />
+                <input type="image" id = "backtoresults" name="profile" src= "resources/backToResults.png" />
             </div>
         </form>
     
 		<form action = "recipePagePrint.jsp">
             <div class = "printableVersion">
                 <input type="hidden" id="indexInput" name="i" value="">
-                <input type="image" id = "printableversion" name="profile" value= "OK" src= "resources/printableVersion.png" />
+                <input type="image" id = "printableversion" name="profile" src= "resources/printableVersion.png" />
             </div>
 		</form>
 
-        <form onsubmit = "addItem(document.getElementById('dropdown').value, result); return false;">
+        <form onsubmit = "addItem(document.getElementById('dropdown').value, result); document.getElementById('numberResultsInput').value = JSON.parse(localStorage.getItem('searchResults'))[0].length; return false;">
             <div class = "addToList">
-                <input type="image" id = "addtolist" name="profile" value= "OK" src= "resources/addToList.png" />
+                <input type="image" id = "addtolist" name="profile" src= "resources/addToList.png" />
             </div>
         </form>
 

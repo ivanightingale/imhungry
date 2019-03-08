@@ -26,7 +26,7 @@
         <form action = "resultPage.jsp">
             <div class = "backToResults">
                 <input type="hidden" id="queryStringInput" name="search" value="" />
-                <input type="hidden" id="numberResultsInput" name="number" value="" />
+                <input type="hidden" id="numberResultsInput" name="number" value="cache" />
                 <input type="image" id = "backtoresults" name="profile" src= "resources/backToResults.png" />
             </div>
         </form>
@@ -38,7 +38,7 @@
             </div>
         </form>
 
-        <form onsubmit = "addItem(document.getElementById('dropdown').value, result); return false;">
+        <form onsubmit = "addItem(document.getElementById('dropdown').value, result); document.getElementById('numberResultsInput').value = JSON.parse(localStorage.getItem('searchResults'))[0].length; return false;">
             <div class = "addToList">
                 <input type="image" id = "addtolist" name="profile" src= "resources/addToList.png" />
             </div>

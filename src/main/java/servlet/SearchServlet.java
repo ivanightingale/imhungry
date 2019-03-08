@@ -13,13 +13,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import info.Info;
+import info.Message;
 import info.RestaurantInfo;
 import info.RecipeInfo;
+import javafx.util.Pair;
+
 import java.net.*;
 import java.io.Reader.*;
 import java.util.ArrayList;
@@ -84,10 +88,9 @@ public class SearchServlet extends HttpServlet {
         }
 
         //get lists
-
-        //ArrayList<Info> restaurantList = restaurantSearch(userSearch, Integer.getInteger(numResults), doNotShowList, favoritesList);
         ArrayList<RecipeInfo> recipeList = recipeSearch(userSearch, numResults, doNotShowList, favoritesList);
         ArrayList<RestaurantInfo> restaurantList = restaurantSearch(userSearch, numResults, doNotShowList, favoritesList);
+        ArrayList<String> urlList = getImageURLs(userSearch);
 
         //return content
         if (!success){
@@ -96,11 +99,12 @@ public class SearchServlet extends HttpServlet {
 
         } else {
             //create success message
-            out.println("success!");
-
-            session.setAttribute("recipeList", recipeList);
-            session.setAttribute("restaurantList", restaurantList);
-            //session.setAttribute("collageURL", collageURL);
+            List<Info> castedRecipeList = (ArrayList<Info>)(Object)recipeList;
+            List<Info> castedRestaurantList = (ArrayList<Info>)(Object)restaurantList;
+            List<List<Info>> results = new ArrayList<>();
+            results.add(castedRestaurantList);
+            results.add(castedRecipeList);
+            out.println(new Gson().toJson(new Message("Success",new Pair<List<List<Info>>, List<String>>(results, urlList))));
         }
 
     }
@@ -167,13 +171,21 @@ public class SearchServlet extends HttpServlet {
 				recipe.ingredients.add("- " + ingredientsJSON.get(j).getAsJsonObject()
 						.get("name").getAsString());
 			}
-			
-			JsonArray instructionsJSON = recipeDetailJSON.get("analyzedInstructions").getAsJsonArray().get(0)
-					.getAsJsonObject().get("steps").getAsJsonArray();
-			for(int j = 0; j < instructionsJSON.size(); j++) {
-				recipe.instructions.add("" + (j + 1) + ". " + instructionsJSON.get(j).getAsJsonObject()
-						.get("step").getAsString());
-			}
+            JsonArray analyzedInstructions = recipeDetailJSON.get("analyzedInstructions").getAsJsonArray();
+            JsonArray instructionsJSON;
+			if(analyzedInstructions.size() > 0) {
+			    instructionsJSON = analyzedInstructions.get(0).getAsJsonObject().get("steps").getAsJsonArray();
+                for(int j = 0; j < instructionsJSON.size(); j++) {
+                    recipe.instructions.add("" + (j + 1) + ". " + instructionsJSON.get(j).getAsJsonObject()
+                            .get("step").getAsString());
+                }
+            }
+			else if (!recipeDetailJSON.get("instructions").toString().equals("null")){
+			    recipe.instructions.add(recipeDetailJSON.get("instructions").getAsString());
+            }
+            else {
+			    recipe.instructions.add("Instructions weren't found for this recipe, sorry!");
+            }
 			
 			recipe.imageURL = recipeDetailJSON.get("image").getAsString();
 			recipes.add(recipe);
