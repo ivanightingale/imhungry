@@ -34,7 +34,7 @@ end
 
 When(/^select the list "([^"]*)"$/) do |listName|
     find('.select-selected').click
-    first('div', :text => listName).click
+    all('div', :text => listName)[2].click
 end
 
 Then(/^I should see an info item$/) do
