@@ -222,6 +222,7 @@ public class SearchServlet extends HttpServlet {
 		//assuming the worst possible case (all items in Do Not Show List appear) to encapsulate sufficient
 		//amount of restaurant information from the response
 		for(int i = 0; i < numResults + doNotShowList.size(); i++) {
+			if(i >= places.size()) break;
 			JsonObject currentPlace = places.get(i).getAsJsonObject();
 			restaurants.add(new RestaurantInfo(currentPlace.get("name").getAsString(),
 					(int)currentPlace.get("rating").getAsDouble(), currentPlace.get("place_id").getAsString(),
@@ -275,12 +276,12 @@ public class SearchServlet extends HttpServlet {
 	public void getPhoneAndURL(ArrayList<RestaurantInfo> restaurants) {
 		for(RestaurantInfo restaurant : restaurants) {
 			String detailURL = GOOGLE_MAPS_API_PREFIX + "/place/details/json?placeid="
-					+ restaurant.placeID + "&fields=formatted_phone_number,url&key=" + MAPS_API_KEY;
+					+ restaurant.placeID + "&fields=formatted_phone_number,website&key=" + MAPS_API_KEY;
 			//extract main body of the JSON response
 			JsonObject detailsJSON = new JsonParser().parse(getJSONResponse(detailURL)).getAsJsonObject().get("result").getAsJsonObject();
 			//modify each RestaurantInfo objects, store phone number and URL
 			restaurant.phone = detailsJSON.get("formatted_phone_number").getAsString();
-			restaurant.url = detailsJSON.get("url").getAsString();
+			restaurant.url = detailsJSON.get("website").getAsString();
 		}
 	}
 
