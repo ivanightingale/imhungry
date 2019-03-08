@@ -6,20 +6,14 @@ Background:
 
 #1
 #2
-Scenario: Results page displays reasonable title
-
-	When I search for "chicken" and expect 5 results
-	And press "search" button
-	Then the title of Results Page should be "Results for chicken"
-
 #3
 #4
 Scenario: clicking "Manage List" button redirects to List Management Page
 
 	When I search for "chicken" and expect 5 results
-	And press "search" button
-	And select the list "Favorites List"
-	And press "manage list" button
+	And press "submit" button
+	And select the list "Favorites"
+	And press "manage_list" button
 	Then I should see the "List Management" page
 
 #5, 5a
@@ -27,7 +21,7 @@ Scenario: clicking "Manage List" button redirects to List Management Page
 Scenario: Results page displays appropriate restaurant information
 
 	When I search for "chicken" and expect 5 results
-	And press "search" button
+	And press "submit" button
 	Then I should see an element "restaurant name"
 	And I should see an element "restaurant address"
 	And I should see an element "restaurant rating"
@@ -37,7 +31,7 @@ Scenario: Results page displays appropriate restaurant information
 Scenario: clicking on a restaurant redirects to Restaurant Page
 
 	When I search for "chicken" and expect 5 results
-	And press "search" button
+	And press "submit" button
 	And press a restaurant
 	Then I should see the "Restaurant" page
 
@@ -46,7 +40,7 @@ Scenario: clicking on a restaurant redirects to Restaurant Page
 Scenario: Results page displays appropriate recipe information
 
 	When I search for "chicken" and expect 5 results
-	And press "search" button
+	And press "submit" button
 	Then I should see an element "recipe name"
 	And I should see an element "recipe rating"
 	And I should see an element "recipe prep time"
@@ -55,7 +49,7 @@ Scenario: Results page displays appropriate recipe information
 Scenario: clicking on a recipe redirects to Recipe Page
 
 	When I search for "chicken" and expect 5 results
-	And press "search" button
+	And press "submit" button
 	And press a recipe
 	Then I should see the "Recipe" page
 
