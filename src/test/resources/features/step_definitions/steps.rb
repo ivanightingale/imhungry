@@ -17,7 +17,7 @@ When(/^press "([^"]*)" button$/) do |buttonName|
 end
 
 When(/^press a recipe$/) do
-    click_on('Rec_item0')
+    find('Rec_item0').click
 end
 
 Then(/^I should see the "([^"]*)" page$/) do |pageTitle|
@@ -25,5 +25,5 @@ Then(/^I should see the "([^"]*)" page$/) do |pageTitle|
 end
 
 Then(/^I should see an element "([^"]*)"$/) do |elementName|
-    expect_page.to have_css("#" + elementName)
+    expect_page.to have_css('#' + elementName)
 end
