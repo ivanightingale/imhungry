@@ -34,7 +34,7 @@ end
 
 When(/^select the list "([^"]*)"$/) do |listName|
     find('.select-selected').click
-    find('option', :text => listName).click
+    first(:text, listName).click
 end
 
 Then(/^I should see an info item$/) do
