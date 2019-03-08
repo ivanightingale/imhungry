@@ -40,6 +40,6 @@ Scenario: recipe can be added to a predefined list
 	And select the list "Favorites List"
 	And press "add to list" button
 	And press "return to results page" button
-	And select the list "Favorites List"
+	And select the list "Favorites"
 	And press "manage list" button
 	Then I should see an info item

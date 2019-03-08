@@ -31,3 +31,8 @@ end
 Then(/^I should see the printable version page$/) do
     expect(page).to have_no_css('image')
 end
+
+When(/^select the list "([^"]*)"$/) do |listName|
+    find('.select-selected').click
+    find('div', :text => listName).click
+end
