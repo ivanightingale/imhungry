@@ -68,14 +68,17 @@ public class SearchServlet extends HttpServlet {
 
 		}else{
 			//create success message
+		
 			String recListJson = new Gson().toJson(recipeList);
 			String restListJson = new Gson().toJson(restaurantList);
 			
 			out.println("{ \"head\": \"Success\",");
-			out.println("\"body\": { " + recListJson + "," + restListJson +","+ collageURL+"}");
+			out.println("\"body\": [{ " + recListJson + "," + restListJson +","+ collageURL+"}]");
 			out.println( "}");	
 			
-			
+			session.setAttribute("recipeList", recipeList);
+            session.setAttribute("restaurantList", restaurantList);
+            //session.setAttribute("collageURL", collageURL);
 		
 		}
 	
