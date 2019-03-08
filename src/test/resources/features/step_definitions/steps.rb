@@ -8,7 +8,7 @@ end
 
 
 Given(/^I visit the website$/) do
-  visit "localhost:8080"
+  visit "localhost:9090"
 end
 
 When(/^press "([^"]*)" button$/) do |buttonName|
