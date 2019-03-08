@@ -10,9 +10,9 @@ Scenario: Restaurant Page displays appropriate information
 	And press "submit" button
 	And press a restaurant
 	Then I should see an element "title"
-	And I should see an element "address"
-	And I should see an element "telephone"
-	And I should see an element "website"
+	And I should see an element "address1"
+	And I should see an element "tel1"
+	And I should see an element "website1"
 #1a
 Scenario: clicking on the address redirects to Google Maps directions page
 
