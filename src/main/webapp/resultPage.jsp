@@ -12,7 +12,7 @@
 	<div id = "collage"></div>
 	
 	<form action="listPage.jsp">
-        <div class="dropDown" style="width:200px;">
+        <div class="dropDown">
             <select id = "dropdown" name="list">
                 <option value="invalid">&nbsp</option>
                 <option value="Favorites">Favorites</option>
@@ -78,7 +78,7 @@
 
             let sec3 = document.createElement("div");
             sec3.setAttribute("class", "Res_section3");
-            sec3.innerHTML = results[0][i].driveTimeText;
+            sec3.innerHTML = results[0][i].driveTimeText + " away";
 
             let sec4 = document.createElement("div");
             sec4.setAttribute("class", "Res_section4");
@@ -121,11 +121,11 @@
 
             let sec3 = document.createElement("div");
             sec3.setAttribute("class", "Rec_section3");
-            sec3.innerHTML = results[1][i].prepTime + " min";
+            sec3.innerHTML = results[1][i].prepTime + " min prep time";
 
             let sec4 = document.createElement("div");
             sec4.setAttribute("class", "Rec_section4");
-            sec4.innerHTML = results[1][i].cookTime + " min";
+            sec4.innerHTML = results[1][i].cookTime + " min cook time";
 
             let res = document.createElement("div");
             res.setAttribute("class","item");
@@ -154,7 +154,7 @@
             let y = 2*(i%2)*50+Math.floor(Math.random()*20)-20;
             /*let x = Math.floor(Math.random()*200)-50;
             let y = Math.floor(Math.random()*200);*/
-            let rot = Math.floor(Math.random()*180)-90;
+            let rot = Math.floor(Math.random()*90)-45;
             imgdiv.setAttribute("style", "-webkit-transform: translate("+x+"%, "+y+"%) rotate("+rot+"deg);" +
                 "-ms-transform: translate("+x+"%, "+y+"%) rotate("+rot+"deg);" +
                 "transform: translate("+x+"%, "+y+"%) rotate("+rot+"deg);");
