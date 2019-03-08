@@ -51,5 +51,7 @@ Scenario: clicking on a recipe redirects to Recipe Page
 #8
 Scenario: clicking on "Return to Search Page" redirects to Search Page
 
-	When press "Back to Search" button
+	When I search for "chicken" and expect 5 results
+	And press "submit" button
+	And press "Back to Search" button
 	Then I should see the "Search" page
