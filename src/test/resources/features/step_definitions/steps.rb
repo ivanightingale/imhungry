@@ -24,6 +24,10 @@ When(/^press a restaurant$/) do
     find('#Res_item0').click
 end
 
+When(/^press an info item$/) do
+    find('#item0').click
+end
+
 When(/^press the "([^"]*)"$/) do |elementName|
     find('#' + elementName).click
 end
@@ -47,4 +51,8 @@ end
 
 Then(/^I should see an info item$/) do
     expect(page).to have_css('#item0')
+end
+
+Then(/^I should see the page of To Explore List$/) do
+    expect(page).to have_content('To Explore List')
 end
