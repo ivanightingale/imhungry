@@ -17,7 +17,7 @@ When(/^press "([^"]*)" button$/) do |buttonName|
 end
 
 When(/^press a recipe$/) do
-    find('Rec_item0').click
+    find('#Rec_item0').click
 end
 
 Then(/^I should see the "([^"]*)" page$/) do |pageTitle|
