@@ -118,8 +118,6 @@ public class SearchServlet extends HttpServlet {
 			HttpURLConnection con = (HttpURLConnection) requestURL.openConnection();
 			//HTTP header for authorization of Spoonacular recipe API
 			con.setRequestProperty("X-RapidAPI-Key", SPOONACULAR_RAPID_API_KEY);
-			int responseCode = con.getResponseCode();
-			System.out.println("Response Code: " + responseCode);
 			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 			String inputLine;
 			StringBuffer response = new StringBuffer();
