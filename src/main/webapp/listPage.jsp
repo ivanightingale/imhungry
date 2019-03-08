@@ -160,7 +160,11 @@
                     let res = document.createElement("div");
                     res.setAttribute("class", "item");
                     res.setAttribute("id", "item" + i);
-                    res.setAttribute("onclick", "setStoredItem(" + i + ");window.location='restaurantPage.jsp?i=-1';");
+                    //decided which page to link to
+                    if (list[i].hasOwnProperty("placeID"))
+                    	res.setAttribute("onclick", "setStoredItem(" + i + ");window.location='restaurantPage.jsp?i=-1';");
+                    else
+                    	res.setAttribute("onclick", "setStoredItem(" + i + ");window.location='recipePage.jsp?i=-1';");
                     res.setAttribute("style", "cursor:pointer;");
                     res.appendChild(sec1);
                     res.appendChild(sec2);
