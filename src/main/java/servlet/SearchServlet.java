@@ -13,6 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.ivan.apipg.info.Info;
+import org.ivan.apipg.info.RecipeInfo;
+import org.ivan.apipg.info.RestaurantInfo;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -127,7 +131,7 @@ public class SearchServlet extends HttpServlet {
 		} catch(Exception e) {}
 		return null;
 	}
-
+	
 	//Given a String query and number of results expected, return an ArrayList of RecipeInfo. The function
 	//uses 2 Spoonacular's recipe APIs and refer to Do Not Show List and Favorites List.
 	public ArrayList<RecipeInfo> recipeSearch(String query, int numResults, List<Info> doNotShowList, List<Info> favoritesList){
@@ -135,7 +139,7 @@ public class SearchServlet extends HttpServlet {
 		//assuming the worst possible case (all items in Do Not Show List appear in result) to query sufficient
 		//amount of recipe information
 		String recipeSearchURL = SPOONACULAR_RECIPE_API_PREFIX + "/search?number="
-				+ (numResults + doNotShowList.size()) + "&query=" + query;
+				+ (numResults + doNotShowList.size()) + "&query=" + query.replaceAll("\\s+","%20");
 		//extract relevant part of the JSON response
 		JsonArray recipesJSON = new JsonParser().parse(getJSONResponse(recipeSearchURL)).getAsJsonObject()
 				.get("results").getAsJsonArray();
@@ -167,21 +171,13 @@ public class SearchServlet extends HttpServlet {
 				recipe.ingredients.add("- " + ingredientsJSON.get(j).getAsJsonObject()
 						.get("name").getAsString());
 			}
-            JsonArray analyzedInstructions = recipeDetailJSON.get("analyzedInstructions").getAsJsonArray();
-            JsonArray instructionsJSON;
-			if(analyzedInstructions.size() > 0) {
-			    instructionsJSON = analyzedInstructions.get(0).getAsJsonObject().get("steps").getAsJsonArray();
-                for(int j = 0; j < instructionsJSON.size(); j++) {
-                    recipe.instructions.add("" + (j + 1) + ". " + instructionsJSON.get(j).getAsJsonObject()
-                            .get("step").getAsString());
-                }
-            }
-			else if (!recipeDetailJSON.get("instructions").toString().equals("null")){
-			    recipe.instructions.add(recipeDetailJSON.get("instructions").getAsString());
-            }
-            else {
-			    recipe.instructions.add("Instructions weren't found for this recipe, sorry!");
-            }
+			
+			JsonArray instructionsJSON = recipeDetailJSON.get("analyzedInstructions").getAsJsonArray().get(0)
+					.getAsJsonObject().get("steps").getAsJsonArray();
+			for(int j = 0; j < instructionsJSON.size(); j++) {
+				recipe.instructions.add("" + (j + 1) + ". " + instructionsJSON.get(j).getAsJsonObject()
+						.get("step").getAsString());
+			}
 			
 			recipe.imageURL = recipeDetailJSON.get("image").getAsString();
 			recipes.add(recipe);
@@ -203,38 +199,47 @@ public class SearchServlet extends HttpServlet {
 		}
 		return recipes;
 	}
-
-
+	
+	
 	//Given a String query and number of results expected, return an ArrayList of RestaurantInfo. The function
 	//uses several Google Maps APIs and refer to Do Not Show List and Favorites List.
 	public ArrayList<RestaurantInfo> restaurantSearch(String query, int numResults, List<Info> doNotShowList, List<Info> favoritesList) {
 		ArrayList<RestaurantInfo> restaurants = new ArrayList<RestaurantInfo>();
 		String searchURL = GOOGLE_MAPS_API_PREFIX + "/place/nearbysearch/json?location=" + TOMMY_TROJAN_LOC
-				+"&rankby=distance&type=restaurant&keyword=" + query + "&key=" + MAPS_API_KEY;
+				+"&rankby=distance&type=restaurant&keyword=" + query.replaceAll("\\s+","%20") + "&key=" + MAPS_API_KEY;
 		//extract relevant part of the JSON response
 		JsonArray places = new JsonParser().parse(getJSONResponse(searchURL)).getAsJsonObject()
 				.get("results").getAsJsonArray();
-
+		
+		
 		//assuming the worst possible case (all items in Do Not Show List appear) to encapsulate sufficient
 		//amount of restaurant information from the response
 		for(int i = 0; i < numResults + doNotShowList.size(); i++) {
 			if(i >= places.size()) break;
 			JsonObject currentPlace = places.get(i).getAsJsonObject();
+			int priceLevel = 0;
+			try {
+				priceLevel = currentPlace.get("price_level").getAsInt();
+			} catch(Exception e) {}
 			restaurants.add(new RestaurantInfo(currentPlace.get("name").getAsString(),
 					(int)currentPlace.get("rating").getAsDouble(), currentPlace.get("place_id").getAsString(),
-					currentPlace.get("vicinity").getAsString(), currentPlace.get("price_level").getAsInt(), "", 0, "", ""));
+					currentPlace.get("vicinity").getAsString(), priceLevel, "", 0, "No phone number available", "No website available"));
 		}
-
+		
 		//remove all items in Do Not Show List that appear in the result
 		for(Info doNotShowInfo : doNotShowList) {
 			restaurants.remove(doNotShowInfo);
 		}
-
+		//remove extra items
+		while(restaurants.size() > numResults) {
+			restaurants.remove(restaurants.size() - 1);
+		}
+		
 		getDriveTimes(restaurants);
 		getPhoneAndURL(restaurants);
-
+		
 		Collections.sort(restaurants);  //sort RestaurantInfo in ascending order based on drive time
-
+		
 		//move restaurants in Favorites List to the top
 		for(int i = restaurants.size() - 1; i > 0; i--) {
 			if(favoritesList.contains(restaurants.get(i))) {
@@ -243,9 +248,10 @@ public class SearchServlet extends HttpServlet {
 				restaurants.remove(i);
 			}
 		}
+		
     	return restaurants;
 	}
-
+	
 	//Create a request using place_id of all RestaurantInfo and send one request to obtain all drive times.
 	public void getDriveTimes(ArrayList<RestaurantInfo> restaurants) {
 		String driveTimeURL = GOOGLE_MAPS_API_PREFIX + "/distancematrix/json?units=imperial&origins="
@@ -267,7 +273,7 @@ public class SearchServlet extends HttpServlet {
 			restaurants.get(i).driveTimeValue = durationJSON.get("value").getAsInt();
 		}
 	}
-
+	
 	//A separate request is needed to get detailed information including phone and URL.
 	public void getPhoneAndURL(ArrayList<RestaurantInfo> restaurants) {
 		for(RestaurantInfo restaurant : restaurants) {
@@ -276,18 +282,21 @@ public class SearchServlet extends HttpServlet {
 			//extract main body of the JSON response
 			JsonObject detailsJSON = new JsonParser().parse(getJSONResponse(detailURL)).getAsJsonObject().get("result").getAsJsonObject();
 			//modify each RestaurantInfo objects, store phone number and URL
-			restaurant.phone = detailsJSON.get("formatted_phone_number").getAsString();
-			restaurant.url = detailsJSON.get("website").getAsString();
+			try {
+				restaurant.phone = detailsJSON.get("formatted_phone_number").getAsString();
+				restaurant.url = detailsJSON.get("website").getAsString();
+			} catch(Exception e) {}
 		}
 	}
-
+	
 	//Given a String query, return an ArrayList of String storing URLs for images to present in the collage. The
 	//function uses Google Custom Search API. The search engine is configured to search for images.
 	public ArrayList<String> getImageURLs(String query){
 		ArrayList<String> images = new ArrayList<String>();
 		
 		String imageSearchURL = "https://www.googleapis.com/customsearch/v1?key=" + GOOGLE_CX_API_KEY
-				+ "&num=" + IMAGE_COLLAGE_NUM + "&cx=" + GOOGLE_CX_ENGINE + "&q=" + query + "%20food&alt=json&searchType=image";
+				+ "&num=" + IMAGE_COLLAGE_NUM + "&cx=" + GOOGLE_CX_ENGINE + "&q=" + query.replaceAll("\\s+","%20")
+				+ "%20food&alt=json&searchType=image";
 		//extract relevant of the JSON response
 		JsonArray imagesJSON = new JsonParser().parse(getJSONResponse(imageSearchURL)).getAsJsonObject()
 				.get("items").getAsJsonArray();
