@@ -38,6 +38,7 @@
             </div>
         </form>
 
+        <!-- Fairly complicated onclick to add the item, because it not only calls the ListClient function, it updates the back to results button to force the results page to search on the Servlet again -->
         <form onsubmit = "addItem(document.getElementById('dropdown').value, result); document.getElementById('numberResultsInput').value = JSON.parse(localStorage.getItem('searchResults'))[0].length; return false;">
             <div class = "addToList">
                 <button type="submit" id = "addtolist">Add to List</button>

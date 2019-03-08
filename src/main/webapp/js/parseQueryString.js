@@ -1,3 +1,4 @@
+//Quick function to parse the query string of a URL into an object
 function parseQuery(queryString) {
     var query = {};
     var pairs = (queryString[0] === '?' ? queryString.substr(1) : queryString).split('&');
