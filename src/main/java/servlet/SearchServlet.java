@@ -312,8 +312,8 @@ public class SearchServlet extends HttpServlet {
 		ArrayList<String> images = new ArrayList<String>();
 		
 		String imageSearchURL = "https://www.googleapis.com/customsearch/v1?key=" + GOOGLE_CX_API_KEY
-				+ "&num=" + IMAGE_COLLAGE_NUM + "&cx=" + GOOGLE_CX_ENGINE + "&q=" + query.replaceAll("\\s+","%20")
-				+ "%20food&alt=json&searchType=image";
+				+ "&num=" + IMAGE_COLLAGE_NUM + "&cx=" + GOOGLE_CX_ENGINE + "&q=food%20" + query.replaceAll("\\s+","%20")
+				+ "&alt=json&searchType=image";
 		//extract relevant of the JSON response
 		JsonArray imagesJSON = new JsonParser().parse(getJSONResponse(imageSearchURL)).getAsJsonObject()
 				.get("items").getAsJsonArray();
