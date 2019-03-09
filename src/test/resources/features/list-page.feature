@@ -58,6 +58,7 @@ Scenario: clicking on a recipe item redirects to the recipe page
 
 #3
 Scenario: an item can be removed from a list
+	
 	When I search for "chicken" and expect 5 results
 	And press "submit" button
 	And press a recipe
