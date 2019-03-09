@@ -54,7 +54,7 @@ Then(/^I should see  "([^"]*)" results$/) do |numResults|
 end
 
 Then(/^I should see "([^"]*)" on the top of recipes$/) do |recipeName|
-    expect(page).to have_css('#Rec_item0.Rec_section1', text: 'recipeName')
+    expect(page).to have_css('#Rec_item0.Rec_section1', text: recipeName)
 end
 
 Then(/^I should not see recipe "([^"]*)"$/) do |recipeName|
