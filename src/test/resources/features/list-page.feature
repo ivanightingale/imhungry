@@ -30,11 +30,11 @@ Scenario: restaurant items added to a list should be displayed like on Results P
 	Then I should see an info item
 
 #2
-Scenario: clicking on an info item redirects to the restaurant or recipe page
+Scenario: clicking on a restaurant item redirects to the restaurant page
 
 	When I search for "chicken" and expect 5 results
 	And press "submit" button
-	And press a recipe
+	And press a restaurant
 	And select the list "Favorites"
 	And press "addtolist" button
 	And press "backtoresults" button
@@ -42,6 +42,19 @@ Scenario: clicking on an info item redirects to the restaurant or recipe page
 	And press "manage_list" button
 	And press an info item
 	Then I should see the "Restaurant" page
+
+Scenario: clicking on a recipe item redirects to the recipe page
+
+		When I search for "chicken" and expect 5 results
+		And press "submit" button
+		And press a recipe
+		And select the list "Favorites"
+		And press "addtolist" button
+		And press "backtoresults" button
+		And select the list "Favorites"
+		And press "manage_list" button
+		And press an info item
+		Then I should see the "Recipe" page
 
 #3
 Scenario: an item can be removed from a list

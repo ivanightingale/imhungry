@@ -32,7 +32,7 @@
 			<div class = "sub_header">Restaurants</div>
 		</div>
 		<div id = "column2">
-			<div class = "sub_header">Recipe</div>
+			<div class = "sub_header">Recipes</div>
 		</div>
 	</div>
 
