@@ -22,10 +22,15 @@ public class TestPasswordHashing {
     }
 
     @Test
+    public void testGenerateSalt(){
+
+    }
+
+    @Test
     public void testStoreHashedPassword(){
         // shows that we aren't storing the plaintext password
         String password = "123456";
-        String hash = PasswordHashing.hashPassword(password);
+        String hash = PasswordHashing.hashPassword(password));
         // password and hash should not be same (don't store user passwords)
         assertNotSame(password, hash);
     }
