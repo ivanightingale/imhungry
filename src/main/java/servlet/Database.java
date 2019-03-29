@@ -18,7 +18,7 @@ public class Database
         try
         {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306","root", "root");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306","root", "root1234!");
         }
         catch (SQLException sqle) {
             System.out.println ("SQLException: " + sqle.getMessage());
