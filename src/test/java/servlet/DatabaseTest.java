@@ -20,9 +20,6 @@ public class DatabaseTest
         Field connField = db.getClass().getDeclaredField("conn");
         connField.setAccessible(true);
         assertNotNull(connField.get(db));
-        Field stField = db.getClass().getDeclaredField("st");
-        stField.setAccessible(true);
-        assertNotNull(stField.get(db));
     }
 
     @Test

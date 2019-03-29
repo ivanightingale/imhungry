@@ -1,13 +1,32 @@
 package servlet;
 
-import java.sql.Connection;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class Database
 {
     private Connection conn;
     private Statement st;
+    private PreparedStatement ps;
+    private ResultSet rs;
+
+    public Database() {
+        conn = null;
+        ps = null;
+        rs = null;
+
+        try
+        {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306","root", "root");
+        }
+        catch (SQLException sqle) {
+            System.out.println ("SQLException: " + sqle.getMessage());
+        }
+        catch (ClassNotFoundException cnfe) {
+            System.out.println ("ClassNotFoundException: " + cnfe.getMessage());
+        }
+    }
 
     public Boolean checkUser(String username) {
         return false;
