@@ -3,6 +3,7 @@ package servlet;
 import static org.junit.Assert.*;
 
 import com.google.gson.Gson;
+import info.Info;
 import info.RecipeInfo;
 import org.junit.Test;
 
@@ -60,13 +61,11 @@ public class DatabaseTest
     //retrieve lists
     public void getListsTest() {
         Database db = new Database();
-        Gson gson = new Gson();
         RecipeInfo info = new RecipeInfo("testrecipe", 5, 12345, 10, 10, new ArrayList<>(Arrays.asList("1. ingredient", "2. ingredient")), new ArrayList<>(Arrays.asList("1. step", "2. step")), "url");
-        String infoString = gson.toJson(info);
-        ArrayList<String> list = new ArrayList<>(Collections.singletonList(infoString));
-        assertEquals(list, db.getLists("testuser", "Favorites"));
-        assertEquals(list, db.getLists("testuser", "To Explore"));
-        assertEquals(list, db.getLists("testuser", "Do Not Show"));
+        ArrayList<Info> list = new ArrayList<>(Collections.singletonList(info));
+        assertEquals(list, db.getLists(1, "Favorites"));
+        assertEquals(list, db.getLists(1, "To Explore"));
+        assertEquals(list, db.getLists(1, "Do Not Show"));
     }
 
     @Test
@@ -75,11 +74,10 @@ public class DatabaseTest
         Database db = new Database();
         Gson gson = new Gson();
         RecipeInfo info = new RecipeInfo("testrecipe", 5, 12345, 10, 10, new ArrayList<>(Arrays.asList("1. ingredient", "2. ingredient")), new ArrayList<>(Arrays.asList("1. step", "2. step")), "url");
-        String infoString = gson.toJson(info);
-        ArrayList<String> list = new ArrayList<>(Collections.singletonList(infoString));
-        Boolean favUpdate = db.updateLists("testuser", "Favorites", list);
-        Boolean expUpdate = db.updateLists("testuser", "To Explore", list);
-        Boolean dnsUpdate = db.updateLists("testuser", "Do Not Show", list);
+        ArrayList<Info> list = new ArrayList<>(Collections.singletonList(info));
+        Boolean favUpdate = db.updateLists(1, "Favorites", list);
+        Boolean expUpdate = db.updateLists(1, "To Explore", list);
+        Boolean dnsUpdate = db.updateLists(1, "Do Not Show", list);
         assertTrue(favUpdate && expUpdate && dnsUpdate);
         getListsTest();
     }
