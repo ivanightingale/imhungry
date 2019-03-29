@@ -29,11 +29,16 @@ public class Database
     }
 
     public Boolean checkUser(String username) {
+
         return false;
     }
 
     public String[] getPasswordInfo(String username) {
         return new String[]{"",""};
+    }
+
+    public int getUserID(String username) {
+        return -1;
     }
 
     public Boolean createUser(String username, String passwordHash, String salt) {

@@ -40,6 +40,13 @@ public class DatabaseTest
     }
 
     @Test
+    //retrieve userID
+    public void getUserIDTest() {
+        Database db = new Database();
+        assertEquals(1, db.getUserID("testuser"));
+    }
+
+    @Test
     //user creation
     public void createUserTest() {
         Database db = new Database();
