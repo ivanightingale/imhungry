@@ -61,7 +61,7 @@ public class DatabaseTest
     //retrieve lists
     public void getListsTest() {
         Database db = new Database();
-        RecipeInfo info = new RecipeInfo("testrecipe", 5, 12345, 10, 10, new ArrayList<>(Arrays.asList("1. ingredient", "2. ingredient")), new ArrayList<>(Arrays.asList("1. step", "2. step")), "url");
+        RecipeInfo info = new RecipeInfo("testrecipe", 5, 12345, 10, 10, new ArrayList<>(Arrays.asList("1. ingredient", "2. ingredient")), new ArrayList<>(Arrays.asList("1. step", "2. step")), "url", 1);
         ArrayList<Info> list = new ArrayList<>(Collections.singletonList(info));
         assertEquals(list, db.getLists(1, "Favorites"));
         assertEquals(list, db.getLists(1, "To Explore"));
@@ -73,12 +73,15 @@ public class DatabaseTest
     public void updateListsTest() {
         Database db = new Database();
         Gson gson = new Gson();
-        RecipeInfo info = new RecipeInfo("testrecipe", 5, 12345, 10, 10, new ArrayList<>(Arrays.asList("1. ingredient", "2. ingredient")), new ArrayList<>(Arrays.asList("1. step", "2. step")), "url");
-        ArrayList<Info> list = new ArrayList<>(Collections.singletonList(info));
-        Boolean favUpdate = db.updateLists(1, "Favorites", list);
-        Boolean expUpdate = db.updateLists(1, "To Explore", list);
-        Boolean dnsUpdate = db.updateLists(1, "Do Not Show", list);
-        assertTrue(favUpdate && expUpdate && dnsUpdate);
+        RecipeInfo info = new RecipeInfo("testrecipe", 5, 12345, 10, 10, new ArrayList<>(Arrays.asList("1. ingredient", "2. ingredient")), new ArrayList<>(Arrays.asList("1. step", "2. step")), "url",1);
+        //ArrayList<Info> list = new ArrayList<>(Collections.singletonList(info));
+        Boolean favUpdate = db.updateLists(1, false,"Favorites",  info);
+        Boolean expUpdate = db.updateLists(1, false,"To Explore", info);
+        Boolean dnsUpdate = db.updateLists(1, false,"Do Not Show", info);
+        Boolean favUpdate2 = db.updateLists(1, true,"Favorites",  info);
+        Boolean expUpdate2 = db.updateLists(1, true,"To Explore", info);
+        Boolean dnsUpdate2 = db.updateLists(1, true,"Do Not Show", info);
+        assertTrue(favUpdate && expUpdate && dnsUpdate && favUpdate2 && expUpdate2 && dnsUpdate2);
         getListsTest();
     }
 }

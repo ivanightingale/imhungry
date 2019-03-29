@@ -10,9 +10,9 @@ public class RecipeInfo extends Info implements Comparable<RecipeInfo> {
 	public ArrayList<String> ingredients;
 	public ArrayList<String> instructions;
 	public String imageURL;
-	
+
 	public RecipeInfo(String name, int rating, int recipeID, int prepTime, int cookTime,
-			ArrayList<String> ingredients, ArrayList<String> instructions, String imageURL) {
+					  ArrayList<String> ingredients, ArrayList<String> instructions, String imageURL) {
 		this.name = name;
 		this.rating = rating;
 		this.recipeID = recipeID;
@@ -21,6 +21,18 @@ public class RecipeInfo extends Info implements Comparable<RecipeInfo> {
 		this.ingredients = ingredients;
 		this.instructions = instructions;
 		this.imageURL = imageURL;
+	}
+	public RecipeInfo(String name, int rating, int recipeID, int prepTime, int cookTime,
+			ArrayList<String> ingredients, ArrayList<String> instructions, String imageURL, int dbid) {
+		this.name = name;
+		this.rating = rating;
+		this.recipeID = recipeID;
+		this.prepTime = prepTime;
+		this.cookTime = cookTime;
+		this.ingredients = ingredients;
+		this.instructions = instructions;
+		this.imageURL = imageURL;
+		this.dbid = dbid;
 	}
 	
 	//used for sorting in ascending order based on prepTime.
