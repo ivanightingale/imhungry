@@ -36,7 +36,7 @@ public class DatabaseTest
         String[] pwInfo = db.getPasswordInfo("testuser");
         assertEquals(2, pwInfo.length);
         assertEquals("abcdefgh", pwInfo[0]);
-        assertEquals("hashvalue", pwInfo[1]); //TODO: Find hashed password for test user
+        assertEquals("hashvalue", pwInfo[1]);
     }
 
     @Test
