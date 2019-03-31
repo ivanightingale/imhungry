@@ -111,6 +111,22 @@ public class Database
         return false;
     }
 
+    public Boolean moveList(int userID, Info i, String newList, String prevList){
+        //if on the old list then remove it
+        updateLists(userID, false, prevList, i);
+        updateLists(userID, true, newList, i);
+        ArrayList<Info> listshouldbein = getLists(userID, newList);
+        if(!listshouldbein.contains(i)){
+            return false;
+        }
+        ArrayList<Info> listshouldnotbein = getLists(userID, prevList);
+        if(listshouldnotbein.contains(i)){
+            return false;
+        }
+        return true;
+
+    }
+
     public ArrayList<Info> getLists(int userID, String listname) {
         ArrayList<Info> pList = new ArrayList<Info>();
         try {
@@ -405,6 +421,8 @@ public class Database
         return false;
 
     }
+
+
 
     public Boolean updateLists(int userID, Boolean add, String listname, Info i) {
         Boolean isRecipe = i.getClass().equals(RecipeInfo.class);
