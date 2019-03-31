@@ -124,7 +124,7 @@ public class Database
             if (add) {
                 Boolean isRecipe = i.getClass().equals(RecipeInfo.class);
                 if (isRecipe) {
-                    ps = conn.prepareStatement("SELECT r.recipeIDapi, r.rid FROM Recipe r WHERE r.recipeIDapi = ?");
+                    ps = conn.prepareStatement("SELECT r.recipeIDapi, r.recipID FROM Recipe r WHERE r.recipeIDapi = ?");
                     ps.setInt(1, ((RecipeInfo) i).recipeID);
                     rs = ps.executeQuery();
                     if (!rs.next()) {
@@ -141,12 +141,12 @@ public class Database
                         ps.setInt(7, i.rating);
                         ps.setString(8, i.name);
                         ps.executeUpdate();
-                        ps = conn.prepareStatement("SELECT r.recipeIDapi, r.rid FROM Recipe r WHERE r.recipeIDapi = ?");
+                        ps = conn.prepareStatement("SELECT r.recipeIDapi, r.recipID FROM Recipe r WHERE r.recipeIDapi = ?");
                         ps.setInt(1, ((RecipeInfo) i).recipeID);
                         rs = ps.executeQuery();
                         rs.next();
                     }
-                    int dbids = rs.getInt("rID");
+                    int dbids = rs.getInt("recipID");
                     if (listname.equals("Favorites")) {
                         ps = conn.prepareStatement("INSERT INTO RecipeFavorites(rID, userid) VALUES(?,?)");
                     }
@@ -158,25 +158,50 @@ public class Database
                     }
                     ps.setInt(1, dbids);
                     ps.setInt(2, userID);
-                    rs = ps.executeQuery();
+                    ps.executeUpdate();
 
-
-                    } else {
-
-                    }
 
                 } else {
-
+                    ps = conn.prepareStatement("SELECT r.placeID, r.restaurantID FROM Restaurant r WHERE r.placeID = ?");
+                    ps.setString(1, ((RestaurantInfo) i).placeID);
+                    rs = ps.executeQuery();
+                    if (!rs.next()) {
+                        ps = conn.prepareStatement("INSERT INTO Restaurant(name, rating, placeID, address, priceLevel, driveTimeT, driveTimeV, phone) VALUES(?,?,?,?,?,?,?,?)");
+                        ps.setString(1, ((RestaurantInfo) i).name);
+                        ps.setString(2, ((RestaurantInfo)i).address);
+                        ps.setString(3, ((RestaurantInfo)i).priceLevel);
+                        ps.setString(4, ((RestaurantInfo) i).driveTimeText);
+                        ps.setString(5, ((RestaurantInfo)i).phone);
+                        ps.setString(6, ((RestaurantInfo) i).url);
+                        ps.setInt(7, i.rating);
+                        ps.setString(8, ((RestaurantInfo) i).placeID);
+                        ps.executeUpdate();
+                        ps = conn.prepareStatement("SELECT r.placeID, r.restaurantID FROM Restaurant r WHERE r.placeID = ?");
+                        ps.setString(1, ((RestaurantInfo) i).placeID);
+                        rs = ps.executeQuery();
+                        rs.next();
+                    }
+                    int dbids = rs.getInt("restaurantID");
+                    if (listname.equals("Favorites")) {
+                        ps = conn.prepareStatement("INSERT INTO RestFavorites(rID, userid) VALUES(?,?)");
+                    }
+                    else if (listname.equals("Do Not Show")) {
+                        ps = conn.prepareStatement("INSERT INTO Restdonotshow(rID, userid) VALUES(?,?)");
+                    }
+                    else if (listname.equals("To Explore")) {
+                        ps = conn.prepareStatement("INSERT INTO RestToExplore(rID, userid) VALUES(?,?)");
+                    }
+                    ps.setInt(1, dbids);
+                    ps.setInt(2, userID);
+                    rs = ps.executeQuery();
                 }
+                return true;
+            }else {
+
+            }
 
 
-            //Boolean isRecipe = i.getClass().equals(RecipeInfo.class);
-            ArrayList<Info> lists = getLists(userID, listname);
-            int rID = lists.get(lists.indexOf(i)).dbid;
 
-            ps.setInt(1, userID);
-            rs = ps.executeQuery();
-            System.out.println(rs);
         }
         catch (SQLException e) {
             System.out.println("SQLException in function \"validate\"");

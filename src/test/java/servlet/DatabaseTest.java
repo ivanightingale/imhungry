@@ -75,13 +75,14 @@ public class DatabaseTest
         Gson gson = new Gson();
         RecipeInfo info = new RecipeInfo("testrecipe", 5, 12345, 10, 10, new ArrayList<>(Arrays.asList("1. ingredient", "2. ingredient")), new ArrayList<>(Arrays.asList("1. step", "2. step")), "url",1);
         //ArrayList<Info> list = new ArrayList<>(Collections.singletonList(info));
-        Boolean favUpdate = db.updateLists(1, false,"Favorites",  info);
-        Boolean expUpdate = db.updateLists(1, false,"To Explore", info);
-        Boolean dnsUpdate = db.updateLists(1, false,"Do Not Show", info);
+        //Boolean favUpdate = db.updateLists(1, false,"Favorites",  info);
+        //Boolean expUpdate = db.updateLists(1, false,"To Explore", info);
+        //Boolean dnsUpdate = db.updateLists(1, false,"Do Not Show", info);
         Boolean favUpdate2 = db.updateLists(1, true,"Favorites",  info);
         Boolean expUpdate2 = db.updateLists(1, true,"To Explore", info);
         Boolean dnsUpdate2 = db.updateLists(1, true,"Do Not Show", info);
-        assertTrue(favUpdate && expUpdate && dnsUpdate && favUpdate2 && expUpdate2 && dnsUpdate2);
+        //assertTrue(favUpdate && expUpdate && dnsUpdate && favUpdate2 && expUpdate2 && dnsUpdate2);
+        assertTrue(favUpdate2 && expUpdate2 && dnsUpdate2);
         getListsTest();
     }
 }
