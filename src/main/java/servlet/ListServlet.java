@@ -31,6 +31,10 @@ public class ListServlet extends HttpServlet
     {
         HttpSession session = request.getSession();
         String listName = request.getParameter("list"); //See what list was requested
+
+        //can we add a parameter for the userID or username i.e.,
+        // String username = request.getParameter("username");
+
         PrintWriter respWriter = response.getWriter();
         Gson gson = new Gson();
         if(!listName.equals("Favorites") && !listName.equals("To Explore") && !listName.equals("Do Not Show")) //Check if list is valid
@@ -39,7 +43,15 @@ public class ListServlet extends HttpServlet
             respWriter.close();
             return;
         }
-        List<Info> list = (List<Info>)session.getAttribute(listName); //Cast stored list to correct type and
+        List<Info> list = (List<Info>)session.getAttribute(listName); //Cast stored list to correct type
+
+        // implementing the database:
+        // Database db = new Database();
+        // if we have the username in the parameter then:
+        // List<Info> list = db.getLists(db.getUserID(username), listName);
+        // else if we have the userID in the parameter then:
+        // List<Info> list = db.getLists(userID, listName);
+
         respWriter.println(gson.toJson(new Message(listName,list))); //convert to JSON before sending it to the response
         respWriter.close();
     }
@@ -63,20 +75,29 @@ public class ListServlet extends HttpServlet
             //Interact with the raw JSON to determine the type of the object via unique fields
             JsonObject info = new JsonParser().parse(infoJson).getAsJsonObject();
             Type infoType;
+            // for implementing the database we would not need the next three lines
             if(info.has("prepTime")) infoType = RecipeInfo.class;
             else if(info.has("placeID")) infoType = RestaurantInfo.class;
             else throw new Exception("Unknown item type.");
 
             Info item = gson.fromJson(infoJson, infoType); //Parse Info object from JSON
+            //we would not need the following line
             List<Info> list = (List<Info>)session.getAttribute(listName); //Get the requested list from session
             //Switch on requested action
             switch(reqMessage.header)
             {
                 case "addItem":
+                    // for implementing the db
+                    // Database db = new Database();
+                    // db.updateList(userID, true, listName, item);
                     if(!list.contains(item)) list.add(item); //Check this is a new item for the list before adding
                     respWriter.println(gson.toJson(new Message("Added to list "+listName)));
                     break;
+
                 case "removeItem":
+                    // for implementing the db
+                    // Database db = new Database();
+                    // db.updateList(userID, false, listName, item);
                     list.remove(item);
                     respWriter.println(gson.toJson(new Message("Removed from list "+listName)));
                     break;
