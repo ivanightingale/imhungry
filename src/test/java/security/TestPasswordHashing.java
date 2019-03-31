@@ -8,7 +8,7 @@ import static org.junit.Assert.assertNotSame;
 
 public class TestPasswordHashing {
     @Test
-    public void testHashPassword(){
+    public void hashPasswordTest() {
         PasswordHashing ph = new PasswordHashing();
         // expected hash output from function when password = "123456"
         String expectedHash = "y+x6lOc+kwRcmZd1TSfRss4p1kItIwrfmXuUi2Hnjz2OBSf8AfRhmhQ/XqRO+WmQ5c6DKOPQeXhnIeC8zk6mPw==";
@@ -23,12 +23,7 @@ public class TestPasswordHashing {
     }
 
     @Test
-    public void testGenerateSalt(){
-
-    }
-
-    @Test
-    public void testStoreHashedPassword(){
+    public void storeHashedPasswordTest(){
         PasswordHashing ph = new PasswordHashing();
         // shows that we aren't storing the plaintext password
         String password = "123456";
