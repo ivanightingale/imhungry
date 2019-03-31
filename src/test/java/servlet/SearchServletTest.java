@@ -64,7 +64,9 @@ public class SearchServletTest {
 		testConfirm.add(ri);
 		servlet.getDriveTimes(testConfirm);
 		assertEquals(1,testConfirm.size());
-		assertEquals(442,testConfirm.get(0).driveTimeValue);
+		//Check that the result is reasonable (this is a bad test hah, could fail due to road closures...)
+		assertTrue(testConfirm.get(0).driveTimeValue < 550);
+		assertTrue(testConfirm.get(0).driveTimeValue > 350);
 	}
 	@Test
 	//getting the Restaurant arraylist API test

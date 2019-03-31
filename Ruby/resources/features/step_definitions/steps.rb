@@ -1,11 +1,8 @@
-When(/^press search$/) do
-  find_field("q").native.send_key(:enter)
+When(/^I visit the website$/) do
+    visit('/localhost:8080')
 end
-
-
-
-Given(/^I visit the website$/) do
-  visit "localhost:9090"
+When(/^press search$/) do
+  find_field("q").native.send_keys(:enter)
 end
 
 When(/^I search for "([^"]*)" and expect 5 results$/) do |query|
@@ -76,4 +73,22 @@ end
 
 Then(/^I should see the page of To Explore List$/) do
     expect(page).to have_content('To Explore List')
+end
+
+
+And(/^There should be a "([^"]*)" button$/) do |arg|
+    pending
+end
+
+But(/^I have not logged in$/) do
+    pending
+end
+
+Then(/^there should be a "([^"]*)"$/) do |arg|
+    pending
+end
+
+
+Then(/^there should be a "([^"]*)" message$/) do |arg|
+    pending
 end
