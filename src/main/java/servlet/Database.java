@@ -132,12 +132,13 @@ public class Database
                 int rating = rs.getInt("rating");
                 String placeID = rs.getString("placeID");
                 String restaddress = rs.getString("address");
-                int priceLevel = rs.getInt("priceL");
+                String priceLevel = rs.getString("priceL");
+                int price = priceLevel.length();
                 String driveTimeT = rs.getString("driveTimeT");
                 int driveTimeV = rs.getInt("driveTimeV");
                 String phone = rs.getString("phone");
                 String url = rs.getString("url");
-                RestaurantInfo p = new RestaurantInfo(restname, rating, placeID, restaddress, priceLevel,driveTimeT, driveTimeV, phone, url, dbid);
+                RestaurantInfo p = new RestaurantInfo(restname, rating, placeID, restaddress, price,driveTimeT, driveTimeV, phone, url, dbid);
                 pList.add(p);
             }
             if(listname.equals("Favorites")) {
@@ -210,36 +211,28 @@ public class Database
                 if (listname.equals("Favorites")) {
                     //checking that the specified user has the specified recipe in the Favorites list
                     ps = conn.prepareStatement("SELECT r.rID AND r.userID FROM RecipeFavorites r WHERE r.rID = ? & r.userID = ?");
-                    ps.setInt(1, dbids);
-                    ps.setInt(2, userID);
-                    rs = ps.executeQuery();
-                    //Did already exist in the specified list
-                    if(rs.next()){
-                        System.out.println("Here I am ");
-                        return false;
-                    }
-                    ps = conn.prepareStatement("INSERT INTO RecipeFavorites(rID, userid) VALUES(?,?)");
                 } else if (listname.equals("Do Not Show")) {
                     //checking that the specified user has the specified recipe in the Donotshow list
                     ps = conn.prepareStatement("SELECT r.rID FROM RecipeDonotshow r WHERE r.rID = ? & r.userID = ?");
-                    ps.setInt(1, dbids);
-                    ps.setInt(2, userID);
-                    rs = ps.executeQuery();
-                    //Did already exist in the specified list
-                    if(rs.next()){
-                        return false;
-                    }
-                    ps = conn.prepareStatement("INSERT INTO Recipedonotshow(rID, userid) VALUES(?,?)");
                 } else if (listname.equals("To Explore")) {
                     //checking that the specified user has the specified recipe in the to explore list
                     ps = conn.prepareStatement("SELECT r.rID FROM RecipeToExplore r WHERE r.rID = ? & r.userID = ?");
-                    ps.setInt(1, dbids);
-                    ps.setInt(2, userID);
-                    rs = ps.executeQuery();
-                    //Did already exist in the specified list
-                    if(rs.next()){
-                        return false;
-                    }
+                }
+                ps.setInt(1, dbids);
+                ps.setInt(2, userID);
+                rs = ps.executeQuery();
+                //Did already exist in the specified list
+                if(rs.next()){
+                    return false;
+                }
+                if (listname.equals("Favorites")) {
+                    //checking that the specified user has the specified recipe in the Favorites list
+                    ps = conn.prepareStatement("INSERT INTO RecipeFavorites(rID, userid) VALUES(?,?)");
+                } else if (listname.equals("Do Not Show")) {
+                    //checking that the specified user has the specified recipe in the Donotshow list
+                    ps = conn.prepareStatement("INSERT INTO Recipedonotshow(rID, userid) VALUES(?,?)");
+                } else if (listname.equals("To Explore")) {
+                    //checking that the specified user has the specified recipe in the to explore list
                     ps = conn.prepareStatement("INSERT INTO RecipeToExplore(rID, userid) VALUES(?,?)");
                 }
                 ps.setInt(1, dbids);
@@ -273,36 +266,24 @@ public class Database
                 int dbids = rs.getInt("restaurantID");
                 if (listname.equals("Favorites")) {
                     ps = conn.prepareStatement("SELECT r.rID FROM RestFavorites r WHERE r.rID= ? AND r.userID= ?");
-                    ps.setInt(1, dbids);
-                    ps.setInt(2, userID);
-                    rs = ps.executeQuery();
-                    //Did already exist in the specified list
-                    if(rs.next()){
-                        System.out.println("Here I am ");
-                        return false;
-                    }
-                    ps = conn.prepareStatement("INSERT INTO RestFavorites(rID, userid) VALUES(?,?)");
                 } else if (listname.equals("Do Not Show")) {
                     ps = conn.prepareStatement("SELECT r.rID FROM Restdonotshow r WHERE r.rID= ? & r.userID= ?");
-                    ps.setInt(1, dbids);
-                    ps.setInt(2, userID);
-                    rs = ps.executeQuery();
-                    //Did already exist in the specified list
-                    if(rs.next()){
-                        System.out.println("Here I am ");
-                        return false;
-                    }
-                    ps = conn.prepareStatement("INSERT INTO Restdonotshow(rID, userid) VALUES(?,?)");
                 } else if (listname.equals("To Explore")) {
                     ps = conn.prepareStatement("SELECT r.rID FROM RestToExplore r WHERE r.rID= ? & r.userID= ?");
-                    ps.setInt(1, dbids);
-                    ps.setInt(2, userID);
-                    rs = ps.executeQuery();
-                    //Did already exist in the specified list
-                    if(rs.next()){
-                        System.out.println("Here I am ");
-                        return false;
-                    }
+                }
+                ps.setInt(1, dbids);
+                ps.setInt(2, userID);
+                rs = ps.executeQuery();
+                //Did already exist in the specified list
+                if(rs.next()){
+                    System.out.println("Here I am ");
+                    return false;
+                }
+                if (listname.equals("Favorites")) {
+                    ps = conn.prepareStatement("INSERT INTO RestFavorites(rID, userid) VALUES(?,?)");
+                } else if (listname.equals("Do Not Show")) {
+                    ps = conn.prepareStatement("INSERT INTO Restdonotshow(rID, userid) VALUES(?,?)");
+                } else if (listname.equals("To Explore")) {
                     ps = conn.prepareStatement("INSERT INTO RestToExplore(rID, userid) VALUES(?,?)");
                 }
                 ps.setInt(1, dbids);
@@ -340,37 +321,30 @@ public class Database
                 if (listname.equals("Favorites")) {
                     //checking that the specified user has the specified recipe in the Favorites list
                     ps = conn.prepareStatement("SELECT r.rID FROM RecipeFavorites r WHERE r.rID = ? AND r.userID = ?");
-                    ps.setInt(1, dbids);
-                    ps.setInt(2, userID);
-                    rs = ps.executeQuery();
-                    //Did not exist in the specified list
-                    if(!rs.next()){
-                        return false;
-                    }
-                    ps = conn.prepareStatement("DELETE FROM RecipeFavorites WHERE rID = ? AND userID = ?");
                 } else if (listname.equals("Do Not Show")) {
                     //checking that the specified user has the specified recipe in the Do Not Show list
                     ps = conn.prepareStatement("SELECT r.rID FROM RecipeDonotshow r WHERE r.rID = ? AND r.userID = ?");
-                    ps.setInt(1, dbids);
-                    ps.setInt(2, userID);
-                    rs = ps.executeQuery();
-                    //Did not exist in the specified list
-                    if(!rs.next()){
-                        return false;
-                    }
-                    ps = conn.prepareStatement("DELETE FROM RecipeDonotshow WHERE rID = ? AND userID = ?");
                 } else if (listname.equals("To Explore")) {
                     //checking that the specified user has the specified recipe in the To Explore list
                     ps = conn.prepareStatement("SELECT r.rID FROM RecipeToExplore r WHERE r.rID = ? AND r.userID = ?");
-                    ps.setInt(1, dbids);
-                    ps.setInt(2, userID);
-                    rs = ps.executeQuery();
-                    //Did not exist in the specified list
-                    if(!rs.next()){
-                        return false;
-                    }
+                }
+                ps.setInt(1, dbids);
+                ps.setInt(2, userID);
+                rs = ps.executeQuery();
+                //Did not exist in the specified Recipe list
+                if(!rs.next()){
+                    System.out.println("Cant delete what you dont have - recipe");
+                    return false;
+                }
+                if (listname.equals("Favorites")) {
+                    //checking that the specified user has the specified recipe in the Favorites list
+                    ps = conn.prepareStatement("DELETE FROM RecipeFavorites WHERE rID = ? AND userID = ?");
+                } else if (listname.equals("Do Not Show")) {
+                    //checking that the specified user has the specified recipe in the Do Not Show list
+                    ps = conn.prepareStatement("DELETE FROM RecipeDonotshow WHERE rID = ? AND userID = ?");
+                } else if (listname.equals("To Explore")) {
+                    //checking that the specified user has the specified recipe in the To Explore list
                     ps = conn.prepareStatement("DELETE FROM RecipeToExplore  WHERE rID = ? AND userID = ?");
-
                 }
                 ps.setInt(1, dbids);
                 ps.setInt(2, userID);
@@ -394,37 +368,30 @@ public class Database
                 if (listname.equals("Favorites")) {
                     //checking that the specified user has the specified recipe in the Favorites list
                     ps = conn.prepareStatement("SELECT r.rID FROM RestFavorites r WHERE r.rID = ? AND r.userID = ?");
-                    ps.setInt(1, dbids);
-                    ps.setInt(2, userID);
-                    rs = ps.executeQuery();
-                    //Did not exist in the specified list
-                    if(!rs.next()){
-                        return false;
-                    }
-                    ps = conn.prepareStatement("DELETE FROM RestFavorites WHERE rID = ? AND userID = ?");
                 } else if (listname.equals("Do Not Show")) {
                     //checking that the specified user has the specified recipe in the Do Not Show list
                     ps = conn.prepareStatement("SELECT r.rID FROM RestDonotshow r WHERE r.rID = ? AND r.userID = ?");
-                    ps.setInt(1, dbids);
-                    ps.setInt(2, userID);
-                    rs = ps.executeQuery();
-                    //Did not exist in the specified list
-                    if(!rs.next()){
-                        return false;
-                    }
-                    ps = conn.prepareStatement("DELETE FROM RestDonotshow WHERE rID = ? AND userID = ?");
                 } else if (listname.equals("To Explore")) {
                     //checking that the specified user has the specified recipe in the To Explore list
                     ps = conn.prepareStatement("SELECT r.rID FROM RestToExplore r WHERE r.rID = ? AND r.userID = ?");
-                    ps.setInt(1, dbids);
-                    ps.setInt(2, userID);
-                    rs = ps.executeQuery();
-                    //Did not exist in the specified list
-                    if(!rs.next()){
-                        return false;
-                    }
+                }
+                ps.setInt(1, dbids);
+                ps.setInt(2, userID);
+                rs = ps.executeQuery();
+                //Did not exist in the specified restaurant list
+                if(!rs.next()){
+                    //Cannot delete what you do not have restaurant edition
+                    return false;
+                }
+                if (listname.equals("Favorites")) {
+                    //checking that the specified user has the specified recipe in the Favorites list
+                    ps = conn.prepareStatement("DELETE FROM RestFavorites WHERE rID = ? AND userID = ?");
+                } else if (listname.equals("Do Not Show")) {
+                    //checking that the specified user has the specified recipe in the Do Not Show list
+                    ps = conn.prepareStatement("DELETE FROM RestDonotshow WHERE rID = ? AND userID = ?");
+                } else if (listname.equals("To Explore")) {
+                    //checking that the specified user has the specified recipe in the To Explore list
                     ps = conn.prepareStatement("DELETE FROM RestToExplore WHERE rID = ? AND userID = ?");
-
                 }
                 ps.setInt(1, dbids);
                 ps.setInt(2, userID);

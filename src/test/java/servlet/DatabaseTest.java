@@ -62,14 +62,26 @@ public class DatabaseTest
     //retrieve lists
     public void getListsTest() {
         Database db = new Database();
+        //restaurant test
+        RestaurantInfo rinfo = new RestaurantInfo("testRest", 5, "placeID", "adress" , 8, "drivetime", 8, "phone", "url");
+        ArrayList<Info> list = new ArrayList<>(Collections.singletonList(rinfo));
+        db.updateLists(1, true,"Favorites",  rinfo);
+        db.updateLists(1, true,"To Explore",  rinfo);
+        db.updateLists(1, true,"Do Not Show",  rinfo);
+
+        //recipe test
         RecipeInfo info = new RecipeInfo("testrecipe", 5, 12345, 10, 10, new ArrayList<>(Arrays.asList("1. ingredient", "2. ingredient")), new ArrayList<>(Arrays.asList("1. step", "2. step")), "url", 1);
-        ArrayList<Info> list = new ArrayList<>(Collections.singletonList(info));
+        list.addAll(Collections.singletonList(info));
         db.updateLists(1, true,"Favorites",  info);
         db.updateLists(1, true,"To Explore",  info);
         db.updateLists(1, true,"Do Not Show",  info);
         assertEquals(list, db.getLists(1, "Favorites"));
         assertEquals(list, db.getLists(1, "To Explore"));
         assertEquals(list, db.getLists(1, "Do Not Show"));
+        //assertEquals(list, db.getLists(1, "Favorites"));
+        //assertEquals(list, db.getLists(1, "To Explore"));
+        //assertEquals(list, db.getLists(1, "Do Not Show"));
+
     }
 
     @Test
@@ -96,6 +108,6 @@ public class DatabaseTest
         Boolean rdnsUpdate = db.updateLists(1, false,"Do Not Show", rinfo);
         assertTrue( rfavUpdate && rexpUpdate && rdnsUpdate &&favUpdate2 && rexpUpdate2 && rdnsUpdate2 );
         //assertTrue(favUpdate2 && expUpdate2 && dnsUpdate2);
-        //getListsTest();
+        getListsTest();
     }
 }
