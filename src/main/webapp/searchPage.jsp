@@ -5,6 +5,7 @@
 <head>
 <link rel="stylesheet" type="text/css" href="css/searchPage.css" />
 <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
 <meta charset="UTF-8">
 <title>Search Page</title>
 </head>
@@ -19,7 +20,15 @@
 					Number of items to show in results
 				</div>
 			</div>
-			
+
+			<select id = "radius_dropdown" name="radius">
+				<option value="1mi">1 mi</option>
+				<option value="2mi">2 mi</option>
+				<option value="3mi">3 mi</option>
+				<option value="4mi">4 mi</option>
+				<option value="5mi">5 mi</option>
+			</select>
+			<%--<input id = "submit" type="submit" value="Search">--%>
 			<br>
 			<input type = "image" src="resources/grumpy.png" onmousedown="sadToHappy()" onmouseleave="happyToSad()" name = "submit" id ="submit" value = "Feed Me!" />
 			
