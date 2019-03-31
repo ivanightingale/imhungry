@@ -92,7 +92,8 @@ public class Database
             }
             ps.setInt(1, userID);
             rs = ps.executeQuery();
-            System.out.println(rs);
+
+
             while(rs.next()){
                 int dbid = rs.getInt("rID");
                 String rname = rs.getString("rname");
@@ -119,94 +120,224 @@ public class Database
         return new ArrayList<>();
     }
 
-    public Boolean updateLists(int userID, Boolean add, String listname, Info i) {
+    public Boolean addToList(int userID, Boolean isRecipe, String listname, Info i){
+        //adding recipes
         try {
-            if (add) {
-                Boolean isRecipe = i.getClass().equals(RecipeInfo.class);
-                if (isRecipe) {
+            if (isRecipe) {
+                ps = conn.prepareStatement("SELECT r.recipeIDapi, r.recipID FROM Recipe r WHERE r.recipeIDapi = ?");
+                ps.setInt(1, ((RecipeInfo) i).recipeID);
+                rs = ps.executeQuery();
+                if (!rs.next()) {
+                    ps = conn.prepareStatement("INSERT INTO Recipe(recipeIDapi, prepTime, cookTime, ingredient, instructions, imageurl, rating, rname) VALUES(?,?,?,?,?,?,?,?)");
+                    ps.setInt(1, ((RecipeInfo) i).recipeID);
+                    ps.setInt(2, ((RecipeInfo) i).prepTime);
+                    ps.setInt(3, ((RecipeInfo) i).cookTime);
+                    Gson gson = new Gson();
+                    String ingredientString = gson.toJson(((RecipeInfo) i).ingredients);
+                    ps.setString(4, ingredientString);
+                    String instructionString = gson.toJson(((RecipeInfo) i).instructions);
+                    ps.setString(5, instructionString);
+                    ps.setString(6, ((RecipeInfo) i).imageURL);
+                    ps.setInt(7, i.rating);
+                    ps.setString(8, i.name);
+                    ps.executeUpdate();
                     ps = conn.prepareStatement("SELECT r.recipeIDapi, r.recipID FROM Recipe r WHERE r.recipeIDapi = ?");
                     ps.setInt(1, ((RecipeInfo) i).recipeID);
                     rs = ps.executeQuery();
-                    if (!rs.next()) {
-                        ps = conn.prepareStatement("INSERT INTO Recipe(recipeIDapi, prepTime, cookTime, ingredient, instructions, imageurl, rating, rname) VALUES(?,?,?,?,?,?,?,?)");
-                        ps.setInt(1, ((RecipeInfo) i).recipeID);
-                        ps.setInt(2, ((RecipeInfo) i).prepTime);
-                        ps.setInt(3, ((RecipeInfo) i).cookTime);
-                        Gson gson = new Gson();
-                        String ingredientString = gson.toJson(((RecipeInfo) i).ingredients);
-                        ps.setString(4, ingredientString);
-                        String instructionString = gson.toJson(((RecipeInfo) i).instructions);
-                        ps.setString(5, instructionString);
-                        ps.setString(6, ((RecipeInfo) i).imageURL);
-                        ps.setInt(7, i.rating);
-                        ps.setString(8, i.name);
-                        ps.executeUpdate();
-                        ps = conn.prepareStatement("SELECT r.recipeIDapi, r.recipID FROM Recipe r WHERE r.recipeIDapi = ?");
-                        ps.setInt(1, ((RecipeInfo) i).recipeID);
-                        rs = ps.executeQuery();
-                        rs.next();
-                    }
-                    int dbids = rs.getInt("recipID");
-                    if (listname.equals("Favorites")) {
-                        ps = conn.prepareStatement("INSERT INTO RecipeFavorites(rID, userid) VALUES(?,?)");
-                    }
-                    else if (listname.equals("Do Not Show")) {
-                        ps = conn.prepareStatement("INSERT INTO Recipedonotshow(rID, userid) VALUES(?,?)");
-                    }
-                    else if (listname.equals("To Explore")) {
-                        ps = conn.prepareStatement("INSERT INTO RecipeToExplore(rID, userid) VALUES(?,?)");
-                    }
+                    rs.next();
+                }
+                int dbids = rs.getInt("recipID");
+                if (listname.equals("Favorites")) {
+                    //checking that the specified user has the specified recipe in the Favorites list
+                    ps = conn.prepareStatement("SELECT r.rID FROM RecipeFavorites r WHERE r.rID = ? & r.userID = ?");
                     ps.setInt(1, dbids);
                     ps.setInt(2, userID);
+                    ps.executeQuery();
+                    //Did already exist in the specified list
+                    if(rs.next()){
+                        return false;
+                    }
+                    ps = conn.prepareStatement("INSERT INTO RecipeFavorites(rID, userid) VALUES(?,?)");
+                } else if (listname.equals("Do Not Show")) {
+                    //checking that the specified user has the specified recipe in the Donotshow list
+                    ps = conn.prepareStatement("SELECT r.rID FROM RecipeDonotshow r WHERE r.rID = ? & r.userID = ?");
+                    ps.setInt(1, dbids);
+                    ps.setInt(2, userID);
+                    ps.executeQuery();
+                    //Did already exist in the specified list
+                    if(rs.next()){
+                        return false;
+                    }
+                    ps = conn.prepareStatement("INSERT INTO Recipedonotshow(rID, userid) VALUES(?,?)");
+                } else if (listname.equals("To Explore")) {
+                    //checking that the specified user has the specified recipe in the to explore list
+                    ps = conn.prepareStatement("SELECT r.rID FROM RecipeToExplore r WHERE r.rID = ? & r.userID = ?");
+                    ps.setInt(1, dbids);
+                    ps.setInt(2, userID);
+                    ps.executeQuery();
+                    //Did already exist in the specified list
+                    if(rs.next()){
+                        return false;
+                    }
+                    ps = conn.prepareStatement("INSERT INTO RecipeToExplore(rID, userid) VALUES(?,?)");
+                }
+                ps.setInt(1, dbids);
+                ps.setInt(2, userID);
+                ps.executeUpdate();
+
+
+            }
+            //for adding restaurants
+            else {
+                ps = conn.prepareStatement("SELECT r.placeID, r.restaurantID FROM Restaurant r WHERE r.placeID = ?");
+                ps.setString(1, ((RestaurantInfo) i).placeID);
+                rs = ps.executeQuery();
+                if (!rs.next()) {
+                    ps = conn.prepareStatement("INSERT INTO Restaurant(name, rating, placeID, address, priceLevel, driveTimeT, driveTimeV, phone) VALUES(?,?,?,?,?,?,?,?)");
+                    ps.setString(1, ((RestaurantInfo) i).name);
+                    ps.setString(2, ((RestaurantInfo) i).address);
+                    ps.setString(3, ((RestaurantInfo) i).priceLevel);
+                    ps.setString(4, ((RestaurantInfo) i).driveTimeText);
+                    ps.setString(5, ((RestaurantInfo) i).phone);
+                    ps.setString(6, ((RestaurantInfo) i).url);
+                    ps.setInt(7, i.rating);
+                    ps.setString(8, ((RestaurantInfo) i).placeID);
                     ps.executeUpdate();
-
-
-                } else {
                     ps = conn.prepareStatement("SELECT r.placeID, r.restaurantID FROM Restaurant r WHERE r.placeID = ?");
                     ps.setString(1, ((RestaurantInfo) i).placeID);
                     rs = ps.executeQuery();
-                    if (!rs.next()) {
-                        ps = conn.prepareStatement("INSERT INTO Restaurant(name, rating, placeID, address, priceLevel, driveTimeT, driveTimeV, phone) VALUES(?,?,?,?,?,?,?,?)");
-                        ps.setString(1, ((RestaurantInfo) i).name);
-                        ps.setString(2, ((RestaurantInfo)i).address);
-                        ps.setString(3, ((RestaurantInfo)i).priceLevel);
-                        ps.setString(4, ((RestaurantInfo) i).driveTimeText);
-                        ps.setString(5, ((RestaurantInfo)i).phone);
-                        ps.setString(6, ((RestaurantInfo) i).url);
-                        ps.setInt(7, i.rating);
-                        ps.setString(8, ((RestaurantInfo) i).placeID);
-                        ps.executeUpdate();
-                        ps = conn.prepareStatement("SELECT r.placeID, r.restaurantID FROM Restaurant r WHERE r.placeID = ?");
-                        ps.setString(1, ((RestaurantInfo) i).placeID);
-                        rs = ps.executeQuery();
-                        rs.next();
-                    }
-                    int dbids = rs.getInt("restaurantID");
-                    if (listname.equals("Favorites")) {
-                        ps = conn.prepareStatement("INSERT INTO RestFavorites(rID, userid) VALUES(?,?)");
-                    }
-                    else if (listname.equals("Do Not Show")) {
-                        ps = conn.prepareStatement("INSERT INTO Restdonotshow(rID, userid) VALUES(?,?)");
-                    }
-                    else if (listname.equals("To Explore")) {
-                        ps = conn.prepareStatement("INSERT INTO RestToExplore(rID, userid) VALUES(?,?)");
-                    }
-                    ps.setInt(1, dbids);
-                    ps.setInt(2, userID);
-                    rs = ps.executeQuery();
+                    rs.next();
                 }
-                return true;
-            }else {
-
+                int dbids = rs.getInt("restaurantID");
+                if (listname.equals("Favorites")) {
+                    ps = conn.prepareStatement("INSERT INTO RestFavorites(rID, userid) VALUES(?,?)");
+                } else if (listname.equals("Do Not Show")) {
+                    ps = conn.prepareStatement("INSERT INTO Restdonotshow(rID, userid) VALUES(?,?)");
+                } else if (listname.equals("To Explore")) {
+                    ps = conn.prepareStatement("INSERT INTO RestToExplore(rID, userid) VALUES(?,?)");
+                }
+                ps.setInt(1, dbids);
+                ps.setInt(2, userID);
+                rs = ps.executeQuery();
             }
-
-
-
-        }
-        catch (SQLException e) {
+            return true;
+        }catch(SQLException e){
             System.out.println("SQLException in function \"validate\"");
             e.printStackTrace();
         }
         return false;
+
+    }
+
+    public Boolean removeFromList(int userID, Boolean isRecipe, String listname, Info i) {
+        try {
+            //removing recipe
+
+            if (isRecipe) {
+
+                //checking if added to Recipe Database in the past
+                // finding the ID of recipe in the database by identifying the unique api recipe ID
+                ps = conn.prepareStatement("SELECT r.recipeIDapi, r.recipID FROM Recipe r WHERE r.recipeIDapi = ?");
+                ps.setInt(1, ((RecipeInfo) i).recipeID);
+                rs = ps.executeQuery();
+                // cannot remove an item that has not been added
+                if(!rs.next()){
+                    //System.out.println("IM not supposed to be HERE ");
+                    return false;
+                }
+
+                //storing the database ID for the recipe to remove
+                int dbids = rs.getInt("recipID");
+                if (listname.equals("Favorites")) {
+                    System.out.println("IM HERE");
+                    //checking that the specified user has the specified recipe in the Favorites list
+                    ps = conn.prepareStatement("SELECT r.rID FROM RecipeFavorites r WHERE r.rID = ? & r.userID = ?");
+                    ps.setInt(1, dbids);
+                    ps.setInt(2, userID);
+                    ps.executeQuery();
+                    //Did not exist in the specified list
+                    if(!rs.next()){
+                        return false;
+                    }
+                    ps = conn.prepareStatement("DELETE r.rID FROM RecipeFavorites r WHERE r.rID = ? & r.userID = ?");
+                } else if (listname.equals("Do Not Show")) {
+                    //checking that the specified user has the specified recipe in the Do Not Show list
+                    ps = conn.prepareStatement("SELECT r.rID FROM RecipeDonotshow r WHERE r.rID = ? & r.userID = ?");
+                    ps.setInt(1, dbids);
+                    ps.setInt(2, userID);
+                    ps.executeQuery();
+                    //Did not exist in the specified list
+                    if(!rs.next()){
+                        return false;
+                    }
+                    ps = conn.prepareStatement("DELETE r.rID FROM RecipeDonotshow r WHERE r.rID = ? & r.userID = ?");
+                } else if (listname.equals("To Explore")) {
+                    //checking that the specified user has the specified recipe in the To Explore list
+                    ps = conn.prepareStatement("SELECT r.rID FROM RecipeToExplore r WHERE r.rID = ? & r.userID = ?");
+                    ps.setInt(1, dbids);
+                    ps.setInt(2, userID);
+                    ps.executeQuery();
+                    //Did not exist in the specified list
+                    if(!rs.next()){
+                        return false;
+                    }
+                    ps = conn.prepareStatement("DELETE r.rID FROM RecipeToExplore r WHERE r.rID = ? & r.userID = ?");
+
+                }
+                ps.setInt(1, dbids);
+                ps.setInt(2, userID);
+                ps.executeUpdate();
+                return true;
+            }
+            /*for removing restaurants
+            else {
+                ps = conn.prepareStatement("SELECT r.placeID, r.restaurantID FROM Restaurant r WHERE r.placeID = ?");
+                ps.setString(1, ((RestaurantInfo) i).placeID);
+                rs = ps.executeQuery();
+                if (!rs.next()) {
+                    ps = conn.prepareStatement("INSERT INTO Restaurant(name, rating, placeID, address, priceLevel, driveTimeT, driveTimeV, phone) VALUES(?,?,?,?,?,?,?,?)");
+                    ps.setString(1, ((RestaurantInfo) i).name);
+                    ps.setString(2, ((RestaurantInfo) i).address);
+                    ps.setString(3, ((RestaurantInfo) i).priceLevel);
+                    ps.setString(4, ((RestaurantInfo) i).driveTimeText);
+                    ps.setString(5, ((RestaurantInfo) i).phone);
+                    ps.setString(6, ((RestaurantInfo) i).url);
+                    ps.setInt(7, i.rating);
+                    ps.setString(8, ((RestaurantInfo) i).placeID);
+                    ps.executeUpdate();
+                    ps = conn.prepareStatement("SELECT r.placeID, r.restaurantID FROM Restaurant r WHERE r.placeID = ?");
+                    ps.setString(1, ((RestaurantInfo) i).placeID);
+                    rs = ps.executeQuery();
+                    rs.next();
+                }
+                int dbids = rs.getInt("restaurantID");
+                if (listname.equals("Favorites")) {
+                    ps = conn.prepareStatement("INSERT INTO RestFavorites(rID, userid) VALUES(?,?)");
+                } else if (listname.equals("Do Not Show")) {
+                    ps = conn.prepareStatement("INSERT INTO Restdonotshow(rID, userid) VALUES(?,?)");
+                } else if (listname.equals("To Explore")) {
+                    ps = conn.prepareStatement("INSERT INTO RestToExplore(rID, userid) VALUES(?,?)");
+                }
+                ps.setInt(1, dbids);
+                ps.setInt(2, userID);
+                rs = ps.executeQuery();
+            }
+            return true;
+            */
+        }catch(SQLException e){
+            System.out.println("SQLException in function \"validate\"");
+            e.printStackTrace();
+        }
+        return false;
+
+    }
+
+    public Boolean updateLists(int userID, Boolean add, String listname, Info i) {
+        Boolean isRecipe = i.getClass().equals(RecipeInfo.class);
+        if (add) {
+            return addToList(userID, isRecipe, listname, i);
+        } else {
+            return removeFromList(userID, isRecipe, listname, i);
+        }
     }
 }
