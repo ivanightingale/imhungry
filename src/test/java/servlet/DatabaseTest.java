@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import com.google.gson.Gson;
 import info.Info;
 import info.RecipeInfo;
+import info.RestaurantInfo;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
@@ -51,7 +52,7 @@ public class DatabaseTest
     //user creation
     public void createUserTest() {
         Database db = new Database();
-        Boolean madeUser = db.createUser("testuser", "hashvalue", "abcdefgh");
+        Boolean madeUser = db.createUser("testuser2", "hashvalue", "abcdefgh");
         assertTrue(madeUser);
         checkUserTest();
         getPasswordInfoTest();
@@ -85,7 +86,16 @@ public class DatabaseTest
         Boolean expUpdate2 = db.updateLists(1, true,"To Explore", info);
         Boolean dnsUpdate2 = db.updateLists(1, true,"Do Not Show", info);
         assertTrue(favUpdate && expUpdate && dnsUpdate && favUpdate2 && expUpdate2 && dnsUpdate2);
+        RestaurantInfo rinfo = new RestaurantInfo("testRest", 5, "placeID", "adress" , 8, "drivetime", 8, "phone", "url");
+
+        Boolean rfavUpdate2 = db.updateLists(1, true,"Favorites",  rinfo);
+        Boolean rexpUpdate2 = db.updateLists(1, true,"To Explore", rinfo);
+        Boolean rdnsUpdate2 = db.updateLists(1, true,"Do Not Show", rinfo);
+        Boolean rfavUpdate = db.updateLists(1, false,"Favorites",  rinfo);
+        Boolean rexpUpdate = db.updateLists(1, false,"To Explore", rinfo);
+        Boolean rdnsUpdate = db.updateLists(1, false,"Do Not Show", rinfo);
+        assertTrue( rfavUpdate && rexpUpdate && rdnsUpdate &&favUpdate2 && rexpUpdate2 && rdnsUpdate2 );
         //assertTrue(favUpdate2 && expUpdate2 && dnsUpdate2);
-        getListsTest();
+        //getListsTest();
     }
 }

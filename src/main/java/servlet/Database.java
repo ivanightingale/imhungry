@@ -36,19 +36,78 @@ public class Database
     }
 
     public Boolean checkUser(String username) {
+        try {
+            ps = conn.prepareStatement("SELECT u.userID FROM User u WHERE username=?");
+            ps.setString(1, username);
+            rs = ps.executeQuery();
+            if (!rs.next()) {
+                return false;
+            }
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("SQLException in function \"validate\"");
+            e.printStackTrace();
+        }
 
         return false;
     }
 
     public String[] getPasswordInfo(String username) {
+        try {
+            if (checkUser(username)) {
+                int userID = getUserID(username);
+                ps = conn.prepareStatement("SELECT u.pw, u.salt FROM User u WHERE username=? AND userID =?");
+                ps.setString(1, username);
+                ps.setInt(2, userID);
+                rs = ps.executeQuery();
+                while(rs.next()) {
+                    String password = rs.getString("pw");
+                    String salt = rs.getString("salt");
+                    String[] pINfo = new String[2];
+                    pINfo[0] = salt;
+                    pINfo[1] = password;
+                    return pINfo;
+                }
+            }
+        }catch (SQLException e) {
+            System.out.println("SQLException in function \"validate\"");
+            e.printStackTrace();
+        }
         return new String[]{"",""};
     }
 
     public int getUserID(String username) {
+        try {
+            ps = conn.prepareStatement("SELECT u.userID FROM User u WHERE username=?");
+            ps.setString(1, username);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("userID");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("SQLException in function \"validate\"");
+            e.printStackTrace();
+        }
         return -1;
     }
 
     public Boolean createUser(String username, String passwordHash, String salt) {
+        if(!checkUser(username)){
+            return false;
+        }
+        try {
+            ps = conn.prepareStatement("INSERT INTO User(username, pw, salt) VALUES(?,?,?)");
+            ps.setString(1, username);
+            ps.setString(2, passwordHash);
+            ps.setString(3, salt);
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("SQLException in function \"validate\"");
+            e.printStackTrace();
+        }
         return false;
     }
 
@@ -120,10 +179,11 @@ public class Database
         return new ArrayList<>();
     }
 
-    public Boolean addToList(int userID, Boolean isRecipe, String listname, Info i){
+    private Boolean addToList(int userID, Boolean isRecipe, String listname, Info i){
         //adding recipes
         try {
             if (isRecipe) {
+                //
                 ps = conn.prepareStatement("SELECT r.recipeIDapi, r.recipID FROM Recipe r WHERE r.recipeIDapi = ?");
                 ps.setInt(1, ((RecipeInfo) i).recipeID);
                 rs = ps.executeQuery();
@@ -139,7 +199,7 @@ public class Database
                     ps.setString(5, instructionString);
                     ps.setString(6, ((RecipeInfo) i).imageURL);
                     ps.setInt(7, i.rating);
-                    ps.setString(8, i.name);
+                    ps.setString(8, ((RecipeInfo)i).name);
                     ps.executeUpdate();
                     ps = conn.prepareStatement("SELECT r.recipeIDapi, r.recipID FROM Recipe r WHERE r.recipeIDapi = ?");
                     ps.setInt(1, ((RecipeInfo) i).recipeID);
@@ -149,12 +209,13 @@ public class Database
                 int dbids = rs.getInt("recipID");
                 if (listname.equals("Favorites")) {
                     //checking that the specified user has the specified recipe in the Favorites list
-                    ps = conn.prepareStatement("SELECT r.rID FROM RecipeFavorites r WHERE r.rID = ? & r.userID = ?");
+                    ps = conn.prepareStatement("SELECT r.rID AND r.userID FROM RecipeFavorites r WHERE r.rID = ? & r.userID = ?");
                     ps.setInt(1, dbids);
                     ps.setInt(2, userID);
-                    ps.executeQuery();
+                    rs = ps.executeQuery();
                     //Did already exist in the specified list
                     if(rs.next()){
+                        System.out.println("Here I am ");
                         return false;
                     }
                     ps = conn.prepareStatement("INSERT INTO RecipeFavorites(rID, userid) VALUES(?,?)");
@@ -163,7 +224,7 @@ public class Database
                     ps = conn.prepareStatement("SELECT r.rID FROM RecipeDonotshow r WHERE r.rID = ? & r.userID = ?");
                     ps.setInt(1, dbids);
                     ps.setInt(2, userID);
-                    ps.executeQuery();
+                    rs = ps.executeQuery();
                     //Did already exist in the specified list
                     if(rs.next()){
                         return false;
@@ -174,7 +235,7 @@ public class Database
                     ps = conn.prepareStatement("SELECT r.rID FROM RecipeToExplore r WHERE r.rID = ? & r.userID = ?");
                     ps.setInt(1, dbids);
                     ps.setInt(2, userID);
-                    ps.executeQuery();
+                    rs = ps.executeQuery();
                     //Did already exist in the specified list
                     if(rs.next()){
                         return false;
@@ -184,43 +245,71 @@ public class Database
                 ps.setInt(1, dbids);
                 ps.setInt(2, userID);
                 ps.executeUpdate();
-
-
             }
+
             //for adding restaurants
             else {
                 ps = conn.prepareStatement("SELECT r.placeID, r.restaurantID FROM Restaurant r WHERE r.placeID = ?");
                 ps.setString(1, ((RestaurantInfo) i).placeID);
                 rs = ps.executeQuery();
                 if (!rs.next()) {
-                    ps = conn.prepareStatement("INSERT INTO Restaurant(name, rating, placeID, address, priceLevel, driveTimeT, driveTimeV, phone) VALUES(?,?,?,?,?,?,?,?)");
+                    ps = conn.prepareStatement("INSERT INTO Restaurant(rname, address, priceL, driveTimeT, driveTimeV, phone, url, rating, placeID) VALUES(?,?,?,?,?,?,?,?,?)");
                     ps.setString(1, ((RestaurantInfo) i).name);
                     ps.setString(2, ((RestaurantInfo) i).address);
                     ps.setString(3, ((RestaurantInfo) i).priceLevel);
                     ps.setString(4, ((RestaurantInfo) i).driveTimeText);
-                    ps.setString(5, ((RestaurantInfo) i).phone);
-                    ps.setString(6, ((RestaurantInfo) i).url);
-                    ps.setInt(7, i.rating);
-                    ps.setString(8, ((RestaurantInfo) i).placeID);
+                    ps.setInt(5, ((RestaurantInfo)i).driveTimeValue);
+                    ps.setString(6, ((RestaurantInfo) i).phone);
+                    ps.setString(7, ((RestaurantInfo) i).url);
+                    ps.setInt(8, ((RestaurantInfo)i).rating);
+                    ps.setString(9, ((RestaurantInfo) i).placeID);
                     ps.executeUpdate();
-                    ps = conn.prepareStatement("SELECT r.placeID, r.restaurantID FROM Restaurant r WHERE r.placeID = ?");
+                    ps = conn.prepareStatement("SELECT r.restaurantID FROM Restaurant r WHERE r.placeID = ?");
+                    System.out.println("HERERE");
                     ps.setString(1, ((RestaurantInfo) i).placeID);
                     rs = ps.executeQuery();
                     rs.next();
                 }
                 int dbids = rs.getInt("restaurantID");
                 if (listname.equals("Favorites")) {
+                    ps = conn.prepareStatement("SELECT r.rID FROM RestFavorites r WHERE r.rID= ? AND r.userID= ?");
+                    ps.setInt(1, dbids);
+                    ps.setInt(2, userID);
+                    rs = ps.executeQuery();
+                    //Did already exist in the specified list
+                    if(rs.next()){
+                        System.out.println("Here I am ");
+                        return false;
+                    }
                     ps = conn.prepareStatement("INSERT INTO RestFavorites(rID, userid) VALUES(?,?)");
                 } else if (listname.equals("Do Not Show")) {
+                    ps = conn.prepareStatement("SELECT r.rID FROM Restdonotshow r WHERE r.rID= ? & r.userID= ?");
+                    ps.setInt(1, dbids);
+                    ps.setInt(2, userID);
+                    rs = ps.executeQuery();
+                    //Did already exist in the specified list
+                    if(rs.next()){
+                        System.out.println("Here I am ");
+                        return false;
+                    }
                     ps = conn.prepareStatement("INSERT INTO Restdonotshow(rID, userid) VALUES(?,?)");
                 } else if (listname.equals("To Explore")) {
+                    ps = conn.prepareStatement("SELECT r.rID FROM RestToExplore r WHERE r.rID= ? & r.userID= ?");
+                    ps.setInt(1, dbids);
+                    ps.setInt(2, userID);
+                    rs = ps.executeQuery();
+                    //Did already exist in the specified list
+                    if(rs.next()){
+                        System.out.println("Here I am ");
+                        return false;
+                    }
                     ps = conn.prepareStatement("INSERT INTO RestToExplore(rID, userid) VALUES(?,?)");
                 }
                 ps.setInt(1, dbids);
                 ps.setInt(2, userID);
-                rs = ps.executeQuery();
+                ps.executeUpdate();
             }
-            return true;
+
         }catch(SQLException e){
             System.out.println("SQLException in function \"validate\"");
             e.printStackTrace();
@@ -229,7 +318,7 @@ public class Database
 
     }
 
-    public Boolean removeFromList(int userID, Boolean isRecipe, String listname, Info i) {
+    private Boolean removeFromList(int userID, Boolean isRecipe, String listname, Info i) {
         try {
             //removing recipe
 
@@ -249,39 +338,38 @@ public class Database
                 //storing the database ID for the recipe to remove
                 int dbids = rs.getInt("recipID");
                 if (listname.equals("Favorites")) {
-                    System.out.println("IM HERE");
                     //checking that the specified user has the specified recipe in the Favorites list
-                    ps = conn.prepareStatement("SELECT r.rID FROM RecipeFavorites r WHERE r.rID = ? & r.userID = ?");
+                    ps = conn.prepareStatement("SELECT r.rID FROM RecipeFavorites r WHERE r.rID = ? AND r.userID = ?");
                     ps.setInt(1, dbids);
                     ps.setInt(2, userID);
-                    ps.executeQuery();
+                    rs = ps.executeQuery();
                     //Did not exist in the specified list
                     if(!rs.next()){
                         return false;
                     }
-                    ps = conn.prepareStatement("DELETE r.rID FROM RecipeFavorites r WHERE r.rID = ? & r.userID = ?");
+                    ps = conn.prepareStatement("DELETE FROM RecipeFavorites WHERE rID = ? AND userID = ?");
                 } else if (listname.equals("Do Not Show")) {
                     //checking that the specified user has the specified recipe in the Do Not Show list
-                    ps = conn.prepareStatement("SELECT r.rID FROM RecipeDonotshow r WHERE r.rID = ? & r.userID = ?");
+                    ps = conn.prepareStatement("SELECT r.rID FROM RecipeDonotshow r WHERE r.rID = ? AND r.userID = ?");
                     ps.setInt(1, dbids);
                     ps.setInt(2, userID);
-                    ps.executeQuery();
+                    rs = ps.executeQuery();
                     //Did not exist in the specified list
                     if(!rs.next()){
                         return false;
                     }
-                    ps = conn.prepareStatement("DELETE r.rID FROM RecipeDonotshow r WHERE r.rID = ? & r.userID = ?");
+                    ps = conn.prepareStatement("DELETE FROM RecipeDonotshow WHERE rID = ? AND userID = ?");
                 } else if (listname.equals("To Explore")) {
                     //checking that the specified user has the specified recipe in the To Explore list
-                    ps = conn.prepareStatement("SELECT r.rID FROM RecipeToExplore r WHERE r.rID = ? & r.userID = ?");
+                    ps = conn.prepareStatement("SELECT r.rID FROM RecipeToExplore r WHERE r.rID = ? AND r.userID = ?");
                     ps.setInt(1, dbids);
                     ps.setInt(2, userID);
-                    ps.executeQuery();
+                    rs = ps.executeQuery();
                     //Did not exist in the specified list
                     if(!rs.next()){
                         return false;
                     }
-                    ps = conn.prepareStatement("DELETE r.rID FROM RecipeToExplore r WHERE r.rID = ? & r.userID = ?");
+                    ps = conn.prepareStatement("DELETE FROM RecipeToExplore  WHERE rID = ? AND userID = ?");
 
                 }
                 ps.setInt(1, dbids);
@@ -289,41 +377,60 @@ public class Database
                 ps.executeUpdate();
                 return true;
             }
-            /*for removing restaurants
+            //for removing restaurants
             else {
+                //checking if added to Restaurant  Database in the past
+                // finding the ID of recipe in the database by identifying the unique api recipe ID
                 ps = conn.prepareStatement("SELECT r.placeID, r.restaurantID FROM Restaurant r WHERE r.placeID = ?");
                 ps.setString(1, ((RestaurantInfo) i).placeID);
                 rs = ps.executeQuery();
-                if (!rs.next()) {
-                    ps = conn.prepareStatement("INSERT INTO Restaurant(name, rating, placeID, address, priceLevel, driveTimeT, driveTimeV, phone) VALUES(?,?,?,?,?,?,?,?)");
-                    ps.setString(1, ((RestaurantInfo) i).name);
-                    ps.setString(2, ((RestaurantInfo) i).address);
-                    ps.setString(3, ((RestaurantInfo) i).priceLevel);
-                    ps.setString(4, ((RestaurantInfo) i).driveTimeText);
-                    ps.setString(5, ((RestaurantInfo) i).phone);
-                    ps.setString(6, ((RestaurantInfo) i).url);
-                    ps.setInt(7, i.rating);
-                    ps.setString(8, ((RestaurantInfo) i).placeID);
-                    ps.executeUpdate();
-                    ps = conn.prepareStatement("SELECT r.placeID, r.restaurantID FROM Restaurant r WHERE r.placeID = ?");
-                    ps.setString(1, ((RestaurantInfo) i).placeID);
-                    rs = ps.executeQuery();
-                    rs.next();
+                // cannot remove an item that has not been added
+                if(!rs.next()){
+                    //System.out.println("IM not supposed to be HERE ");
+                    return false;
                 }
+                //storing the database ID for the restaurant to remove
                 int dbids = rs.getInt("restaurantID");
                 if (listname.equals("Favorites")) {
-                    ps = conn.prepareStatement("INSERT INTO RestFavorites(rID, userid) VALUES(?,?)");
+                    //checking that the specified user has the specified recipe in the Favorites list
+                    ps = conn.prepareStatement("SELECT r.rID FROM RestFavorites r WHERE r.rID = ? AND r.userID = ?");
+                    ps.setInt(1, dbids);
+                    ps.setInt(2, userID);
+                    rs = ps.executeQuery();
+                    //Did not exist in the specified list
+                    if(!rs.next()){
+                        return false;
+                    }
+                    ps = conn.prepareStatement("DELETE FROM RestFavorites WHERE rID = ? AND userID = ?");
                 } else if (listname.equals("Do Not Show")) {
-                    ps = conn.prepareStatement("INSERT INTO Restdonotshow(rID, userid) VALUES(?,?)");
+                    //checking that the specified user has the specified recipe in the Do Not Show list
+                    ps = conn.prepareStatement("SELECT r.rID FROM RestDonotshow r WHERE r.rID = ? AND r.userID = ?");
+                    ps.setInt(1, dbids);
+                    ps.setInt(2, userID);
+                    rs = ps.executeQuery();
+                    //Did not exist in the specified list
+                    if(!rs.next()){
+                        return false;
+                    }
+                    ps = conn.prepareStatement("DELETE FROM RestDonotshow WHERE rID = ? AND userID = ?");
                 } else if (listname.equals("To Explore")) {
-                    ps = conn.prepareStatement("INSERT INTO RestToExplore(rID, userid) VALUES(?,?)");
+                    //checking that the specified user has the specified recipe in the To Explore list
+                    ps = conn.prepareStatement("SELECT r.rID FROM RestToExplore r WHERE r.rID = ? AND r.userID = ?");
+                    ps.setInt(1, dbids);
+                    ps.setInt(2, userID);
+                    rs = ps.executeQuery();
+                    //Did not exist in the specified list
+                    if(!rs.next()){
+                        return false;
+                    }
+                    ps = conn.prepareStatement("DELETE FROM RestToExplore WHERE rID = ? AND userID = ?");
+
                 }
                 ps.setInt(1, dbids);
                 ps.setInt(2, userID);
-                rs = ps.executeQuery();
+                ps.executeUpdate();
+                return true;
             }
-            return true;
-            */
         }catch(SQLException e){
             System.out.println("SQLException in function \"validate\"");
             e.printStackTrace();
@@ -335,9 +442,11 @@ public class Database
     public Boolean updateLists(int userID, Boolean add, String listname, Info i) {
         Boolean isRecipe = i.getClass().equals(RecipeInfo.class);
         if (add) {
-            return addToList(userID, isRecipe, listname, i);
+            addToList(userID, isRecipe, listname, i);
+            return true;
         } else {
-            return removeFromList(userID, isRecipe, listname, i);
+            removeFromList(userID, isRecipe, listname, i);
+            return true;
         }
     }
 }
