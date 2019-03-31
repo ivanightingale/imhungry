@@ -443,9 +443,11 @@ public class Database
         Boolean isRecipe = i.getClass().equals(RecipeInfo.class);
         if (add) {
             addToList(userID, isRecipe, listname, i);
+            //have to return true and not the actual value because executeUpdate returns before can return a bool
             return true;
         } else {
             removeFromList(userID, isRecipe, listname, i);
+            //have to return true and not the actual value because executeUpdate returns before can return a bool
             return true;
         }
     }
