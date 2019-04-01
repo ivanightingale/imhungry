@@ -39,7 +39,7 @@ public class DatabaseTest
         String[] pwInfo = db.getPasswordInfo("testuser");
         assertEquals(2, pwInfo.length);
         assertEquals("abcdefgh", pwInfo[0]);
-        assertEquals("abcdefghhashvalue", pwInfo[1]);
+        assertEquals("3cjjIVtqpoTiJMCoR//Oae5HhKSa+ZdRu8g9jHtDhp+XKI3NTT16687lJ8RoUE/iMLqxqymo1MvbtKrv9hD0Iw==", pwInfo[1]);
     }
 
     @Test

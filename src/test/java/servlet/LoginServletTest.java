@@ -9,6 +9,7 @@ import info.RestaurantInfo;
 import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import security.PasswordHashing;
 
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
