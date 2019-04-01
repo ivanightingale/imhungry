@@ -92,3 +92,9 @@ Scenario: clicking on "Return to Search Page" redirects to Search Page
 	And press "submit" button
 	And press "Back to Search" button
 	Then I should see the "Search" page
+
+Scenario: there is a next page button for pagination
+
+  When I search for "chicken" and expect 5 results
+  And press "submit" button
+  Then I should see the "next" button

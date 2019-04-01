@@ -22,10 +22,8 @@ import info.*;
 
 import java.net.*;
 import java.io.Reader.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+
 /**
  * Servlet implementation class SearchResult
  */
@@ -70,6 +68,7 @@ public class SearchServlet extends HttpServlet {
         //uncomment once testing is complete
         String userSearch = request.getParameter("search");
         int numResults = Integer.parseInt(request.getParameter("number"));
+		int radius = Integer.parseInt(request.getParameter("radius"));
 
         PrintWriter out = response.getWriter();
 
@@ -85,7 +84,7 @@ public class SearchServlet extends HttpServlet {
 
         //get lists
         ArrayList<RecipeInfo> recipeList = recipeSearch(userSearch, numResults, doNotShowList, favoritesList);
-        ArrayList<RestaurantInfo> restaurantList = restaurantSearch(userSearch, numResults, doNotShowList, favoritesList);
+        ArrayList<RestaurantInfo> restaurantList = restaurantSearch(userSearch, numResults, radius, doNotShowList, favoritesList);
         ArrayList<String> urlList = getImageURLs(userSearch);
 
         //return content
@@ -220,15 +219,14 @@ public class SearchServlet extends HttpServlet {
 	
 	//Given a String query and number of results expected, return an ArrayList of RestaurantInfo. The function
 	//uses several Google Maps APIs and refer to Do Not Show List and Favorites List.
-	public ArrayList<RestaurantInfo> restaurantSearch(String query, int numResults, List<Info> doNotShowList, List<Info> favoritesList) {
+	public ArrayList<RestaurantInfo> restaurantSearch(String query, int numResults, int radius, List<Info> doNotShowList, List<Info> favoritesList) {
 		ArrayList<RestaurantInfo> restaurants = new ArrayList<RestaurantInfo>();
 		String searchURL = GOOGLE_MAPS_API_PREFIX + "/place/nearbysearch/json?location=" + TOMMY_TROJAN_LOC
 				+"&rankby=distance&type=restaurant&keyword=" + query.replaceAll("\\s+","%20") + "&key=" + MAPS_API_KEY;
 		//extract relevant part of the JSON response
 		JsonArray places = new JsonParser().parse(getJSONResponse(searchURL)).getAsJsonObject()
 				.get("results").getAsJsonArray();
-		
-		
+
 		//assuming the worst possible case (all items in Do Not Show List appear) to encapsulate sufficient
 		//amount of restaurant information from the response
 		for(int i = 0; i < numResults + doNotShowList.size(); i++) {
@@ -265,8 +263,49 @@ public class SearchServlet extends HttpServlet {
 				restaurants.remove(i);
 			}
 		}
-		
+
+		//filter restaurants by distance
+		//create Map of Restaurant Name, Restaurant distance
+		Map<String, String> restaurantDistances = getDistances(restaurants);
+		System.out.println("before " + restaurants.size());
+		//iterate through list of restaurants - if it is in restaurantDistances, keep it in restaurant list
+		for (Map.Entry<String,String> entry : restaurantDistances.entrySet()) {
+			System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+			String[] distanceasIntArr = entry.getValue().split(" ", 2);
+			System.out.println("distanceasIntArr[0] " + distanceasIntArr[0]);
+			double distanceasDouble = Double.parseDouble(distanceasIntArr[0]);
+
+			if (!(distanceasDouble <= radius )) {
+				restaurants.remove(entry);
+			}
+		}
+
+		System.out.println("after " +restaurants.size());
     	return restaurants;
+	}
+
+	//grabs the distances of each restaurant and stores in a map
+	public Map<String, String> getDistances (ArrayList<RestaurantInfo> restaurants) {
+		String distanceURL = GOOGLE_MAPS_API_PREFIX + "/distancematrix/json?units=imperial&origins="
+				+ TOMMY_TROJAN_LOC + "&destinations=";
+
+		for(int i = 0; i < restaurants.size(); i++) {
+			distanceURL += "place_id:" + restaurants.get(i).placeID + "%7C";
+		}
+		distanceURL += "&key=" + MAPS_API_KEY;
+
+		JsonArray distances = new JsonParser().parse(getJSONResponse(distanceURL)).getAsJsonObject().get("rows").getAsJsonArray().get(0).getAsJsonObject().get("elements").getAsJsonArray();
+
+		Map<String,String> resturantDistances = new HashMap<>();
+		for(int i = 0; i < restaurants.size(); i++) {
+			JsonObject distanceJSON = distances.get(i).getAsJsonObject().get("distance").getAsJsonObject();
+			String distanceInMiles = distanceJSON.get("text").getAsString();
+			resturantDistances.put(restaurants.get(i).name,distanceInMiles);
+		}
+
+		System.out.println("restaurantDistances " + resturantDistances.toString());
+
+		return resturantDistances;
 	}
 	
 	//Create a request using place_id of all RestaurantInfo and send one request to obtain all drive times.
@@ -279,7 +318,6 @@ public class SearchServlet extends HttpServlet {
 			driveTimeURL += "place_id:" + restaurants.get(i).placeID + "%7C";
 		}
 		driveTimeURL += "&key=" + MAPS_API_KEY;
-
 
 		//extract relevant part of the JSON response
 		JsonArray driveTimes = new JsonParser().parse(getJSONResponse(driveTimeURL)).getAsJsonObject().get("rows").getAsJsonArray().get(0).getAsJsonObject().get("elements").getAsJsonArray();
@@ -298,6 +336,7 @@ public class SearchServlet extends HttpServlet {
 					+ restaurant.placeID + "&fields=formatted_phone_number,website&key=" + MAPS_API_KEY;
 			//extract main body of the JSON response
 			JsonObject detailsJSON = new JsonParser().parse(getJSONResponse(detailURL)).getAsJsonObject().get("result").getAsJsonObject();
+
 			//modify each RestaurantInfo objects, store phone number and URL
 			try {
 				restaurant.phone = detailsJSON.get("formatted_phone_number").getAsString();
