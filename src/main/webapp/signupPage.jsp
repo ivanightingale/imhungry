@@ -27,11 +27,6 @@
             <input type="submit" value="Sign Up">
         </form>
 
-        <!-- Remind Passowrd -->
-        <div id="formFooter">
-            <a class="underlineHover" href="#">Forgot Password?</a>
-        </div>
-
     </div>
 </div>
 

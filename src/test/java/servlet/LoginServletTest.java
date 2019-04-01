@@ -54,7 +54,7 @@ public class LoginServletTest
         StringWriter stringWriter = new StringWriter();
         when(response.getWriter()).thenReturn(new PrintWriter(stringWriter));
         when(request.getParameter("signOrLog")).thenReturn("login");
-        BufferedReader br = new BufferedReader(new StringReader(new Gson().toJson(new Message("testuser","hashvalue"))));
+        BufferedReader br = new BufferedReader(new StringReader(new Gson().toJson(new Message("testuser","b109f3bbbc244eb82441917ed06d618b9008dd09b3befd1b5e07394c706a8bb980b1d7785e5976ec049b46df5f1326af5a2ea6d103fd07c95385ffab0cacbc86"))));
         when(request.getReader()).thenReturn(br);
         doAnswer(new Answer()
         {
@@ -292,7 +292,7 @@ public class LoginServletTest
         StringWriter stringWriter = new StringWriter();
         when(response.getWriter()).thenReturn(new PrintWriter(stringWriter));
         when(request.getParameter("signOrLog")).thenReturn("login");
-        BufferedReader br = new BufferedReader(new StringReader(new Gson().toJson(new Message("testuser","hashvalue"))));
+        BufferedReader br = new BufferedReader(new StringReader(new Gson().toJson(new Message("testuser","b109f3bbbc244eb82441917ed06d618b9008dd09b3befd1b5e07394c706a8bb980b1d7785e5976ec049b46df5f1326af5a2ea6d103fd07c95385ffab0cacbc86"))));
         when(request.getReader()).thenReturn(br);
         doAnswer(new Answer()
         {

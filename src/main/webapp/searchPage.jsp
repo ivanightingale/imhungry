@@ -12,8 +12,7 @@
 <body>
 	<div id = "header">I'm Hungry </div>
 	<div id = "format">
-		// CHANGE TO POST (MORE SECURE)
-		<form action = "resultPage.jsp" method = "GET">
+		<form action = "resultPage.jsp" method = "GET" onsubmit="if(localStorage.getItem('loggedIn')===null) {window.location = '/loginPage.jsp'; return false;} else return true;">
 			<input type = "text" name = "search" id = "search" placeholder = "Enter Food" required />
 			<div id = hover_format>
 				<input type = "number" name = "number" id = "number" value = "5" min= "1" />

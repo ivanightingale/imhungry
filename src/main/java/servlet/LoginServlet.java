@@ -23,7 +23,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@WebServlet(name = "LoginServlet", urlPatterns = "/LoginServlet")
+@WebServlet(name = "LoginServlet", urlPatterns = "/Login")
 public class LoginServlet extends HttpServlet
 {
     private static final long serialVersionUID = 1L;
@@ -52,6 +52,7 @@ public class LoginServlet extends HttpServlet
             if(!signUp) {
                 if (db.checkUser(username)) {
                     String[] pInfo = db.getPasswordInfo(username);
+                    System.out.println(PasswordHashing.hashPassword(password, pInfo[0]));
                     if ((PasswordHashing.hashPassword(password, pInfo[0])).equals(pInfo[1])) {
                         // log IN!
 
@@ -62,8 +63,6 @@ public class LoginServlet extends HttpServlet
                         session.setAttribute("Do Not Show", db.getLists(userIDstore, "Do Not Show"));
                         session.setAttribute("To Explore", db.getLists(userIDstore, "To Explore"));
                         String next = "/searchPage.jsp";
-                        RequestDispatcher dispatch = getServletContext().getRequestDispatcher(next);
-                        dispatch.forward(request, response);
                         respWriter.println(gson.toJson(new Message("LoggedIn", userIDstore)));
                     }
                     //wrong password
@@ -91,8 +90,6 @@ public class LoginServlet extends HttpServlet
                     session.setAttribute("Do Not Show", db.getLists(userIDstore, "Do Not Show"));
                     session.setAttribute("To Explore", db.getLists(userIDstore, "To Explore"));
                     String next = "/searchPage.jsp";
-                    RequestDispatcher dispatch = getServletContext().getRequestDispatcher(next);
-                    dispatch.forward(request, response);
                     respWriter.println(gson.toJson(new Message("Created", userIDstore)));
                 }
                 else {
