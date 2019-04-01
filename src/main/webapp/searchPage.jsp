@@ -22,11 +22,11 @@
 			</div>
 
 			<select id = "radius_dropdown" name="radius">
-				<option value="1mi">1 mi</option>
-				<option value="2mi">2 mi</option>
-				<option value="3mi">3 mi</option>
-				<option value="4mi">4 mi</option>
-				<option value="5mi">5 mi</option>
+				<option value="1">1 mi</option>
+				<option value="2">2 mi</option>
+				<option value="3">3 mi</option>
+				<option value="4">4 mi</option>
+				<option value="5">5 mi</option>
 			</select>
 			<%--<input id = "submit" type="submit" value="Search">--%>
 			<br>

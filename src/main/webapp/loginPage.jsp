@@ -22,7 +22,7 @@
 
         <h4> Log In </h4>
         <!-- Login Form -->
-        <form>
+        <form action="LoginServlet" method="POST">
             <input type="text" id="login" name="login" placeholder="login">
             <input type="text" id="password" name="login" placeholder="password">
             <input type="submit" value="Log In">
