@@ -39,7 +39,7 @@ public class DatabaseTest
         String[] pwInfo = db.getPasswordInfo("testuser");
         assertEquals(2, pwInfo.length);
         assertEquals("abcdefgh", pwInfo[0]);
-        assertEquals("hashvalue", pwInfo[1]);
+        assertEquals("abcdefghhashvalue", pwInfo[1]);
     }
 
     @Test
@@ -110,7 +110,7 @@ public class DatabaseTest
         Boolean rfavUpdate = db.updateLists(1, false,"Favorites",  rinfo);
         Boolean rexpUpdate = db.updateLists(1, false,"To Explore", rinfo);
         Boolean rdnsUpdate = db.updateLists(1, false,"Do Not Show", rinfo);
-        assertTrue( rfavUpdate && rexpUpdate && rdnsUpdate &&favUpdate2 && rexpUpdate2 && rdnsUpdate2 );
+        assertTrue( rfavUpdate && rexpUpdate && rdnsUpdate && rfavUpdate2 && rexpUpdate2 && rdnsUpdate2 );
         getListsTest();
     }
 
