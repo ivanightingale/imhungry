@@ -22,7 +22,7 @@
 
         <h4> Log In </h4>
         <!-- Login Form -->
-        <form action="/searchPage.jsp" method="POST" onsubmit="return sendData();">
+        <form onsubmit="return sendData();">
             <input type="text" id="username" name="username" placeholder="Username">
             <input type="password" id="password" name="password" placeholder="Password">
             <input type="submit" value="Log In">
