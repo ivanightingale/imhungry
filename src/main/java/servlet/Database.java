@@ -94,7 +94,7 @@ public class Database
     }
 
     public Boolean createUser(String username, String passwordHash, String salt) {
-        if(!checkUser(username)){
+        if(checkUser(username)){
             return false;
         }
         try {

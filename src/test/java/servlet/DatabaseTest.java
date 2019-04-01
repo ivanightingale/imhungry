@@ -53,7 +53,7 @@ public class DatabaseTest
     //user creation
     public void createUserTest() {
         Database db = new Database();
-        Boolean madeUser = db.createUser("testuser2", "hashvalue", "abcdefgh");
+        Boolean madeUser = db.createUser("testuser2", "abcdefghhashvalue", "abcdefgh");
         assertTrue(madeUser);
         checkUserTest();
         getPasswordInfoTest();
