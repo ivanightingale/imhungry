@@ -267,12 +267,10 @@ public class SearchServlet extends HttpServlet {
 		//filter restaurants by distance
 		//create Map of Restaurant Name, Restaurant distance
 		Map<String, String> restaurantDistances = getDistances(restaurants);
-		System.out.println("before " + restaurants.size());
+		
 		//iterate through list of restaurants - if it is in restaurantDistances, keep it in restaurant list
 		for (Map.Entry<String,String> entry : restaurantDistances.entrySet()) {
-			System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
 			String[] distanceasIntArr = entry.getValue().split(" ", 2);
-			System.out.println("distanceasIntArr[0] " + distanceasIntArr[0]);
 			double distanceasDouble = Double.parseDouble(distanceasIntArr[0]);
 
 			if (!(distanceasDouble <= radius )) {
@@ -280,7 +278,7 @@ public class SearchServlet extends HttpServlet {
 			}
 		}
 
-		System.out.println("after " +restaurants.size());
+		
     	return restaurants;
 	}
 
@@ -303,7 +301,6 @@ public class SearchServlet extends HttpServlet {
 			resturantDistances.put(restaurants.get(i).name,distanceInMiles);
 		}
 
-		System.out.println("restaurantDistances " + resturantDistances.toString());
 
 		return resturantDistances;
 	}
