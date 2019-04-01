@@ -84,7 +84,7 @@ public class DatabaseTest
         //assertEquals(list, db.getLists(1, "Do Not Show"));
 
     }
-/*
+
     @Test
     //update lists
     public void updateListsTest() {
@@ -113,7 +113,7 @@ public class DatabaseTest
         assertTrue( rfavUpdate && rexpUpdate && rdnsUpdate &&favUpdate2 && rexpUpdate2 && rdnsUpdate2 );
         getListsTest();
     }
-    */
+
     @Test
     //move from list to list
     public void moveListTest(){
@@ -139,5 +139,6 @@ public class DatabaseTest
 
         assertFalse(db.getLists(1, "To Explore").contains(rinfo));
         assertEquals(hashlistexpected, hashlistresult);
+        db.updateLists(1, false, "Favorites", rinfo);
     }
 }

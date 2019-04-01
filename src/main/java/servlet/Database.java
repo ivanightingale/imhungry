@@ -429,10 +429,16 @@ public class Database
         if (add) {
             addToList(userID, isRecipe, listname, i);
             //have to return true and not the actual value because executeUpdate returns before can return a bool
-            return true;
+            if(getLists(userID, listname).contains(i)){
+                return true;
+            }
+            return false;
         } else {
             removeFromList(userID, isRecipe, listname, i);
             //have to return true and not the actual value because executeUpdate returns before can return a bool
+            if(getLists(userID, listname).contains(i)) {
+                return false;
+            }
             return true;
         }
     }
