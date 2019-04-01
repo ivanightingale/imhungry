@@ -219,7 +219,7 @@ CREATE TABLE `restfavorites` (
 
 LOCK TABLES `restfavorites` WRITE;
 /*!40000 ALTER TABLE `restfavorites` DISABLE KEYS */;
-INSERT INTO `restfavorites` VALUES (39,1,1),(41,5,3);
+INSERT INTO `restfavorites` VALUES (39,1,1);
 /*!40000 ALTER TABLE `restfavorites` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -265,7 +265,7 @@ CREATE TABLE `user` (
   `pw` varchar(100) NOT NULL,
   `salt` varchar(100) NOT NULL,
   PRIMARY KEY (`userID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -274,7 +274,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'testuser','01aNr7Y+2naXyH1+6tXqHc3KBDV86mDDFSHdn2Mjl2vB5oAxQjSX1wUkwzN/o7oTovwN0APxHf1W1hKJb5DBfw==','abcdefgh'),(2,'-422142889','3Qm4ih1dflmML/xE6/ehjKD+3PvsHuf/ZHBVKLmdOTT1QJsCw5Mjoz1t3rWhtAaP1kBm9REHqIHYnsZKPtgNgw==','zg0ulM4a+CDhkmID4aRPa7xGgUAK8k7eRGOUI52mK/8hU1qeNvw4kwAbGQt18cNa/1nn59hkARi5P6eUzlwVG6'),(3,'581167028','VvwB0wHF+MolYh3dBRMEVyqo+7B051Ijxtwb+bBDV8nOZm31sN78CPR12qLm375DNG2NdunFuqJHv33U0qHwfQ==','sn2JOqn0LLpb8D53bkNi/nIbwAjFi+s8BDE3bqegLpHg/4Ab1CNQt/vhqM1ELa0tm629nx8hqFMOp4wRSKnVt/'),(4,'905146758','LknpCii6Wte3yyjULNiI7cbg4mI82zM/p4aKmSpx7WsYlVP+38rMBWhsm1RZgwBQgBjqgR65qAIe24SrEuvypA==','oJQ/VztwmFq+AIITkbE6MRMCabBfmNgn7juAs7HGH7ynQ2+AVl8m3GJgyP3hoikMnRS4aAvpQjozu0SHsBFQNJ'),(5,'newusernew','IoSFkT4V6JtNwpE6lY6HeVhv5j6M0BP3KFnG88YYtg7x+YDXMKT9GHzrhHH8oJbAV6iPCXnG+mUyKG6q02mqLQ==','f89r2lQ2K0qAtt8HCo53O7Mwdn4/9wIih2JMn1zmwh758flt0imfzyl2EcIoD9op34ilsM18h7E3Cx7scjsoM1');
+INSERT INTO `user` VALUES (1,'testuser','01aNr7Y+2naXyH1+6tXqHc3KBDV86mDDFSHdn2Mjl2vB5oAxQjSX1wUkwzN/o7oTovwN0APxHf1W1hKJb5DBfw==','abcdefgh');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -287,4 +287,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-04-01  5:10:00
+-- Dump completed on 2019-04-01  5:26:13

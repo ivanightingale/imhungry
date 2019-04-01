@@ -1,6 +1,7 @@
 package servlet;
 
 import com.google.gson.Gson;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import info.Info;
 import info.RecipeInfo;
 import info.RestaurantInfo;
@@ -109,22 +110,6 @@ public class Database
             e.printStackTrace();
         }
         return false;
-    }
-
-    public Boolean moveList(int userID, Info i, String newList, String prevList){
-        //if on the old list then remove it
-        updateLists(userID, false, prevList, i);
-        updateLists(userID, true, newList, i);
-        ArrayList<Info> listshouldbein = getLists(userID, newList);
-        if(!listshouldbein.contains(i)){
-            return false;
-        }
-        ArrayList<Info> listshouldnotbein = getLists(userID, prevList);
-        if(listshouldnotbein.contains(i)){
-            return false;
-        }
-        return true;
-
     }
 
     public ArrayList<Info> getLists(int userID, String listname) {
@@ -254,6 +239,7 @@ public class Database
                 ps.setInt(1, dbids);
                 ps.setInt(2, userID);
                 ps.executeUpdate();
+                return true;
             }
 
             //for adding restaurants
@@ -305,6 +291,7 @@ public class Database
                 ps.setInt(1, dbids);
                 ps.setInt(2, userID);
                 ps.executeUpdate();
+                return true;
             }
 
         }catch(SQLException e){
@@ -328,7 +315,7 @@ public class Database
                 rs = ps.executeQuery();
                 // cannot remove an item that has not been added
                 if(!rs.next()){
-                    //System.out.println("IM not supposed to be HERE ");
+                    System.out.println("IM not supposed to be HERE ");
                     return false;
                 }
 
@@ -365,6 +352,7 @@ public class Database
                 ps.setInt(1, dbids);
                 ps.setInt(2, userID);
                 ps.executeUpdate();
+                System.out.println("about to return true");
                 return true;
             }
             //for removing restaurants
@@ -397,6 +385,7 @@ public class Database
                 //Did not exist in the specified restaurant list
                 if(!rs.next()){
                     //Cannot delete what you do not have restaurant edition
+                    System.out.println(dbids + " " + userID);
                     return false;
                 }
                 if (listname.equals("Favorites")) {
@@ -427,19 +416,13 @@ public class Database
     public Boolean updateLists(int userID, Boolean add, String listname, Info i) {
         Boolean isRecipe = i.getClass().equals(RecipeInfo.class);
         if (add) {
-            addToList(userID, isRecipe, listname, i);
+            Boolean succ = addToList(userID, isRecipe, listname, i);
             //have to return true and not the actual value because executeUpdate returns before can return a bool
-            if(getLists(userID, listname).contains(i)){
-                return true;
-            }
-            return false;
+            return getLists(userID, listname).contains(i) && succ;
         } else {
-            removeFromList(userID, isRecipe, listname, i);
+            Boolean succ = removeFromList(userID, isRecipe, listname, i);
             //have to return true and not the actual value because executeUpdate returns before can return a bool
-            if(getLists(userID, listname).contains(i)) {
-                return false;
-            }
-            return true;
+            return !getLists(userID, listname).contains(i) && succ;
         }
     }
 }
