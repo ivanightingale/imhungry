@@ -25,7 +25,7 @@
         <form onsubmit="return sendData();">
             <input type="text" id="username" name="username" placeholder="Username">
             <input type="password" id="password" name="password" placeholder="Password">
-            <input type="submit" value="Log In">
+            <input type="submit" id="submit" value="Log In">
         </form>
 
     </div>
