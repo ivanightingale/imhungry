@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -64,13 +65,21 @@ public class SearchServlet extends HttpServlet {
 			doNotShowList = (ArrayList<Info>) session.getAttribute("Do Not Show");
 		}
 
+		PrintWriter out = response.getWriter();
+
+		//Check that user is logged in on current session
+		if(!session.getAttribute("userID").equals(Integer.parseInt(request.getParameter("userID")))) {
+			out.println(new Gson().toJson(new Message("You aren't logged in!")));
+			RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher("/searchPage.jsp");
+			requestDispatcher.forward(request, response);
+			return;
+		}
+
         //From previous page, extract parameters
         //uncomment once testing is complete
         String userSearch = request.getParameter("search");
         int numResults = Integer.parseInt(request.getParameter("number"));
 		int radius = Integer.parseInt(request.getParameter("radius"));
-
-        PrintWriter out = response.getWriter();
 
         //Set up variables to store return value
         boolean success = true;
