@@ -95,3 +95,7 @@ MANIFEST.MF
 .cache-main
 .scala_dependencies
 .worksheet
+
+#intelliJ IDE files
+.idea
+*.iml
