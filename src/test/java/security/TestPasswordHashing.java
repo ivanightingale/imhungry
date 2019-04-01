@@ -2,33 +2,45 @@ package security;
 
 import org.junit.Test;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotSame;
+import static security.PasswordHashing.hashPassword;
 
 
 public class TestPasswordHashing {
     @Test
     public void hashPasswordTest() {
-        PasswordHashing ph = new PasswordHashing();
         // expected hash output from function when password = "123456"
-        String expectedHash = "y+x6lOc+kwRcmZd1TSfRss4p1kItIwrfmXuUi2Hnjz2OBSf8AfRhmhQ/XqRO+WmQ5c6DKOPQeXhnIeC8zk6mPw==";
+        String expectedHash = "TmXu7dg2XWkhmDUbfbMykz6Khho34T3WLqauQl9PeYbK6fgUMYtWZJ6OgAtJMmkpdmX3/g8IqVqOYWdcwLrwog==";
         // password to be used in hashPassword() function
         String password = "123456";
+        String salt = "randomsalt";
         // compares expected and actual hash
-        assertEquals(expectedHash, ph.hashPassword(password));
-        // tests deterministic nature of hash (produce same result every time)
-        assertEquals(expectedHash, ph.hashPassword(password));
-        // tests hashing entropy (small change produces vastly different hash)
-        assertNotSame(expectedHash, ph.hashPassword(password));
+        assertEquals(expectedHash, PasswordHashing.hashPassword(password, salt));
     }
 
     @Test
-    public void storeHashedPasswordTest(){
+    public void exceptionTest() throws NoSuchFieldException, IllegalAccessException{
+        // expected hash output from function when password = "123456"
+        String expectedHash = "TmXu7dg2XWkhmDUbfbMykz6Khho34T3WLqauQl9PeYbK6fgUMYtWZJ6OgAtJMmkpdmX3/g8IqVqOYWdcwLrwog==";
+        // password to be used in hashPassword() function
+        String password = "";
+        String salt = "";
+        // compares expected and actual hash
+        assertEquals("", PasswordHashing.hashPassword(password, salt));
+    }
+
+    @Test
+    public void saltGeneratorTest() {
         PasswordHashing ph = new PasswordHashing();
-        // shows that we aren't storing the plaintext password
-        String password = "123456";
-        String hash = ph.hashPassword(password);
-        // password and hash should not be same (don't store user passwords)
-        assertNotSame(password, hash);
+        String salt1 = PasswordHashing.getRandomSalt();
+        String salt2 = PasswordHashing.getRandomSalt();
+
+        assertNotEquals(salt1, salt2); //Show salts are random
+        assertEquals(salt1.length(), 86); //Show salts are correct length
     }
 }
