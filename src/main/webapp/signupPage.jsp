@@ -21,17 +21,13 @@
     <div id="formContent">
 
         <h4> Sign Up </h4>
-        <form>
-            <input type = "text" id = "fullname" name = "login" placeholder="Full Name">
-            <input type="text" id="login" name="login" placeholder="Email">
-            <input type="text" id="password" name="login" placeholder="Password">
-            <input type="submit" value="Log In">
+        <form action="LoginServlet" method="POST">
+            <input type = "text" id = "fullname" name = "signup" placeholder="Full Name">
+            <input type="text" id="email" name="signup" placeholder="Email">
+            <input type="text" id="password" name="signup" placeholder="Password">
+            <input type="submit" value="Sign Up">
         </form>
 
-        <!-- Remind Passowrd -->
-        <div id="formFooter">
-            <a class="underlineHover" href="#">Forgot Password?</a>
-        </div>
 
     </div>
 </div>
