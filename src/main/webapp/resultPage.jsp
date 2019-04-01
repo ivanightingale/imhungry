@@ -35,7 +35,7 @@
 			<div class = "sub_header">Recipes</div>
 		</div>
 
-        <a href="#" id="next" class="next">Next &raquo;</a>
+        <button id="next" class="next">Next &raquo;</button>
 	</div>
 
     <script src="js/dropdown.js"></script>
