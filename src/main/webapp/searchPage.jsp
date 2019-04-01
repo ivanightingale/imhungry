@@ -12,6 +12,7 @@
 <body>
 	<div id = "header">I'm Hungry </div>
 	<div id = "format">
+		// CHANGE TO POST (MORE SECURE)
 		<form action = "resultPage.jsp" method = "GET">
 			<input type = "text" name = "search" id = "search" placeholder = "Enter Food" required />
 			<div id = hover_format>
