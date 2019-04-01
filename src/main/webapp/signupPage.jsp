@@ -22,10 +22,9 @@
 
         <h4> Sign Up </h4>
         <form>
-            <input type = "text" id = "fullname" name = "login" placeholder="Full Name">
-            <input type="text" id="login" name="login" placeholder="Email">
+            <input type = "text" id = "username" name = "login" placeholder="Username">
             <input type="text" id="password" name="login" placeholder="Password">
-            <input type="submit" value="Log In">
+            <input type="submit" value="Sign Up">
         </form>
 
         <!-- Remind Passowrd -->
