@@ -33,6 +33,8 @@
 			<input type = "image" src="resources/grumpy.png" onmousedown="sadToHappy()" onmouseleave="happyToSad()" name = "submit" id ="submit" value = "Feed Me!" />
 			
 		</form>
+		<button id = "login" onclick="window.location = '/loginPage.jsp';">Log In</button>
+		<button id = "signup" onclick="window.location = '/signupPage.jsp';">Sign Up</button>
 	</div>
 <script>
     //Functions to switch emoji states
