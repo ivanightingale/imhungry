@@ -2,6 +2,23 @@
 When(/^I visit the website$/) do
   visit('localhost:8080')
 end
+
+When(/^I visit the results page/) do
+  visit('localhost:8080/resultsPage.jsp')
+end
+
+When(/^I visit the list page/) do
+  visit('localhost:8080/listPage.jsp')
+end
+
+When(/^I visit the recipe page/) do
+  visit('localhost:8080/recipePage.jsp')
+end
+
+When(/^I visit the restaurant page/) do
+  visit('localhost:8080/restaurantPage.jsp')
+end
+
 When(/^press search$/) do
   find_field("q").native.send_keys(:enter)
 end
