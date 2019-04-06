@@ -42,9 +42,13 @@
             console.log(JSON.stringify({header:document.getElementById("username").value,body:passhash}));
             xhttp.send(JSON.stringify({header:document.getElementById("username").value,body:passhash}));
             var response = JSON.parse(xhttp.response);
-            localStorage.setItem("loggedIn", "notnull");
+            if(response.header != "LoggedIn") {
+                alert("Login failed:\n" + response.header);
+                return false;
+            }
+            localStorage.setItem("loggedIn", response.header);
             localStorage.setItem("userID", response.body);
-            console.log(response);
+            //console.log(response);
             window.location = "/searchPage.jsp";
         });
         return false;
