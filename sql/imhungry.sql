@@ -1,6 +1,6 @@
--- MySQL dump 10.13  Distrib 8.0.15, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.15, for macos10.14 (x86_64)
 --
--- Host: localhost    Database: imhungry
+-- Host: 127.0.0.1    Database: imhungry
 -- ------------------------------------------------------
 -- Server version	8.0.15
 
@@ -16,6 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `groceries`
+--
+
+DROP TABLE IF EXISTS `groceries`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `groceries` (
+  `grocID` int(11) NOT NULL AUTO_INCREMENT,
+  `userID` int(11) DEFAULT NULL,
+  `recipeID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`grocID`),
+  KEY `foreignK_idx` (`userID`),
+  KEY `foreign2_idx` (`recipeID`),
+  CONSTRAINT `foreign2` FOREIGN KEY (`recipeID`) REFERENCES `recipe` (`recipID`),
+  CONSTRAINT `foreignK` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `groceries`
+--
+
+LOCK TABLES `groceries` WRITE;
+/*!40000 ALTER TABLE `groceries` DISABLE KEYS */;
+/*!40000 ALTER TABLE `groceries` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `recipe`
 --
 
@@ -27,13 +55,13 @@ CREATE TABLE `recipe` (
   `recipeIDapi` int(11) NOT NULL,
   `prepTime` int(11) NOT NULL,
   `cookTime` int(11) NOT NULL,
-  `ingredient` varchar(50) NOT NULL,
-  `instructions` varchar(50) NOT NULL,
+  `ingredient` varchar(1000) NOT NULL,
+  `instructions` varchar(1000) NOT NULL,
   `imageURL` varchar(150) NOT NULL,
   `rating` int(11) NOT NULL,
   `rname` varchar(50) NOT NULL,
   PRIMARY KEY (`recipID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +70,7 @@ CREATE TABLE `recipe` (
 
 LOCK TABLES `recipe` WRITE;
 /*!40000 ALTER TABLE `recipe` DISABLE KEYS */;
-INSERT INTO `recipe` VALUES (1,12345,10,10,'[\"1. ingredient\", \"2. ingredient\"]','[\"1. step\", \"2. step\"]','url',5,'testrecipe');
+INSERT INTO `recipe` VALUES (1,12345,10,10,'[\"1. ingredient\", \"2. ingredient\"]','[\"1. step\", \"2. step\"]','url',5,'testrecipe'),(2,-636401394,10,10,'[\"1. ingredient\",\"2. ingredient\"]','[\"1. step\",\"2. step\"]','url',5,'testrecipe');
 /*!40000 ALTER TABLE `recipe` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -62,7 +90,7 @@ CREATE TABLE `recipedonotshow` (
   KEY `fk8` (`rID`),
   CONSTRAINT `fk7` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`),
   CONSTRAINT `fk8` FOREIGN KEY (`rID`) REFERENCES `recipe` (`recipID`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,7 +99,7 @@ CREATE TABLE `recipedonotshow` (
 
 LOCK TABLES `recipedonotshow` WRITE;
 /*!40000 ALTER TABLE `recipedonotshow` DISABLE KEYS */;
-INSERT INTO `recipedonotshow` VALUES (53,1,1);
+INSERT INTO `recipedonotshow` VALUES (54,1,1);
 /*!40000 ALTER TABLE `recipedonotshow` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -91,7 +119,7 @@ CREATE TABLE `recipefavorites` (
   KEY `fk4` (`rID`),
   CONSTRAINT `fk3` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`),
   CONSTRAINT `fk4` FOREIGN KEY (`rID`) REFERENCES `recipe` (`recipID`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -100,7 +128,7 @@ CREATE TABLE `recipefavorites` (
 
 LOCK TABLES `recipefavorites` WRITE;
 /*!40000 ALTER TABLE `recipefavorites` DISABLE KEYS */;
-INSERT INTO `recipefavorites` VALUES (52,1,1);
+INSERT INTO `recipefavorites` VALUES (54,1,1);
 /*!40000 ALTER TABLE `recipefavorites` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,7 +148,7 @@ CREATE TABLE `recipetoexplore` (
   KEY `fk12` (`rID`),
   CONSTRAINT `fk11` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`),
   CONSTRAINT `fk12` FOREIGN KEY (`rID`) REFERENCES `recipe` (`recipID`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -129,7 +157,7 @@ CREATE TABLE `recipetoexplore` (
 
 LOCK TABLES `recipetoexplore` WRITE;
 /*!40000 ALTER TABLE `recipetoexplore` DISABLE KEYS */;
-INSERT INTO `recipetoexplore` VALUES (54,1,1);
+INSERT INTO `recipetoexplore` VALUES (55,1,1);
 /*!40000 ALTER TABLE `recipetoexplore` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -152,7 +180,7 @@ CREATE TABLE `restaurant` (
   `rating` int(11) NOT NULL,
   `placeID` varchar(50) NOT NULL,
   PRIMARY KEY (`restaurantID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -161,7 +189,7 @@ CREATE TABLE `restaurant` (
 
 LOCK TABLES `restaurant` WRITE;
 /*!40000 ALTER TABLE `restaurant` DISABLE KEYS */;
-INSERT INTO `restaurant` VALUES (1,'testRest','adress','$$$$$$$$','drivetime',8,'phone','url',5,'placeID'),(2,'testRest2','address','$$$$$$$$','drivetime',8,'phone','url',5,'newplaceID'),(3,'Monarca Pasta & Grill','2703 S Vermont Ave, Los Angeles','$','6 mins',367,'(323) 731-8149','No website available',4,'ChIJO_DP2vPHwoARMSD6sRdfdvU');
+INSERT INTO `restaurant` VALUES (1,'testRest','adress','$$$$$$$$','drivetime',8,'phone','url',5,'placeID'),(2,'testRest2','address','$$$$$$$$','drivetime',8,'phone','url',5,'newplaceID'),(3,'Monarca Pasta & Grill','2703 S Vermont Ave, Los Angeles','$','6 mins',367,'(323) 731-8149','No website available',4,'ChIJO_DP2vPHwoARMSD6sRdfdvU'),(4,'testRest','adress','$$$$$$$$','drivetime',8,'phone','url',5,'-636401394');
 /*!40000 ALTER TABLE `restaurant` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -181,7 +209,7 @@ CREATE TABLE `restdonotshow` (
   KEY `fk6` (`rID`),
   CONSTRAINT `fk5` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`),
   CONSTRAINT `fk6` FOREIGN KEY (`rID`) REFERENCES `restaurant` (`restaurantID`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -190,7 +218,7 @@ CREATE TABLE `restdonotshow` (
 
 LOCK TABLES `restdonotshow` WRITE;
 /*!40000 ALTER TABLE `restdonotshow` DISABLE KEYS */;
-INSERT INTO `restdonotshow` VALUES (26,1,1);
+INSERT INTO `restdonotshow` VALUES (27,1,1);
 /*!40000 ALTER TABLE `restdonotshow` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -210,7 +238,7 @@ CREATE TABLE `restfavorites` (
   KEY `fk2` (`rID`),
   CONSTRAINT `fk1` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`),
   CONSTRAINT `fk2` FOREIGN KEY (`rID`) REFERENCES `restaurant` (`restaurantID`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -219,7 +247,7 @@ CREATE TABLE `restfavorites` (
 
 LOCK TABLES `restfavorites` WRITE;
 /*!40000 ALTER TABLE `restfavorites` DISABLE KEYS */;
-INSERT INTO `restfavorites` VALUES (39,1,1);
+INSERT INTO `restfavorites` VALUES (43,1,1);
 /*!40000 ALTER TABLE `restfavorites` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -239,7 +267,7 @@ CREATE TABLE `resttoexplore` (
   KEY `fk10` (`rID`),
   CONSTRAINT `fk10` FOREIGN KEY (`rID`) REFERENCES `restaurant` (`restaurantID`),
   CONSTRAINT `fk9` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -248,7 +276,7 @@ CREATE TABLE `resttoexplore` (
 
 LOCK TABLES `resttoexplore` WRITE;
 /*!40000 ALTER TABLE `resttoexplore` DISABLE KEYS */;
-INSERT INTO `resttoexplore` VALUES (45,1,1);
+INSERT INTO `resttoexplore` VALUES (47,1,1);
 /*!40000 ALTER TABLE `resttoexplore` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -265,7 +293,7 @@ CREATE TABLE `user` (
   `pw` varchar(100) NOT NULL,
   `salt` varchar(100) NOT NULL,
   PRIMARY KEY (`userID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -274,7 +302,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'testuser','01aNr7Y+2naXyH1+6tXqHc3KBDV86mDDFSHdn2Mjl2vB5oAxQjSX1wUkwzN/o7oTovwN0APxHf1W1hKJb5DBfw==','abcdefgh');
+INSERT INTO `user` VALUES (1,'testuser','01aNr7Y+2naXyH1+6tXqHc3KBDV86mDDFSHdn2Mjl2vB5oAxQjSX1wUkwzN/o7oTovwN0APxHf1W1hKJb5DBfw==','abcdefgh'),(2,'-1763587396','CoWkhDz4fiaDdU4XBO45Yk+E1nWMquGW3WjMhmea4QJb/xetiXoTsr6DdnADzLKvCJRhaaLrZCwT+NsaoWLLPw==','Lr8fiPQtztFOCoL6M/FIBwA7cOUI9kNbPTn7Eo+bUEk43I6wk2KQ7BxEu2o2rR53aEjobPaVVPTL88litNr1+L'),(3,'testuser2','abcdefghhashvalue','abcdefgh');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -287,4 +315,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-04-01  5:26:13
+-- Dump completed on 2019-04-06 16:59:12
