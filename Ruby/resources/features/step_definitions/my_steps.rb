@@ -113,3 +113,8 @@ end
 Then(/^I should see the "([^"]*)" button$/) do |arg|
   expect(page).to have_button(arg)
 end
+
+
+Then(/^I should not see "([^"]*)"$/) do |arg|
+  expect(page).to_not have_selector('#' + arg)
+end

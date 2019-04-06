@@ -11,5 +11,18 @@ Feature: Detailed Results Pages
   #2
   Scenario: restaurant page requires a login
 
-    When I visit the restaurant page
+    When I visit the restaurant page page
     Then I should see the "LogIn Page" page
+
+  #3
+  Scenario: Once logged in
+
+    When I press "login" button
+    And enter "testuser" into "username"
+    And enter "password" into "password"
+    And press "submit" button
+    And I should see the "Search" page
+    And I search for "chicken" and expect 5 results
+    And press "submit" button
+    And press a restaurant
+    Then I should not see "Grocery List"
