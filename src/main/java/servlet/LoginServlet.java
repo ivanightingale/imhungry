@@ -40,22 +40,51 @@ public class LoginServlet extends HttpServlet
         String password = (String)reqMessage.body;
         //telling whether it is a login or a signup
         String logOrsign = request.getParameter("signOrLog");
-        Boolean signUp;
-        if(logOrsign.equals("login")) {
-            signUp = false;
-        }else {
-            signUp = true;
-        }
+
         try{
             Database db = new Database();
             // check about password & password salt with the thing david did
-            if(!signUp) {
-                if (db.checkUser(username)) {
-                    String[] pInfo = db.getPasswordInfo(username);
-                    System.out.println(PasswordHashing.hashPassword(password, pInfo[0]));
-                    if ((PasswordHashing.hashPassword(password, pInfo[0])).equals(pInfo[1])) {
-                        // log IN!
+            switch (logOrsign)
+            {
+                case "login":
+                    if (db.checkUser(username))
+                    {
+                        String[] pInfo = db.getPasswordInfo(username);
+                        System.out.println(PasswordHashing.hashPassword(password, pInfo[0]));
+                        if ((PasswordHashing.hashPassword(password, pInfo[0])).equals(pInfo[1]))
+                        {
+                            // log IN!
 
+                            int userIDstore = db.getUserID(username);
+                            session.setAttribute("hello", "Hello " + username);
+                            session.setAttribute("userID", userIDstore);
+                            session.setAttribute("Favorites", db.getLists(userIDstore, "Favorites"));
+                            session.setAttribute("Do Not Show", db.getLists(userIDstore, "Do Not Show"));
+                            session.setAttribute("To Explore", db.getLists(userIDstore, "To Explore"));
+                            String next = "/searchPage.jsp";
+                            respWriter.println(gson.toJson(new Message("LoggedIn", userIDstore)));
+                        }
+                        //wrong password
+                        else
+                        {
+                            respWriter.println(gson.toJson(new Message("Invalid Password!")));
+                            respWriter.close();
+                            return;
+                        }
+                    }//user does not exist
+                    else
+                    {
+                        respWriter.println(gson.toJson(new Message("Invalid Username!")));
+                        respWriter.close();
+                        return;
+                    }
+                    break;
+                //sign up
+                case "signup":
+                    if (!db.checkUser(username))
+                    {
+                        String salt = PasswordHashing.getRandomSalt();
+                        db.createUser(username, PasswordHashing.hashPassword(password, salt), salt);
                         int userIDstore = db.getUserID(username);
                         session.setAttribute("hello", "Hello " + username);
                         session.setAttribute("userID", userIDstore);
@@ -63,40 +92,25 @@ public class LoginServlet extends HttpServlet
                         session.setAttribute("Do Not Show", db.getLists(userIDstore, "Do Not Show"));
                         session.setAttribute("To Explore", db.getLists(userIDstore, "To Explore"));
                         String next = "/searchPage.jsp";
-                        respWriter.println(gson.toJson(new Message("LoggedIn", userIDstore)));
+                        respWriter.println(gson.toJson(new Message("Created", userIDstore)));
                     }
-                    //wrong password
-                    else {
-                        respWriter.println(gson.toJson(new Message("Invalid Password!")));
+                    else
+                    {
+                        respWriter.println(gson.toJson(new Message("Username already exists!")));
                         respWriter.close();
                         return;
                     }
-                }//user does not exist
-                else {
-                    respWriter.println(gson.toJson(new Message("Invalid Username!")));
-                    respWriter.close();
-                    return;
-                }
-            }
-            //sign up
-            else{
-                if (!db.checkUser(username)) {
-                    String salt = PasswordHashing.getRandomSalt();
-                    db.createUser(username, PasswordHashing.hashPassword(password, salt), salt);
-                    int userIDstore = db.getUserID(username);
-                    session.setAttribute("hello", "Hello " + username);
-                    session.setAttribute("userID", userIDstore);
-                    session.setAttribute("Favorites", db.getLists(userIDstore, "Favorites"));
-                    session.setAttribute("Do Not Show", db.getLists(userIDstore, "Do Not Show"));
-                    session.setAttribute("To Explore", db.getLists(userIDstore, "To Explore"));
-                    String next = "/searchPage.jsp";
-                    respWriter.println(gson.toJson(new Message("Created", userIDstore)));
-                }
-                else {
-                    respWriter.println(gson.toJson(new Message("Username already exists!")));
-                    respWriter.close();
-                    return;
-                }
+                    break;
+                case "verify":
+                    if ((int)session.getAttribute("userID") == Integer.parseInt(password)) {
+                        respWriter.println(gson.toJson(new Message("Verified")));
+                        return;
+                    }
+                    else {
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/loginPage.jsp");
+                        rd.forward(request, response);
+                    }
+                    break;
             }
         } catch(Exception e) { //Handle exceptions
             e.printStackTrace();
