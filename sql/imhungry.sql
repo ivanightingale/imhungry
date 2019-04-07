@@ -24,8 +24,8 @@ DROP TABLE IF EXISTS `groceries`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `groceries` (
   `grocID` int(11) NOT NULL AUTO_INCREMENT,
-  `userID` int(11) DEFAULT NULL,
-  `recipeID` int(11) DEFAULT NULL,
+  `userID` int(11) NOT NULL,
+  `recipeID` int(11) NOT NULL,
   PRIMARY KEY (`grocID`),
   KEY `foreignK_idx` (`userID`),
   KEY `foreign2_idx` (`recipeID`),
@@ -41,6 +41,34 @@ CREATE TABLE `groceries` (
 LOCK TABLES `groceries` WRITE;
 /*!40000 ALTER TABLE `groceries` DISABLE KEYS */;
 /*!40000 ALTER TABLE `groceries` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `previousSearch`
+--
+
+DROP TABLE IF EXISTS `previousSearch`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `previousSearch` (
+  `prevID` int(11) NOT NULL,
+  `userID` int(11) NOT NULL,
+  `searchTerm` varchar(50) NOT NULL,
+  `specradius` int(11) NOT NULL,
+  `expectRes` int(11) NOT NULL,
+  PRIMARY KEY (`prevID`),
+  KEY `foreignK3_idx` (`userID`),
+  CONSTRAINT `foreignK3` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `previousSearch`
+--
+
+LOCK TABLES `previousSearch` WRITE;
+/*!40000 ALTER TABLE `previousSearch` DISABLE KEYS */;
+/*!40000 ALTER TABLE `previousSearch` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -315,4 +343,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-04-06 16:59:12
+-- Dump completed on 2019-04-06 17:53:54
