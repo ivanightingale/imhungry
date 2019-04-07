@@ -35,7 +35,6 @@ public class LoginServlet extends HttpServlet
         PrintWriter respWriter = response.getWriter();
         Gson gson = new Gson();
         String reqBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator())); //Java 8 magic to collect all lines from a BufferedReadder, in this case the request.
-        System.out.println(reqBody);
         while(reqBody.length()>0 && reqBody.charAt(0) != '{') {
             reqBody = reqBody.substring(1);
         }
@@ -44,7 +43,6 @@ public class LoginServlet extends HttpServlet
         String password = (String) reqMessage.body;
         //telling whether it is a login or a signup
         String logOrsign = request.getParameter("signOrLog");
-        System.out.println(logOrsign);
         try{
             Database db = new Database();
             // check about password & password salt with the thing david did
@@ -106,9 +104,6 @@ public class LoginServlet extends HttpServlet
                     }
                     break;
                 case "verify":
-                    System.out.println(password);
-                    System.out.println(session.getAttribute("userID"));
-                    System.out.println(Integer.parseInt(password));
                     if (session.getAttribute("userID") != null && Integer.parseInt(password) == (int)session.getAttribute("userID")) {
                         respWriter.println(gson.toJson(new Message("Verified")));
                         return;
