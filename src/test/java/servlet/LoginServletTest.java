@@ -413,7 +413,7 @@ public class LoginServletTest
         //doNothing().when(rd).forward(any(), any());
         doPostMethod.invoke(loginServlet, request, response);
 
-        //Make sure redirect happens
-        verify(rd).forward(any(), any());
+        //Make sure the correct response was set
+        assertEquals(stringWriter.toString(), (new Gson().toJson(new Message("Unverified")))+System.lineSeparator());
     }
 }

@@ -33,14 +33,18 @@ public class LoginServlet extends HttpServlet
     {
         HttpSession session = request.getSession();
         PrintWriter respWriter = response.getWriter();
-        String reqBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator())); //Java 8 magic to collect all lines from a BufferedReadder, in this case the request.
         Gson gson = new Gson();
+        String reqBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator())); //Java 8 magic to collect all lines from a BufferedReadder, in this case the request.
+        System.out.println(reqBody);
+        while(reqBody.length()>0 && reqBody.charAt(0) != '{') {
+            reqBody = reqBody.substring(1);
+        }
         Message reqMessage = gson.fromJson(reqBody, Message.class);
         String username = reqMessage.header;
-        String password = (String)reqMessage.body;
+        String password = (String) reqMessage.body;
         //telling whether it is a login or a signup
         String logOrsign = request.getParameter("signOrLog");
-
+        System.out.println(logOrsign);
         try{
             Database db = new Database();
             // check about password & password salt with the thing david did
@@ -102,15 +106,18 @@ public class LoginServlet extends HttpServlet
                     }
                     break;
                 case "verify":
-                    if ((int)session.getAttribute("userID") == Integer.parseInt(password)) {
+                    System.out.println(password);
+                    System.out.println(session.getAttribute("userID"));
+                    System.out.println(Integer.parseInt(password));
+                    if (session.getAttribute("userID") != null && Integer.parseInt(password) == (int)session.getAttribute("userID")) {
                         respWriter.println(gson.toJson(new Message("Verified")));
                         return;
                     }
                     else {
-                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/loginPage.jsp");
-                        rd.forward(request, response);
+                        respWriter.println(gson.toJson(new Message("Unverified")));
+                        return;
                     }
-                    break;
+                    //break;
             }
         } catch(Exception e) { //Handle exceptions
             e.printStackTrace();
