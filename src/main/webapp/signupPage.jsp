@@ -28,6 +28,8 @@
             <input type="submit" id="submit" value="Sign Up">
         </form>
 
+        <h4 style="color: red" id="warning"></h4>
+
     </div>
 </div>
 
@@ -42,6 +44,10 @@
             console.log(JSON.stringify({header:document.getElementById("username").value,body:passhash}));
             xhttp.send(JSON.stringify({header:document.getElementById("username").value,body:passhash}));
             var response = JSON.parse(xhttp.response);
+            if(response.header != "LoggedIn") {
+                document.getElementById("warning").innerHTML="Login failed:<br/>" + response.header;
+                return false;
+            }
             localStorage.setItem("loggedIn", "notnull");
             localStorage.setItem("userID", response.body);
             console.log(response);
