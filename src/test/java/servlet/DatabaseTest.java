@@ -139,6 +139,15 @@ public class DatabaseTest
     }
 
     @Test
+    //add previous Searches
+    public void addPrevSearchTest() {
+        Database db = new Database();
+        db.addPrevSearch(1, "testSearch", 5, 1);
+        String prevT = db.getPrevTests(1);
+        assertEquals("1, testSearch, 5, 1", prevT);
+    }
+
+    @Test
     //Create a user that already exists
     public void makeExistingUserTest() {
         Database db = new Database();

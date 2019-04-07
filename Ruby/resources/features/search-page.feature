@@ -46,3 +46,30 @@ Scenario: if logged in you can add recipe item to grocery list
 	And select the list "Grocery List"
 	And press "manage_list" button
 	Then I should see an info item
+
+#4 There is a button for previousSearches on the Search page
+Scenario: There is a button for previousSearches on the Search page
+
+	When I press "login" button
+	And enter "testuser" into "username"
+	And enter "password" into "password"
+	And press "submit" button
+	And I should see the "Search" page
+	And I should see a "prevSearch" button
+	And I click "prevSearch" button
+	Then I should see "Your Previous Searches" field
+
+#5 previousSearches stores previous Searches
+Scenario: There is a button for previousSearches on the Search page
+
+	When I press "login" button
+	And enter "testuser" into "username"
+	And enter "password" into "password"
+	And press "submit" button
+	And I search for "chicken" and expect 5 results
+	And enter radius of 1
+	And press a recipe
+	And press "backtoresults" button
+	And press "backtosearch" button
+	And press "prevSearch" button
+	Then I should see "chicken, 5, 1"

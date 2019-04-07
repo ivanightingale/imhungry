@@ -4,7 +4,7 @@ When(/^I visit the website$/) do
 end
 
 When(/^I visit the results page/) do
-  visit('localhost:8080/resultsPage.jsp')
+  visit('localhost:8080/resultPage.jsp')
 end
 
 When(/^I visit the list page/) do
@@ -40,7 +40,7 @@ When(/^press the third recipe$/) do
 end
 
 When(/^press a restaurant$/) do
-  find('#Res_item0').click
+  find_by_id('#Res_item0').click
 end
 
 When(/^press an info item$/) do
@@ -117,4 +117,24 @@ end
 
 Then(/^I should not see "([^"]*)"$/) do |arg|
   expect(page).to_not have_selector('#' + arg)
+end
+
+And(/^I should see a "([^"]*)" button$/) do |arg|
+  expect(page).to have_button(arg)
+end
+
+And(/^I click "([^"]*)" button$/) do |arg|
+  click_button(arg)
+end
+
+Then(/^I should see "([^"]*)" field$/) do |arg|
+  expect(page).to have_field(arg)
+end
+
+And(/^enter radius of (\d+)$/) do
+  select 'd',from:'radius_dropdown'
+end
+
+Then(/^I should see "([^"]*)"$/) do |arg|
+  expect(page).to have_field(arg)
 end
