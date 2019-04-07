@@ -320,4 +320,100 @@ public class LoginServletTest
         //Make sure the correct response was set
         assertEquals(stringWriter.toString(), (new Gson().toJson(new Message("Invalid Request!")))+System.lineSeparator());
     }
+
+    @Test
+    //Check that a logged in user can access any page
+    public void verifyUserSuccess() throws IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, ServletException
+    {
+        LoginServlet loginServlet = mock(LoginServlet.class, CALLS_REAL_METHODS);//Have to partial mock so loginServlet.getServletContext() can be mocked
+        Method doPostMethod = loginServlet.getClass().getDeclaredMethod("doPost", HttpServletRequest.class, HttpServletResponse.class);
+        doPostMethod.setAccessible(true);
+        HttpServletRequest request = mock(HttpServletRequest.class, RETURNS_DEEP_STUBS);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        HttpSession session = mock(HttpSession.class);
+        Map<String, Object> sessionObj = new TreeMap<>();
+        sessionObj.put("hello", "Hello testuser");
+        sessionObj.put("userID", 1);
+
+        when(request.getSession()).thenReturn(session);
+        StringWriter stringWriter = new StringWriter();
+        when(response.getWriter()).thenReturn(new PrintWriter(stringWriter));
+        when(request.getParameter("signOrLog")).thenReturn("verify");
+        BufferedReader br = new BufferedReader(new StringReader(new Gson().toJson(new Message("userID","1"))));
+        when(request.getReader()).thenReturn(br);
+        doAnswer(new Answer()
+        {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable
+            {
+                assertEquals(sessionObj.get(invocationOnMock.getArguments()[0]), invocationOnMock.getArguments()[1]); //ensures the session state is set correctly
+                return null;
+            }
+        }).when(session).setAttribute(anyString(), anyObject());
+        doAnswer(new Answer()
+        {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable
+            {
+                return sessionObj.get((invocationOnMock.getArguments()[0]));
+            }
+        }).when(session).getAttribute(anyString());
+        RequestDispatcher rd = mock(RequestDispatcher.class);
+        ServletContext sc = mock(ServletContext.class);
+        doReturn(sc).when(loginServlet).getServletContext();
+        when(sc.getRequestDispatcher(anyString())).thenReturn(rd);
+        doNothing().when(rd).forward(any(), any());
+        doPostMethod.invoke(loginServlet, request, response);
+
+        //Make sure the correct response was set
+        assertEquals(stringWriter.toString(), (new Gson().toJson(new Message("Verified")))+System.lineSeparator());
+    }
+
+    @Test
+    //Check an unlogged in user is redirected
+    public void verifyUserFailure() throws IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, ServletException
+    {
+        LoginServlet loginServlet = mock(LoginServlet.class, CALLS_REAL_METHODS);//Have to partial mock so loginServlet.getServletContext() can be mocked
+        Method doPostMethod = loginServlet.getClass().getDeclaredMethod("doPost", HttpServletRequest.class, HttpServletResponse.class);
+        doPostMethod.setAccessible(true);
+        HttpServletRequest request = mock(HttpServletRequest.class, RETURNS_DEEP_STUBS);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        HttpSession session = mock(HttpSession.class);
+        Map<String, Object> sessionObj = new TreeMap<>();
+        sessionObj.put("hello", "Hello testuser");
+        sessionObj.put("userID", 1);
+
+        when(request.getSession()).thenReturn(session);
+        StringWriter stringWriter = new StringWriter();
+        when(response.getWriter()).thenReturn(new PrintWriter(stringWriter));
+        when(request.getParameter("signOrLog")).thenReturn("verify");
+        BufferedReader br = new BufferedReader(new StringReader(new Gson().toJson(new Message("userID","2"))));
+        when(request.getReader()).thenReturn(br);
+        doAnswer(new Answer()
+        {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable
+            {
+                assertEquals(sessionObj.get(invocationOnMock.getArguments()[0]), invocationOnMock.getArguments()[1]); //ensures the session state is set correctly
+                return null;
+            }
+        }).when(session).setAttribute(anyString(), anyObject());
+        doAnswer(new Answer()
+        {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable
+            {
+                return sessionObj.get((invocationOnMock.getArguments()[0]));
+            }
+        }).when(session).getAttribute(anyString());
+        RequestDispatcher rd = mock(RequestDispatcher.class);
+        ServletContext sc = mock(ServletContext.class);
+        doReturn(sc).when(loginServlet).getServletContext();
+        when(sc.getRequestDispatcher(anyString())).thenReturn(rd);
+        //doNothing().when(rd).forward(any(), any());
+        doPostMethod.invoke(loginServlet, request, response);
+
+        //Make sure redirect happens
+        verify(rd).forward(any(), any());
+    }
 }
