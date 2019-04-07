@@ -43,10 +43,10 @@ public class LoginServletTest
         Map<String, Object> sessionObj = new TreeMap<>();
         sessionObj.put("hello", "Hello testuser");
         sessionObj.put("userID", 1);
-        RestaurantInfo rinfo = new RestaurantInfo("testRest", 5, "placeID", "adress" , 8, "drivetime", 8, "phone", "url");
-        ArrayList<Info> list = new ArrayList<>(Collections.singletonList(rinfo));
         RecipeInfo info = new RecipeInfo("testrecipe", 5, 12345, 10, 10, new ArrayList<>(Arrays.asList("1. ingredient", "2. ingredient")), new ArrayList<>(Arrays.asList("1. step", "2. step")), "url", 1);
-        list.add(info);
+        ArrayList<Info> list = new ArrayList<>(Collections.singletonList(info));
+        RestaurantInfo rinfo = new RestaurantInfo("testRest", 5, "placeID", "adress" , 8, "drivetime", 8, "phone", "url");
+        list.add(rinfo);
         sessionObj.put("Favorites",list);
         sessionObj.put("To Explore",list);
         sessionObj.put("Do Not Show",list);

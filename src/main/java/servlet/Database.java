@@ -125,7 +125,7 @@ public class Database
                 ps = conn.prepareStatement("SELECT DISTINCT rec.rID, rec.userID, r.recipeIDapi, r.prepTime, r.rating, r.CookTime, r.ingredient, r.instructions, r.imageURL, r.rname, rec.rID FROM Recipedonotshow rec JOIN Recipe r WHERE rec.userID=? AND rec.rID = r.recipID");
             }
             else if(listname.equals("Grocery List")){
-                ps = conn.prepareStatement("SELECT DISTINCT grow.grocID, grow.userID, grow.recipeID, r.ingredient FROM Groceries grow JOIN Recipe r WHERE rec.userID=? AND rec.rID = r.recipID");
+                ps = conn.prepareStatement("SELECT DISTINCT grow.grocID, grow.userID, grow.recipeID AS 'rID', r.recipeIDapi, r.prepTime, r.rating, r.CookTime, r.ingredient, r.instructions, r.imageURL, r.rname FROM Groceries grow JOIN Recipe r WHERE grow.userID=? AND grow.recipeID = r.recipID");
             }
             ps.setInt(1, userID);
             rs = ps.executeQuery();
@@ -249,7 +249,7 @@ public class Database
                     ps = conn.prepareStatement("INSERT INTO RecipeToExplore(rID, userid) VALUES(?,?)");
                 } else if (listname.equals("Grocery List")) {
                     //checking that the specified user has the specified recipe in the to explore list
-                    ps = conn.prepareStatement("INSERT INTO Groceries(rID, userid) VALUES(?,?)");
+                    ps = conn.prepareStatement("INSERT INTO Groceries(recipeID, userID) VALUES(?,?)");
                 }
                 ps.setInt(1, dbids);
                 ps.setInt(2, userID);
