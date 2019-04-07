@@ -8,6 +8,8 @@
 	<title>Result Page</title>
 </head>
 <body>
+<script src="js/loginChecker.js"></script>
+<script>checkLoggedIn();</script>
 	<div id = "header">Results</div>
 	<div id = "collage"></div>
 	

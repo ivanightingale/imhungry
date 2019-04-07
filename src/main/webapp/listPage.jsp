@@ -8,6 +8,8 @@
 		<link rel="stylesheet" type="text/css" href="css/listPage.css" />
 	</head>
 	<body>
+	<script src="js/loginChecker.js"></script>
+	<script>checkLoggedIn();</script>
 		<form action="listPage.jsp" method="GET">
 			<div class="dropDown">
 				<select id = "dropdown" name="list">
