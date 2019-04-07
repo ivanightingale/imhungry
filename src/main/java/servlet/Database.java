@@ -116,33 +116,6 @@ public class Database
         ArrayList<Info> pList = new ArrayList<Info>();
         try {
             if(listname.equals("Favorites")) {
-                ps = conn.prepareStatement("SELECT DISTINCT  rest.userID, rest.rID, r.rname, r.rating, r.placeID, r.address, r.priceL, r.driveTimeT, r.driveTimeV, r.phone, r.url,  rest.rID FROM RestFavorites rest JOIN Restaurant r WHERE rest.userID=? AND rest.rID = r.restaurantID");
-            }
-            else if(listname.equals("To Explore")) {
-                ps = conn.prepareStatement("SELECT DISTINCT  rest.userID, rest.rID, r.rname, r.rating, r.placeID, r.address, r.priceL, r.driveTimeT, r.driveTimeV, r.phone, r.url, rest.rID FROM RestToExplore rest JOIN Restaurant r WHERE rest.userID=? AND rest.rID = r.restaurantID");
-            }
-            else if(listname.equals("Do Not Show")) {
-                ps = conn.prepareStatement("SELECT DISTINCT  rest.userID, rest.rID, r.rname, r.rating, r.placeID, r.address, r.priceL, r.driveTimeT, r.driveTimeV, r.phone, r.url, rest.rID FROM Restdonotshow rest JOIN Restaurant r WHERE rest.userID=? AND rest.rID = r.restaurantID");
-            }
-            ps.setInt(1, userID);
-            rs = ps.executeQuery();
-            System.out.println(rs);
-            while(rs.next()){
-                int dbid = rs.getInt("rID");
-                String restname = rs.getString("rname");
-                int rating = rs.getInt("rating");
-                String placeID = rs.getString("placeID");
-                String restaddress = rs.getString("address");
-                String priceLevel = rs.getString("priceL");
-                int price = priceLevel.length();
-                String driveTimeT = rs.getString("driveTimeT");
-                int driveTimeV = rs.getInt("driveTimeV");
-                String phone = rs.getString("phone");
-                String url = rs.getString("url");
-                RestaurantInfo p = new RestaurantInfo(restname, rating, placeID, restaddress, price,driveTimeT, driveTimeV, phone, url, dbid);
-                pList.add(p);
-            }
-            if(listname.equals("Favorites")) {
                 ps = conn.prepareStatement("SELECT DISTINCT rec.rID, rec.userID, r.recipeIDapi, r.prepTime, r.rating, r.CookTime, r.ingredient, r.instructions, r.imageURL, r.rname, rec.rID FROM RecipeFavorites rec JOIN Recipe r WHERE rec.userID=? AND rec.rID = r.recipID");
             }
             else if(listname.equals("To Explore")) {
@@ -150,6 +123,9 @@ public class Database
             }
             else if(listname.equals("Do Not Show")) {
                 ps = conn.prepareStatement("SELECT DISTINCT rec.rID, rec.userID, r.recipeIDapi, r.prepTime, r.rating, r.CookTime, r.ingredient, r.instructions, r.imageURL, r.rname, rec.rID FROM Recipedonotshow rec JOIN Recipe r WHERE rec.userID=? AND rec.rID = r.recipID");
+            }
+            else if(listname.equals("Grocery List")){
+                ps = conn.prepareStatement("SELECT DISTINCT grow.grocID, grow.userID, grow.recipeID, r.ingredient FROM Groceries grow JOIN Recipe r WHERE rec.userID=? AND rec.rID = r.recipID");
             }
             ps.setInt(1, userID);
             rs = ps.executeQuery();
@@ -171,6 +147,39 @@ public class Database
                 ArrayList<String> instructions = new ArrayList<String>(Arrays.asList(instructionArray));
                 String imageurl = rs.getString("imageURL");
                 RecipeInfo p = new RecipeInfo(rname, rating, recipeIDapi, prepTime, cookTime, ingredients, instructions,imageurl, dbid);
+                pList.add(p);
+            }
+
+            //return grocery list after go thru recipes because no restaurants in grocery list
+            if(listname.equals("Grocery List")){
+                return pList;
+            }
+            if(listname.equals("Favorites")) {
+                ps = conn.prepareStatement("SELECT DISTINCT  rest.userID, rest.rID, r.rname, r.rating, r.placeID, r.address, r.priceL, r.driveTimeT, r.driveTimeV, r.phone, r.url,  rest.rID FROM RestFavorites rest JOIN Restaurant r WHERE rest.userID=? AND rest.rID = r.restaurantID");
+            }
+            else if(listname.equals("To Explore")) {
+                ps = conn.prepareStatement("SELECT DISTINCT  rest.userID, rest.rID, r.rname, r.rating, r.placeID, r.address, r.priceL, r.driveTimeT, r.driveTimeV, r.phone, r.url, rest.rID FROM RestToExplore rest JOIN Restaurant r WHERE rest.userID=? AND rest.rID = r.restaurantID");
+            }
+            else if(listname.equals("Do Not Show")) {
+                ps = conn.prepareStatement("SELECT DISTINCT  rest.userID, rest.rID, r.rname, r.rating, r.placeID, r.address, r.priceL, r.driveTimeT, r.driveTimeV, r.phone, r.url, rest.rID FROM Restdonotshow rest JOIN Restaurant r WHERE rest.userID=? AND rest.rID = r.restaurantID");
+            }
+
+            ps.setInt(1, userID);
+            rs = ps.executeQuery();
+            System.out.println(rs);
+            while(rs.next()){
+                int dbid = rs.getInt("rID");
+                String restname = rs.getString("rname");
+                int rating = rs.getInt("rating");
+                String placeID = rs.getString("placeID");
+                String restaddress = rs.getString("address");
+                String priceLevel = rs.getString("priceL");
+                int price = priceLevel.length();
+                String driveTimeT = rs.getString("driveTimeT");
+                int driveTimeV = rs.getInt("driveTimeV");
+                String phone = rs.getString("phone");
+                String url = rs.getString("url");
+                RestaurantInfo p = new RestaurantInfo(restname, rating, placeID, restaddress, price,driveTimeT, driveTimeV, phone, url, dbid);
                 pList.add(p);
             }
             return pList;
@@ -218,6 +227,9 @@ public class Database
                 } else if (listname.equals("To Explore")) {
                     //checking that the specified user has the specified recipe in the to explore list
                     ps = conn.prepareStatement("SELECT r.rID FROM RecipeToExplore r WHERE r.rID = ? & r.userID = ?");
+                } else if (listname.equals("Grocery List")) {
+                    //checking that the specified user has the specified recipe in the to explore list
+                    ps = conn.prepareStatement("SELECT g.recipeID FROM Groceries g WHERE g.recipeID = ? & g.userID = ?");
                 }
                 ps.setInt(1, dbids);
                 ps.setInt(2, userID);
@@ -235,6 +247,9 @@ public class Database
                 } else if (listname.equals("To Explore")) {
                     //checking that the specified user has the specified recipe in the to explore list
                     ps = conn.prepareStatement("INSERT INTO RecipeToExplore(rID, userid) VALUES(?,?)");
+                } else if (listname.equals("Grocery List")) {
+                    //checking that the specified user has the specified recipe in the to explore list
+                    ps = conn.prepareStatement("INSERT INTO Groceries(rID, userid) VALUES(?,?)");
                 }
                 ps.setInt(1, dbids);
                 ps.setInt(2, userID);
@@ -330,6 +345,9 @@ public class Database
                 } else if (listname.equals("To Explore")) {
                     //checking that the specified user has the specified recipe in the To Explore list
                     ps = conn.prepareStatement("SELECT r.rID FROM RecipeToExplore r WHERE r.rID = ? AND r.userID = ?");
+                } else if (listname.equals("Grocery List")) {
+                    //checking that the specified user has the specified recipe in the Grocery List
+                    ps = conn.prepareStatement("SELECT g.recipeID FROM Groceries g WHERE g.recipeID = ? AND g.userID = ?");
                 }
                 ps.setInt(1, dbids);
                 ps.setInt(2, userID);
@@ -348,6 +366,9 @@ public class Database
                 } else if (listname.equals("To Explore")) {
                     //checking that the specified user has the specified recipe in the To Explore list
                     ps = conn.prepareStatement("DELETE FROM RecipeToExplore  WHERE rID = ? AND userID = ?");
+                } else if (listname.equals("Grocery List")) {
+                    //checking that the specified user has the specified recipe in the Grocery list
+                    ps = conn.prepareStatement("DELETE FROM Groceries  WHERE recipeID = ? AND userID = ?");
                 }
                 ps.setInt(1, dbids);
                 ps.setInt(2, userID);
