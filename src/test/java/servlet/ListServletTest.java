@@ -169,6 +169,7 @@ public class ListServletTest {
 		assertEquals("invalid list url mistake", "google.com",subresult);
 		assertEquals("invalid list content mistake","20",subresult2);
 	}
+
 	
 //	@Test
 	//doPost if given a correctlist

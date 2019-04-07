@@ -425,4 +425,12 @@ public class Database
             return !getLists(userID, listname).contains(i) && succ;
         }
     }
+
+    public String getPrevTests(int id) {
+        return null;
+    }
+
+    public void addPrevSearch(int i, String testSearch, int i1, int i2) {
+
+    }
 }

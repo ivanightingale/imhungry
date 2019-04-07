@@ -73,6 +73,7 @@ public class DatabaseTest
         db.updateLists(1, true,"Favorites",  info);
         db.updateLists(1, true,"To Explore",  info);
         db.updateLists(1, true,"Do Not Show",  info);
+        db.updateLists(1, true,"Grocery List",  info);
         assertEquals(list, db.getLists(1, "Favorites"));
         assertEquals(list, db.getLists(1, "To Explore"));
         assertEquals(list, db.getLists(1, "Do Not Show"));
@@ -96,6 +97,8 @@ public class DatabaseTest
         System.out.println(expUpdate);
         Boolean dnsUpdate = db.updateLists(1, false,"Do Not Show", info);
         System.out.println(dnsUpdate);
+        Boolean glUpdate = db.updateLists(1, false,"Grocery List", info);
+        System.out.println(glUpdate);
         //adding recipes back to the list
         Boolean favUpdate2 = db.updateLists(1, true,"Favorites",  info);
         System.out.println(favUpdate2);
@@ -103,7 +106,9 @@ public class DatabaseTest
         System.out.println(expUpdate2);
         Boolean dnsUpdate2 = db.updateLists(1, true,"Do Not Show", info);
         System.out.println(dnsUpdate2);
-        assertTrue(favUpdate && expUpdate && dnsUpdate && favUpdate2 && expUpdate2 && dnsUpdate2);
+        Boolean glUpdate2 = db.updateLists(1, true,"Grocery List", info);
+        System.out.println(glUpdate2);
+        assertTrue(favUpdate && expUpdate && dnsUpdate && glUpdate && favUpdate2 && expUpdate2 && dnsUpdate2 && glUpdate2);
         RestaurantInfo rinfo = new RestaurantInfo("testRest", 5, "placeID", "adress" , 8, "drivetime", 8, "phone", "url");
         //removing restaurants from the lists
         Boolean rfavUpdate = db.updateLists(1, false,"Favorites",  rinfo);
@@ -131,6 +136,15 @@ public class DatabaseTest
     public void notAUserIDTest() {
         Database db = new Database();
         assertEquals(-1, db.getUserID("notauser"));
+    }
+
+    @Test
+    //add previous Searches
+    public void addPrevSearchTest() {
+        Database db = new Database();
+        db.addPrevSearch(1, "testSearch", 5, 1);
+        String prevT = db.getPrevTests(1);
+        assertEquals("1, testSearch, 5, 1", prevT);
     }
 
     @Test
