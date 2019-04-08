@@ -38,7 +38,7 @@ public class SortListsTest {
         assertEquals("McDonald's", actual.get(1).name);
         assertEquals("Wendy's", actual.get(2).name);
     }
-/*
+
     // tests sorting by distance
     @Test
     public void sortByDriveTimeTest() {
@@ -79,14 +79,14 @@ public class SortListsTest {
         actual.add(new RestaurantInfo("Wendy's", 1, "1", "1", 3, "1", 1, "1", "1"));
         actual.add(new RestaurantInfo("Burger King", 1, "1", "1", 1, "1", 1, "1", "1"));
 
-        actual = SortLists.sortByDriveTime(actual);
+        actual = SortLists.sortByPrice(actual);
         RestaurantInfo ri;
         ri = (RestaurantInfo) actual.get(0);
-        assertEquals(1, ri.priceLevel);
+        assertEquals("$", ri.priceLevel);
         ri = (RestaurantInfo) actual.get(1);
-        assertEquals(2, ri.priceLevel);
+        assertEquals("$$", ri.priceLevel);
         ri = (RestaurantInfo) actual.get(2);
-        assertEquals(3, ri.priceLevel);
+        assertEquals("$$$", ri.priceLevel);
 
         // tests if in order
         actual = new ArrayList<Info>();
@@ -96,10 +96,10 @@ public class SortListsTest {
 
         actual = SortLists.sortByPrice(actual);
         ri = (RestaurantInfo) actual.get(0);
-        assertEquals(1, ri.driveTimeValue);
+        assertEquals("$", ri.priceLevel);
         ri = (RestaurantInfo) actual.get(1);
-        assertEquals(2, ri.driveTimeValue);
+        assertEquals("$$", ri.priceLevel);
         ri = (RestaurantInfo) actual.get(2);
-        assertEquals(3, ri.driveTimeValue);
-    }*/
+        assertEquals("$$$", ri.priceLevel);
+    }
 }
