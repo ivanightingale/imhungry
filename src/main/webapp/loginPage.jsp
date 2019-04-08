@@ -18,6 +18,8 @@
 <body>
 
 <div class="wrapper fadeInDown">
+    <div id="commonheader">I'm Hungry</div>
+
     <div id="formContent">
 
         <h4> Log In </h4>

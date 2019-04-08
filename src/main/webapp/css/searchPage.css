@@ -2,12 +2,11 @@
 
 body{
 	font-family: 'Source Sans Pro', sans-serif;
-	/*background: url("home_background.png");*/
-	/*background-repeat: no-repeat;*/
-}
-
-#radius_dropdown {
-	margin-left:1rem;
+	background: url('home_background.png') no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 }
 
 #header{
@@ -15,7 +14,7 @@ body{
 	font-size: 5rem;
 	text-align: center;
 	padding-top: 20vh;
-	/*color: honeydew;*/
+	color: white;
 }
 
 #format{
@@ -29,10 +28,21 @@ body{
 	font-size: 2rem;
 }
 
-#number{
+.number{
 	font-size: 2rem;
-	margin-left:1rem;
 	width: 4rem;
+}
+
+.search{
+	font-size: 2rem;
+}
+
+.login {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	color: white;
+	background-color:transparent;
+	margin-left: 9em;
 }
 
 #submit {
@@ -40,21 +50,21 @@ body{
 	background-color: orange;
 }
 
-#hover_text{
+.hover_text{
 	font-size: 1rem;
-
+	color: white;
 }
 
-#hover_format{
+.hover_format{
 	display: inline;
 }
 
-#hover_text{
+.hover_text{
 	margin-left:1rem;
-	margin-top:1rem;
+	margin-top:3rem;
 	position:absolute;
 	display: none;
 }
-#hover_format:hover #hover_text {
-  display: inline;
+.hover_format:hover .hover_text {
+    display: inline-block;
 }

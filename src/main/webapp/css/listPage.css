@@ -5,6 +5,16 @@ body {
 	font-family: Helvetica, sans-serif;
 }
 
+#commonheader {
+	height: 7%;
+	background-size: cover;
+	background-color: orange;
+	color: white;
+	text-align: left;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
 .dropDown {
 	position: absolute;
 	width:15vw;

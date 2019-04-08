@@ -29,6 +29,16 @@ button[type=submit] {
 	padding: 0;
 }
 
+#commonheader {
+	height: 7%;
+	background-size: cover;
+	background-color: orange;
+	color: white;
+	text-align: left;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
 .backToResults {
 	position: fixed;
 	margin-bottom:0;

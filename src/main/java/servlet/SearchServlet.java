@@ -301,7 +301,6 @@ public class SearchServlet extends HttpServlet {
 			resturantDistances.put(restaurants.get(i).name,distanceInMiles);
 		}
 
-
 		return resturantDistances;
 	}
 	

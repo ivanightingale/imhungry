@@ -8,6 +8,7 @@
 	<title>Result Page</title>
 </head>
 <body>
+	<div id="commonheader">I'm Hungry</div>
 	<div id = "header">Results</div>
 	<div id = "collage"></div>
 	

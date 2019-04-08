@@ -19,7 +19,7 @@
 
 <div class="wrapper fadeInDown">
     <div id="formContent">
-
+        <div id="commonheader">I'm Hungry</div>
         <h4> Sign Up </h4>
         <form action="LoginServlet" method="POST">
             <input type = "text" id = "fullname" name = "signup" placeholder="Full Name">

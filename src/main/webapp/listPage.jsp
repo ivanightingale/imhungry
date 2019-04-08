@@ -8,7 +8,8 @@
 		<link rel="stylesheet" type="text/css" href="css/listPage.css" />
 	</head>
 	<body>
-		<form action="listPage.jsp" method="GET">
+    <div id="commonheader">I'm Hungry</div>
+    <form action="listPage.jsp" method="GET">
 			<div class="dropDown">
 				<select id = "dropdown" name="list">
 					<option value="invalid">&nbsp</option>

@@ -7,7 +7,9 @@
 		<link rel="stylesheet" type="text/css" href="css/detailedPage.css" />
 	</head>
 	<body>
-		<div class = "textinfo">
+    <div id="commonheader">I'm Hungry</div>
+
+    <div class = "textinfo">
 			<p id="title"></p>
 			<div class = "address">
 				<span id="address1" style="font-size: 2rem">Address:</span>

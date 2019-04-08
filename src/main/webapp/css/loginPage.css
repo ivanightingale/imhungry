@@ -1,5 +1,16 @@
 body {
     height: 100vh;
+    font-family: Arial, "Helvetica Neue";
+}
+
+#commonheader {
+    height: 7%;
+    background-size: cover;
+    background-color: orange;
+    color: white;
+    text-align: left;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 a {
