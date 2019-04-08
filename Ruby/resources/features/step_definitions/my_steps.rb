@@ -40,7 +40,7 @@ When(/^press the third recipe$/) do
 end
 
 When(/^press a restaurant$/) do
-  find_by_id('#Res_item0').click
+  find('#Res_item0').click
 end
 
 When(/^press an info item$/) do
@@ -136,5 +136,9 @@ And(/^enter radius of (\d+)$/) do
 end
 
 Then(/^I should see "([^"]*)"$/) do |arg|
+  expect(page).to have_field(arg)
+end
+
+Then(/^I should see "([^"]*)" in red$/) do |arg|
   expect(page).to have_field(arg)
 end

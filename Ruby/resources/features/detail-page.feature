@@ -17,7 +17,8 @@ Feature: Detailed Results Pages
   #3
   Scenario: Once logged in
 
-    When I press "login" button
+    When I visit the website
+    And I press "login" button
     And enter "testuser" into "username"
     And enter "password" into "password"
     And press "submit" button
