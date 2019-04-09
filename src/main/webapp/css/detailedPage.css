@@ -4,7 +4,7 @@ body {
 }
 
 a{
-	font-family: Helvetica, sans-serif;
+
 	color: inherit;
 	text-decoration:none;
 }
@@ -25,16 +25,6 @@ button[type=submit] {
 	font-size:1.5rem;
 	cursor: pointer;
 	padding: 0;
-}
-
-#commonheader {
-	height: 7%;
-	background-size: cover;
-	background-color: orange;
-	color: white;
-	text-align: left;
-	padding-top: 10px;
-	padding-bottom: 10px;
 }
 
 .backToResults {

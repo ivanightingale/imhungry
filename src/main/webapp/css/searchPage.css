@@ -1,7 +1,6 @@
 @charset "UTF-8";
 
 body{
-	font-family: 'Source Sans Pro', sans-serif;
 	background: url('home_background.png') no-repeat center center fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
@@ -20,7 +19,7 @@ body{
 #format{
 	margin-top: 5vh;
 	display: block;
-    text-align: center;
+	text-align: center;
 }
 
 #search{
@@ -37,12 +36,26 @@ body{
 	font-size: 2rem;
 }
 
-.login {
+#login {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	color: white;
 	background-color:transparent;
-	margin-left: 9em;
+	margin-left: 75%;
+	margin-top: 25px;
+	border: 0px;
+	font-size: 25px;
+}
+
+#signup {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	color: white;
+	background-color:transparent;
+	margin-top: 25px;
+	font-size: 25px;
+	border-style: solid;
+	border-color: white;
 }
 
 #submit {
@@ -66,5 +79,5 @@ body{
 	display: none;
 }
 .hover_format:hover .hover_text {
-    display: inline-block;
+	display: inline-block;
 }

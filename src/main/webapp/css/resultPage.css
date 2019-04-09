@@ -1,17 +1,4 @@
 @charset "UTF-8";
-body{
-    font-family: 'Source Sans Pro', sans-serif;
-}
-
-#commonheader {
-    height: 50%;
-    background-size: cover;
-    background-color: orange;
-    color: white;
-    text-align: center;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
 
 #header{
 	font-size: 3rem;

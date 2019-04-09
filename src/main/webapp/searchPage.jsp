@@ -1,5 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +9,8 @@
 </head>
 <body>
 
-    <input class = "login" type="button" onclick="location.href='loginPage.jsp';" value = "Log In"/>
+	<input id = "login" type="button" onclick="location.href='loginPage.jsp';" value = "Log In"/>
+	<input id = "signup" type="button" onclick="location.href='signupPage.jsp';" value = "Sign Up"/>
 
 	<div id = "header">I'm Hungry </div>
 	<div id = "format">
@@ -42,15 +41,6 @@
 		</form>
 	</div>
 <script>
-    //Functions to switch emoji states
-    // function happyToSad()
-    // {
-    //     document.getElementById("submit").src = "resources/grumpy.png";
-    // }
-    // function sadToHappy()
-    // {
-    //     document.getElementById("submit").src = "resources/smile.png";
-    // }
 </script>
 
 </body>
