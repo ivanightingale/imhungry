@@ -6,11 +6,16 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>List Management</title>
 		<link rel="stylesheet" type="text/css" href="css/listPage.css" />
+		<link rel="stylesheet" type="text/css" href="css/common.css">
+
 	</head>
 	<body>
 	<script src="js/loginChecker.js"></script>
 	<script>checkLoggedIn();</script>
-		<form action="listPage.jsp" method="GET">
+	<div id="common_header">
+		<h4 id = "header_text">I'm Hungry </h4>
+	</div>
+    <form action="listPage.jsp" method="GET">
 			<div class="dropDown">
 				<select id = "dropdown" name="list">
 					<option value="invalid">&nbsp</option>

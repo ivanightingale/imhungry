@@ -1,61 +1,62 @@
-body {
-    height: 100vh;
+#login_link {
+    color: #42A2D4;
+    display: inline-block;
+    vertical-align: top;
+    font-weight:900;
+}
+#account {
+    display: inline-block;
+    vertical-align: top;
+    font-weight:900;
 }
 
-a {
-    color: #92badd;
-    display:inline-block;
-    text-decoration: none;
-    font-weight: 400;
+#header_text {
+    padding-left: 50px;
+    font-size: 35px;
+    margin-top: 0px;
+    margin-bottom:0px;
+
 }
 
-h2 {
-    text-align: center;
-    font-size: 16px;
-    font-weight: 600;
-    text-transform: uppercase;
-    display:inline-block;
-    margin: 40px 8px 10px 8px;
-    color: #cccccc;
-}
-
-/* STRUCTURE */
-.wrapper {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-    min-height: 100%;
-    padding: 20px;
+#submit {
+    color: white;
+    background-color: darkorange;
+    border: none;
+    font-size: 17px;
+    width: 20rem;
+    padding-top: 10px;
+    padding-bottom:10px;
 }
 
 #formContent {
     -webkit-border-radius: 10px 10px 10px 10px;
     border-radius: 10px 10px 10px 10px;
     background: #fff;
-    padding: 30px;
-    width: 90%;
-    max-width: 450px;
-    position: relative;
-    padding: 0px;
     text-align: center;
     border: 1px;
+    left:30%;
 }
 
-#formFooter {
-    border-top: 1px solid #dce8f1;
-    padding: 25px;
-    text-align: center;
-    -webkit-border-radius: 0 0 10px 10px;
-    border-radius: 0 0 10px 10px;
+#signuptext {
+    color: #B26200;
+    font-size: 3rem;
+    bottom:5px;
+    margin-top: 3%;
+    margin-bottom: 0px;
+
 }
 
-h2.inactive {
-    color: #cccccc;
+.form-group {
+    padding-bottom: 5px;
 }
 
-h2.active {
-    color: #0d0d0d;
-    border-bottom: 2px solid #5fbae9;
+.form-control {
+    width: 25%;
+    height: 7%;
+}
+
+#form_footer {
+    text-decoration: none;
+    color: black;
+    margin-left: 11%;
 }
