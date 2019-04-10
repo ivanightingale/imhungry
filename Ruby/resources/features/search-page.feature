@@ -57,10 +57,10 @@ Scenario: if logged in you can add recipe item to grocery list
 	And I search for "chicken" and expect 5 results
 	And press "submit" button
 	And press a recipe
-	And select the list "Grocery List"
+	And select the list "Grocery"
 	And press "addtolist" button
 	And press "backtoresults" button
-	And select the list "Grocery List"
+	And select the list "Grocery"
 	And press "manage_list" button
 	Then I should see an info item
 
