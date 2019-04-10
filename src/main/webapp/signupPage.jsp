@@ -1,36 +1,41 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Sophia Hu
-  Date: 3/31/2019
-  Time: 3:05 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Sign Up Page</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link rel="stylesheet" type="text/css" href="login.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 </head>
 <body>
+<div id="common_header">
+    <h4 id = "header_text">I'm Hungry </h4>
+</div>
+<div id="formContent">
+    <h4 id = "signuptext"> Sign Up for I'm Hungry </h4>
 
-<div class="wrapper fadeInDown">
-    <div id="formContent">
+    <div>
+        <p id = "account"> Already have an account? </p>
+        <a href="loginPage.jsp" id = "login_link"> Log in </a>
+    </div>
 
-        <h4> Sign Up </h4>
-        <!-- Login Form -->
-        <form onsubmit="return sendData();">
-            <input type="text" id="username" name="username" placeholder="Username">
-            <input type="password" id="password" name="password" placeholder="Password">
-            <input type="submit" id="submit" value="Sign Up">
-        </form>
+    <form onsubmit="return sendData()">
+        <div class="form-group">
+            <input class="form-control input-lg" type="text" id="username" name="username" placeholder=" Username">
+        </div>
+        <br>
+        <div class = "form-group">
+            <input class="form-control input-lg" type="password" id="password" name="password" placeholder=" Password">
+        </div>
+        <br>
 
         <h4 style="color: red" id="warning"></h4>
 
-    </div>
+        <input id = "submit" type="submit" value="Sign Up">
+    </form>
+
 </div>
 
 <script>

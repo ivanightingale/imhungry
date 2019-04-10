@@ -1,0 +1,11 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+#common_header {
+    background-size: cover;
+    background-color: darkorange;
+    color: white;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}

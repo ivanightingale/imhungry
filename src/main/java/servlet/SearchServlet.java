@@ -280,14 +280,13 @@ public class SearchServlet extends HttpServlet {
 		//iterate through list of restaurants - if it is in restaurantDistances, keep it in restaurant list
 		for (Map.Entry<String,String> entry : restaurantDistances.entrySet()) {
 			String[] distanceasIntArr = entry.getValue().split(" ", 2);
-			double distanceasDouble = Double.parseDouble(distanceasIntArr[0]);
+			int distanceasInt = Integer.parseInt(distanceasIntArr[0]);
 
-			if (!(distanceasDouble <= radius )) {
+			if (!(distanceasInt <= radius )) {
 				restaurants.remove(entry);
 			}
 		}
 
-		
     	return restaurants;
 	}
 
@@ -309,7 +308,6 @@ public class SearchServlet extends HttpServlet {
 			String distanceInMiles = distanceJSON.get("text").getAsString();
 			resturantDistances.put(restaurants.get(i).name,distanceInMiles);
 		}
-
 
 		return resturantDistances;
 	}

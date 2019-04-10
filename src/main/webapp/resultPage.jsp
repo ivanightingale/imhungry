@@ -10,6 +10,7 @@
 <body>
 <script src="js/loginChecker.js"></script>
 <script>checkLoggedIn();</script>
+	<div id="commonheader">I'm Hungry</div>
 	<div id = "header">Results</div>
 	<div id = "collage"></div>
 	
