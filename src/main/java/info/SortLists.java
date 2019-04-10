@@ -1,90 +1,43 @@
 package info;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class SortLists {
     public static ArrayList<Info> sortAlphabetically(ArrayList<Info> list) {
         if (list == null) return null;
 
-        ArrayList<Info> returnList = new ArrayList<Info>();
+        Collections.sort(list, new AlphabeticalComp());
 
-        // adds first item to returnList
-        returnList.add(list.get(0));
-
-        for (int i=1; i<list.size(); i++){
-            for (int j=0; j<returnList.size(); j++) {
-                // list Info object to be added belongs before the Info object in returnList
-                if ((list.get(i).name).compareToIgnoreCase(returnList.get(j).name) < 0) {
-                    returnList.add(j, list.get(i));
-                    break;
-                }
-                // checks if item belongs at end
-                else {
-                    if (j == returnList.size() - 1) {
-                        returnList.add(list.get(i));
-                        break;
-                    }
-                }
-            }
-        }
-        return returnList;
+        return list;
     }
 
-    public static ArrayList<Info> sortByDriveTime(ArrayList<Info> list){
+    public static ArrayList<Info> sortByRating(ArrayList<Info> list){
         if (list == null) return null;
 
-        ArrayList<Info> returnList = new ArrayList<Info>();
+        Collections.sort(list, new RatingComp());
 
-        // adds first item to returnList
-        returnList.add(list.get(0));
-
-        for (int i=1; i<list.size(); i++){
-            for (int j=0; j<returnList.size(); j++) {
-                RestaurantInfo listInfo = (RestaurantInfo) list.get(i);
-                RestaurantInfo returnInfo = (RestaurantInfo) returnList.get(j);
-                // list Info object to be added belongs before the Info object in returnList
-                if (listInfo.driveTimeValue < returnInfo.driveTimeValue) {
-                    returnList.add(j, list.get(i));
-                    break;
-                }
-                // checks if item belongs at end
-                else {
-                    if (j == returnList.size() - 1) {
-                        returnList.add(list.get(i));
-                        break;
-                    }
-                }
-            }
-        }
-        return returnList;
+        return list;
     }
 
-    public static ArrayList<Info> sortByPrice(ArrayList<Info> list) {
-        if (list == null) return null;
-
-        ArrayList<Info> returnList = new ArrayList<Info>();
-
-        // adds first item to returnList
-        returnList.add(list.get(0));
-
-        for (int i=1; i<list.size(); i++) {
-            for (int j = 0; j < returnList.size(); j++) {
-                RestaurantInfo listInfo = (RestaurantInfo) list.get(i);
-                RestaurantInfo returnInfo = (RestaurantInfo) returnList.get(j);
-                // list Info object to be added belongs before the Info object in returnList
-                if (listInfo.priceLevel.length() < returnInfo.priceLevel.length()) {
-                    returnList.add(j, list.get(i));
-                    break;
-                }
-                // checks if item belongs at end
-                else {
-                    if (j == returnList.size() - 1) {
-                        returnList.add(list.get(i));
-                        break;
-                    }
-                }
-            }
+    static class RatingComp implements  Comparator<Info> {
+        @Override
+        public int compare(Info i1, Info i2){
+            int rating1 = i1.rating;
+            int rating2 = i2.rating;
+            if (rating1 < rating2) return 1;
+            else return -1;
         }
-        return returnList;
+    }
+
+    static class AlphabeticalComp implements Comparator<Info> {
+        @Override
+        public int compare(Info i1, Info i2){
+            String name1 = i1.name;
+            String name2 = i2.name;
+            if (name1.compareTo(name2) > 0) return 1;
+            else return -1;
+        }
     }
 }
