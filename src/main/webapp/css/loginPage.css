@@ -10,14 +10,6 @@
     font-weight:900;
 }
 
-#header_text {
-    padding-left: 50px;
-    font-size: 35px;
-    margin-top: 0px;
-    margin-bottom:0px;
-
-}
-
 #submit {
     color: white;
     background-color: darkorange;
@@ -48,6 +40,8 @@
 
 .form-group {
     padding-bottom: 5px;
+    margin-left: 37%;
+    width: 100%;
 }
 
 .form-control {
