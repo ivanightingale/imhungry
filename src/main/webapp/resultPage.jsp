@@ -20,6 +20,7 @@
                 <option value="Favorites">Favorites</option>
                 <option value="To Explore">To Explore</option>
                 <option value="Do Not Show">Do Not Show</option>
+				<option value="Grocery List">Grocery List</option>
             </select>
         </div>
    	 	<input type="submit" id = "manage_list" value="Manage List" />
