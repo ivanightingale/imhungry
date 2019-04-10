@@ -9,6 +9,7 @@ import static org.junit.Assert.assertEquals;
 
 public class SortListsTest {
     ArrayList<Info> actual;
+
     @Before
     public void initialize() {
         actual = new ArrayList<Info>();
@@ -100,6 +101,6 @@ public class SortListsTest {
         assertEquals(2, ri.rating);
         ri = actual.get(5);
         assertEquals(1, ri.rating);
-
     }
+}
 
