@@ -89,4 +89,4 @@ Scenario: There is a button for previousSearches on the Search page
 	And press "backtoresults" button
 	And press "backtosearch" button
 	And press "prevSearch" button
-	Then I should see "chicken, 5, 1"
+	Then I should see "chicken, 5, 1" text
