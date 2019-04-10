@@ -275,15 +275,15 @@ public class SearchServlet extends HttpServlet {
 
 		//filter restaurants by distance
 		//create Map of Restaurant Name, Restaurant distance
-		Map<String, String> restaurantDistances = getDistances(restaurants);
+		Map<RestaurantInfo, String> restaurantDistances = getDistances(restaurants);
 		
 		//iterate through list of restaurants - if it is in restaurantDistances, keep it in restaurant list
-		for (Map.Entry<String,String> entry : restaurantDistances.entrySet()) {
+		for (Map.Entry<RestaurantInfo,String> entry : restaurantDistances.entrySet()) {
 			String[] distanceasIntArr = entry.getValue().split(" ", 2);
-			int distanceasInt = Integer.parseInt(distanceasIntArr[0]);
+			double distance = Double.parseDouble(distanceasIntArr[0]);
 
-			if (!(distanceasInt <= radius )) {
-				restaurants.remove(entry);
+			if (distance > radius ) {
+				restaurants.remove(entry.getKey());
 			}
 		}
 
@@ -291,7 +291,7 @@ public class SearchServlet extends HttpServlet {
 	}
 
 	//grabs the distances of each restaurant and stores in a map
-	public Map<String, String> getDistances (ArrayList<RestaurantInfo> restaurants) {
+	public Map<RestaurantInfo, String> getDistances (ArrayList<RestaurantInfo> restaurants) {
 		String distanceURL = GOOGLE_MAPS_API_PREFIX + "/distancematrix/json?units=imperial&origins="
 				+ TOMMY_TROJAN_LOC + "&destinations=";
 
@@ -302,11 +302,11 @@ public class SearchServlet extends HttpServlet {
 
 		JsonArray distances = new JsonParser().parse(getJSONResponse(distanceURL)).getAsJsonObject().get("rows").getAsJsonArray().get(0).getAsJsonObject().get("elements").getAsJsonArray();
 
-		Map<String,String> resturantDistances = new HashMap<>();
+		Map<RestaurantInfo,String> resturantDistances = new HashMap<>();
 		for(int i = 0; i < restaurants.size(); i++) {
 			JsonObject distanceJSON = distances.get(i).getAsJsonObject().get("distance").getAsJsonObject();
 			String distanceInMiles = distanceJSON.get("text").getAsString();
-			resturantDistances.put(restaurants.get(i).name,distanceInMiles);
+			resturantDistances.put(restaurants.get(i),distanceInMiles);
 		}
 
 		return resturantDistances;
