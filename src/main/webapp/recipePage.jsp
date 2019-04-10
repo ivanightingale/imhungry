@@ -9,7 +9,9 @@
 	<body>
     <script src="js/loginChecker.js"></script>
     <script>checkLoggedIn();</script>
-		<div class = "textinfo">
+    <div id="commonheader">I'm Hungry</div>
+
+    <div class = "textinfo">
 			<p id="title" style="margin-bottom: 1rem"></p>
 			<p id="img"></p>
 			<div class = "prepT">
@@ -58,6 +60,7 @@
                 <option value="Favorites">Favorites</option>
                 <option value="To Explore">To Explore</option>
                 <option value="Do Not Show">Do Not Show</option>
+                <option value="Grocery">Grocery</option>
             </select>
         </div>
 

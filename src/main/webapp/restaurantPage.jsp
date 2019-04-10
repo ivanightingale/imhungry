@@ -8,8 +8,10 @@
 	</head>
 	<body>
     <script src="js/loginChecker.js"></script>
-    <script>checkLoggedIn();</script>
-		<div class = "textinfo">
+    <script>checkLoggedIn();</script>>
+    <div id="commonheader">I'm Hungry</div>
+
+    <div class = "textinfo">
 			<p id="title"></p>
 			<div class = "address">
 				<span id="address1" style="font-size: 2rem">Address:</span>

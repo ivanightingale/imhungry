@@ -19,7 +19,7 @@ Background:
 		And press "submit" button
 		And I search for "chicken" and expect 5 results
 		And press "submit" button
-		And select the list "Grocery List"
+		And select the list "Grocery"
 		And press "manage_list" button
 		Then I should see an info item
 
