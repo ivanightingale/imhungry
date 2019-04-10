@@ -1,7 +1,6 @@
 package servlet;
 
 import com.google.gson.Gson;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import info.Info;
 import info.RecipeInfo;
 import info.RestaurantInfo;
@@ -9,7 +8,6 @@ import info.RestaurantInfo;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 public class Database
 {
