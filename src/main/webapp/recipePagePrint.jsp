@@ -7,7 +7,8 @@
 		<link rel="stylesheet" type="text/css" href="css/detailedPage.css" />
 	</head>
 	<body>
-        <div class = "textinfo">
+    <div id="commonheader">I'm Hungry</div>
+    <div class = "textinfo">
             <p id="title" style="margin-bottom: 1rem"></p>
             <p id="img"></p>
             <div class = "prepT">

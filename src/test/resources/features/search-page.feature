@@ -17,5 +17,10 @@ Scenario: initiating the search redirects to Results Page
 	Then I should see the "Result" page
 
 #6
-Scenario: there should be a dropdown menu to let users filter restaurant results by radius
-	Then I should see the dropdown menu for selecting specific radius
+Scenario: there should be an input box to let users filter restaurant results by radius
+	Then I should see the input box for selecting specific radius
+
+
+ #7
+ Scenario: default page should have a background image
+	 Then I should see a background image

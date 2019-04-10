@@ -8,6 +8,7 @@
 	<title>Result Page</title>
 </head>
 <body>
+	<div id="commonheader">I'm Hungry</div>
 	<div id = "header">Results</div>
 	<div id = "collage"></div>
 	
@@ -34,6 +35,8 @@
 		<div id = "column2">
 			<div class = "sub_header">Recipes</div>
 		</div>
+
+        <a href="#" class="next">Next &raquo;</a>
 	</div>
 
     <script src="js/dropdown.js"></script>
@@ -52,7 +55,7 @@
         }
         else {
             var xhttp = new XMLHttpRequest();
-            xhttp.open("GET", "/Search?search=" + query.search + "&number=" + query.number, false);
+            xhttp.open("GET", "/Search?search=" + query.search + "&number=" + query.number + "&radius=" + query.radius, false);
             xhttp.send();
             var response = JSON.parse(xhttp.response);
             results = response.body.results;

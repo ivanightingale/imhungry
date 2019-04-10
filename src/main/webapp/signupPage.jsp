@@ -1,39 +1,43 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Sophia Hu
-  Date: 3/31/2019
-  Time: 3:05 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>LogIn Page</title>
+    <title>Signup Page</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link rel="stylesheet" type="text/css" href="login.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 </head>
 <body>
+<div id="common_header">
+    <h4 id = "header_text">I'm Hungry </h4>
+</div>
+<div id="formContent">
+    <h4 id = "signuptext"> Sign Up for I'm Hungry </h4>
 
-<div class="wrapper fadeInDown">
-    <div id="formContent">
-
-        <h4> Sign Up </h4>
-        <form>
-            <input type = "text" id = "fullname" name = "login" placeholder="Full Name">
-            <input type="text" id="login" name="login" placeholder="Email">
-            <input type="text" id="password" name="login" placeholder="Password">
-            <input type="submit" value="Log In">
-        </form>
-
-        <!-- Remind Passowrd -->
-        <div id="formFooter">
-            <a class="underlineHover" href="#">Forgot Password?</a>
-        </div>
-
+    <div>
+        <p id = "account"> Already have an account? </p>
+        <a href="loginPage.jsp" id = "login_link"> Log in </a>
     </div>
+
+    <form action="LoginServlet" method="POST">
+        <div class="form-group">
+            <input class="form-control input-lg" type = "text" id = "fullname" name = "signup" placeholder=" Full Name">
+        </div>
+        <br>
+        <div class="form-group">
+            <input class="form-control input-lg" type="text" id="email" name="signup" placeholder=" Email">
+        </div>
+        <br>
+        <div class = "form-group">
+            <input class="form-control input-lg" type="text" id="password" name="signup" placeholder=" Password">
+        </div>
+        <br>
+
+        <input id = "submit" type="submit" value="Sign Up">
+    </form>
+
 </div>
 
 </body>
