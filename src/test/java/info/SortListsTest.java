@@ -102,4 +102,4 @@ public class SortListsTest {
         assertEquals(1, ri.rating);
 
     }
-}
+
