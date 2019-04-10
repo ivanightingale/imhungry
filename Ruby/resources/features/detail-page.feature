@@ -17,7 +17,8 @@ Feature: Detailed Results Pages
   #3
   Scenario: Once logged in
 
-    When I press "login" button
+    When I visit the website
+    And I press "login" button
     And enter "testuser" into "username"
     And enter "password" into "password"
     And press "submit" button
@@ -25,4 +26,4 @@ Feature: Detailed Results Pages
     And I search for "chicken" and expect 5 results
     And press "submit" button
     And press a restaurant
-    Then I should not see "Grocery List"
+    Then I should not see "Grocery"

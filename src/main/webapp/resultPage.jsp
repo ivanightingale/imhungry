@@ -20,6 +20,7 @@
                 <option value="Favorites">Favorites</option>
                 <option value="To Explore">To Explore</option>
                 <option value="Do Not Show">Do Not Show</option>
+				<option value="Grocery">Grocery</option>
             </select>
         </div>
    	 	<input type="submit" id = "manage_list" value="Manage List" />
@@ -100,7 +101,7 @@
             //Create the actual entry element and set the previous subsections to be its children
             let res = document.createElement("div");
             res.setAttribute("class","item");
-            res.setAttribute("id",'Res_item'+i);
+            res.setAttribute("id","Res_item"+i);
             //Sets the onclick so that you can navigate to the proper detailed page.
             res.setAttribute("onclick","window.location='restaurantPage.jsp?i="+i+"'");
             res.setAttribute("style","cursor:pointer;");

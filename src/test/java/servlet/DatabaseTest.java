@@ -60,20 +60,20 @@ public class DatabaseTest
     //retrieve lists
     public void getListsTest() {
         Database db = new Database();
-        //restaurant test
-        RestaurantInfo rinfo = new RestaurantInfo("testRest", 5, "placeID", "adress" , 8, "drivetime", 8, "phone", "url");
-        ArrayList<Info> list = new ArrayList<>(Collections.singletonList(rinfo));
-        db.updateLists(1, true,"Favorites",  rinfo);
-        db.updateLists(1, true,"To Explore",  rinfo);
-        db.updateLists(1, true,"Do Not Show",  rinfo);
-
         //recipe test
         RecipeInfo info = new RecipeInfo("testrecipe", 5, 12345, 10, 10, new ArrayList<>(Arrays.asList("1. ingredient", "2. ingredient")), new ArrayList<>(Arrays.asList("1. step", "2. step")), "url", 1);
-        list.addAll(Collections.singletonList(info));
+        ArrayList<Info> list = new ArrayList<>(Collections.singletonList(info));
         db.updateLists(1, true,"Favorites",  info);
         db.updateLists(1, true,"To Explore",  info);
         db.updateLists(1, true,"Do Not Show",  info);
         db.updateLists(1, true,"Grocery List",  info);
+
+        //restaurant test
+        RestaurantInfo rinfo = new RestaurantInfo("testRest", 5, "placeID", "adress" , 8, "drivetime", 8, "phone", "url");
+        list.addAll(Collections.singletonList(rinfo));
+        db.updateLists(1, true,"Favorites",  rinfo);
+        db.updateLists(1, true,"To Explore",  rinfo);
+        db.updateLists(1, true,"Do Not Show",  rinfo);
         assertEquals(list, db.getLists(1, "Favorites"));
         assertEquals(list, db.getLists(1, "To Explore"));
         assertEquals(list, db.getLists(1, "Do Not Show"));
