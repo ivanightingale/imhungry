@@ -6,11 +6,16 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>List Management</title>
 		<link rel="stylesheet" type="text/css" href="css/listPage.css" />
+		<link rel="stylesheet" type="text/css" href="css/common.css">
+
 	</head>
 	<body>
 	<script src="js/loginChecker.js"></script>
 	<script>checkLoggedIn();</script>
-		<form action="listPage.jsp" method="GET">
+	<div id="common_header">
+		<h4 id = "header_text">I'm Hungry </h4>
+	</div>
+    <form action="listPage.jsp" method="GET">
 			<div class="dropDown">
 				<select id = "dropdown" name="list">
 					<option value="invalid">&nbsp</option>
@@ -55,7 +60,7 @@
 			var col1 = document.getElementById("container");
 			//Check if the list is empty first though
 			if(list == null || list.length === 0) col1.innerHTML = "This list is empty. Add something to see it here!" ;
-			else if(listName === "Grocery List") {
+			else if(listName === "Grocery") {
                 for (var i = 0; i < list.length; i++) {
                     col1.innerHTML += i+1 + ". " + list[i] + "<br />";
                 }

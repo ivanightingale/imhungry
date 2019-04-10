@@ -10,6 +10,7 @@
 <body>
 <script src="js/loginChecker.js"></script>
 <script>checkLoggedIn();</script>
+	<div id="commonheader">I'm Hungry</div>
 	<div id = "header">Results</div>
 	<div id = "collage"></div>
 	
@@ -59,6 +60,7 @@
             var xhttp = new XMLHttpRequest();
             xhttp.open("GET", "/Search?search=" + query.search + "&number=" + query.number + "&radius=" + query.radius + "&userID=" + localStorage.getItem("userID"), false);
             xhttp.send();
+            console.log(xhttp.response);
             var response = JSON.parse(xhttp.response);
             results = response.body.results;
             imageURLs = response.body.imageURLs;
