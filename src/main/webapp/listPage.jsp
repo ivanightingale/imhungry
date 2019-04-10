@@ -55,6 +55,11 @@
 			var col1 = document.getElementById("container");
 			//Check if the list is empty first though
 			if(list == null || list.length === 0) col1.innerHTML = "This list is empty. Add something to see it here!" ;
+			else if(listName === "Grocery List") {
+                for (var i = 0; i < list.length; i++) {
+                    col1.innerHTML += i+1 + ". " + list[i] + "<br />";
+                }
+			}
 			else {
                 for (var i = 0; i < list.length; i++) {
                     let sec1 = null;

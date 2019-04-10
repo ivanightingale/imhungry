@@ -63,6 +63,7 @@ public class LoginServlet extends HttpServlet
                             session.setAttribute("Favorites", db.getLists(userIDstore, "Favorites"));
                             session.setAttribute("Do Not Show", db.getLists(userIDstore, "Do Not Show"));
                             session.setAttribute("To Explore", db.getLists(userIDstore, "To Explore"));
+                            session.setAttribute("Grocery List", db.getLists(userIDstore, "Grocery List"));
                             String next = "/searchPage.jsp";
                             respWriter.println(gson.toJson(new Message("LoggedIn", userIDstore)));
                         }
@@ -93,6 +94,7 @@ public class LoginServlet extends HttpServlet
                         session.setAttribute("Favorites", db.getLists(userIDstore, "Favorites"));
                         session.setAttribute("Do Not Show", db.getLists(userIDstore, "Do Not Show"));
                         session.setAttribute("To Explore", db.getLists(userIDstore, "To Explore"));
+                        session.setAttribute("Grocery List", db.getLists(userIDstore, "Grocery List"));
                         String next = "/searchPage.jsp";
                         respWriter.println(gson.toJson(new Message("Created", userIDstore)));
                     }

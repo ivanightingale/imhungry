@@ -35,7 +35,7 @@ public class ListServlet extends HttpServlet
 
         PrintWriter respWriter = response.getWriter();
         Gson gson = new Gson();
-        if(!listName.equals("Groceries") && !listName.equals("Favorites") && !listName.equals("To Explore") && !listName.equals("Do Not Show")) //Check if list is valid
+        if(!listName.equals("Grocery List") && !listName.equals("Favorites") && !listName.equals("To Explore") && !listName.equals("Do Not Show")) //Check if list is valid
         {
             respWriter.println(gson.toJson(new Message("Invalid List!")));
             respWriter.close();
@@ -43,7 +43,7 @@ public class ListServlet extends HttpServlet
         }
         List<Info> list = (List<Info>)session.getAttribute(listName); //Cast stored list to correct type
 
-        if(listName.equals("Groceries")) {
+        if(listName.equals("Grocery List")) {
             List<String> groceryList = new ArrayList<>();
             for (Info i : list) {
                 groceryList.addAll(((RecipeInfo) i).ingredients);
@@ -69,7 +69,7 @@ public class ListServlet extends HttpServlet
             Message reqMessage = gson.fromJson(reqBody, Message.class); //Parse outer Message object from JSON
             Message reqListAndItem = gson.fromJson((String)reqMessage.body, Message.class); //Parse inner Message object from json
             String listName = reqListAndItem.header; //Get name of list to modify from the inner Message
-            if(!listName.equals("Favorites") && !listName.equals("To Explore") && !listName.equals("Do Not Show")) //Check validity
+            if(!listName.equals("Grocery List") && !listName.equals("Favorites") && !listName.equals("To Explore") && !listName.equals("Do Not Show")) //Check validity
                 throw new Exception("Invalid list name.");
             String infoJson = (String)reqListAndItem.body; //Get Info object of item to add/remove as a JSON string
 
