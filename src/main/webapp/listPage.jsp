@@ -10,6 +10,8 @@
 
 	</head>
 	<body>
+	<script src="js/loginChecker.js"></script>
+	<script>checkLoggedIn();</script>
 	<div id="common_header">
 		<h4 id = "header_text">I'm Hungry </h4>
 	</div>
@@ -20,6 +22,7 @@
 					<option value="Favorites">Favorites</option>
 					<option value="To Explore">To Explore</option>
 					<option value="Do Not Show">Do Not Show</option>
+					<option value="Grocery">Grocery</option>
 				</select>
 			</div>
 			<input type="submit" id = "manage_list" value="Manage List" />
@@ -57,6 +60,11 @@
 			var col1 = document.getElementById("container");
 			//Check if the list is empty first though
 			if(list == null || list.length === 0) col1.innerHTML = "This list is empty. Add something to see it here!" ;
+			else if(listName === "Grocery") {
+                for (var i = 0; i < list.length; i++) {
+                    col1.innerHTML += i+1 + ". " + list[i] + "<br />";
+                }
+			}
 			else {
                 for (var i = 0; i < list.length; i++) {
                     let sec1 = null;

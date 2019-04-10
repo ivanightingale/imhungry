@@ -7,7 +7,9 @@
 		<link rel="stylesheet" type="text/css" href="css/detailedPage.css" />
 	</head>
 	<body>
-		<div id="commonheader">I'm Hungry</div>
+	<script src="js/loginChecker.js"></script>
+	<script>checkLoggedIn();</script>
+    <div id="commonheader">I'm Hungry</div>
 	<div class = "textinfo">
 			<p id="title"></p>
 			<div class = "address">

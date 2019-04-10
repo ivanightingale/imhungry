@@ -7,6 +7,8 @@
 		<link rel="stylesheet" type="text/css" href="css/detailedPage.css" />
 	</head>
 	<body>
+    <script src="js/loginChecker.js"></script>
+    <script>checkLoggedIn();</script>
     <div id="commonheader">I'm Hungry</div>
     <div class = "textinfo">
             <p id="title" style="margin-bottom: 1rem"></p>

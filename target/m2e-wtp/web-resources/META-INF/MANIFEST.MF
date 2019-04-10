@@ -1,5 +1,10 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Built-By: Sophia Hu
 Build-Jdk: 1.8.0_144
+=======
+Built-By: 99dav
+Build-Jdk: 1.8.0_181
+>>>>>>> origin/david-hashing
 Created-By: Maven Integration for Eclipse
 

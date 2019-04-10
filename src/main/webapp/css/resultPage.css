@@ -30,6 +30,7 @@
 }
 
 .dropDown {
+	background-color: orange;
     position: absolute;
 	width:15vw;
    	right:5vw;
@@ -42,7 +43,7 @@
 }
 
 .select-selected {
-  background-color: White;
+  background-color: orange;
 }
 
 .select-selected:after {
@@ -101,13 +102,15 @@ input[type=submit] {
 
 #manage_list{
 	position: absolute;
+	background-color: orange;
    	right:5vw;
    	top:calc(21vh + 3rem);
 }
 
 #back_search{
 	position: absolute;
-   	right:5vw;
+	background-color: orange;
+	right:5vw;
    	top:calc(21vh + 6rem);
 }
 
@@ -183,14 +186,14 @@ input[type=submit] {
 }
 
 .item{
-	background-color: #6D6D6D;
+	border-color: black;
+	border-style: solid;
+	background-color: white;
 	margin-top:3vh;
 }
 
-
 .item:nth-child(odd) {background-color:#6D6D6D;}
 .item:nth-child(even) {background-color:#A8A8A8;}
-
 
 #column1 {
 	position: relative;

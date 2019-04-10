@@ -10,9 +10,11 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="css/bootstrap-responsive.css">
-
     </head>
 	<body>
+
+    <script src="js/loginChecker.js"></script>
+    <script>checkLoggedIn();</script>
     <div id="common_header">
         <h4 id = "header_text">I'm Hungry </h4>
     </div>
@@ -67,6 +69,7 @@
                 </div>
             </form>
             </div>
+
             <div class="col">
                 <div class="dropDown">
                     <select id = "dropdown">
@@ -77,8 +80,8 @@
                     </select>
                 </div>
             </div>
-        <%--</div>--%>
     </div>
+        </form>
 
         <script src="js/dropdown.js"></script>
         <script src="js/ListClient.js"></script>

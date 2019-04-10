@@ -14,12 +14,11 @@
 
 	<div id = "header">I'm Hungry </div>
 	<div id = "format">
-		<form action = "resultPage.jsp" method = "GET">
-
-            <input type = "text" name = "search" id = "search" placeholder = " Enter Food" required />
-			<div class = hover_format>
-				<input type = "number" name = "number" class = "number" value = "5" min= "1" />
-				<div class = "hover_text">
+		<form action = "resultPage.jsp" method = "GET" onsubmit="if(localStorage.getItem('loggedIn')===null) {window.location = '/loginPage.jsp'; return false;} else return true;">
+			<input type = "text" name = "search" id = "search" placeholder = "Enter Food" required />
+			<div id = "hover_format" class = "hover_format">
+				<input type = "number" name = "number" id = "number" class = "number" value = "5" min= "1" />
+				<div id = "hover_text" class = "hover_text">
 					Number of items to show in results
 				</div>
 			</div>
@@ -27,7 +26,7 @@
             <div class = hover_format>
                 <input type = "number" name = "radius" class = "number" value = "1" min= "1" />
                 <div class = "hover_text">
-                    Radius Selected
+                    Radius Selected (in miles)
                 </div>
             </div>
 
@@ -40,8 +39,6 @@
 			
 		</form>
 	</div>
-<script>
-</script>
 
 </body>
 </html>

@@ -9,9 +9,12 @@
 	<title>Result Page</title>
 </head>
 <body>
-	<div id="common_header">
-		<h4 id = "header_text">I'm Hungry </h4>
-	</div>
+
+<script src="js/loginChecker.js"></script>
+<script>checkLoggedIn();</script>
+<div id="common_header">
+	<h4 id = "header_text">I'm Hungry </h4>
+</div>
 	<div id = "header">Results</div>
 	<div id = "collage"></div>
 	
@@ -22,6 +25,7 @@
                 <option value="Favorites">Favorites</option>
                 <option value="To Explore">To Explore</option>
                 <option value="Do Not Show">Do Not Show</option>
+				<option value="Grocery">Grocery</option>
             </select>
         </div>
    	 	<input type="submit" id = "manage_list" value="Manage List" />
@@ -39,7 +43,7 @@
 			<div class = "sub_header">Recipes</div>
 		</div>
 
-        <a href="#" class="next">Next &raquo;</a>
+        <button id="next" class="next">Next &raquo;</button>
 	</div>
 
     <script src="js/dropdown.js"></script>
@@ -58,8 +62,9 @@
         }
         else {
             var xhttp = new XMLHttpRequest();
-            xhttp.open("GET", "/Search?search=" + query.search + "&number=" + query.number + "&radius=" + query.radius, false);
+            xhttp.open("GET", "/Search?search=" + query.search + "&number=" + query.number + "&radius=" + query.radius + "&userID=" + localStorage.getItem("userID"), false);
             xhttp.send();
+            console.log(xhttp.response);
             var response = JSON.parse(xhttp.response);
             results = response.body.results;
             imageURLs = response.body.imageURLs;
@@ -102,7 +107,7 @@
             //Create the actual entry element and set the previous subsections to be its children
             let res = document.createElement("div");
             res.setAttribute("class","item");
-            res.setAttribute("id","Res_item" + i);
+            res.setAttribute("id","Res_item"+i);
             //Sets the onclick so that you can navigate to the proper detailed page.
             res.setAttribute("onclick","window.location='restaurantPage.jsp?i="+i+"'");
             res.setAttribute("style","cursor:pointer;");

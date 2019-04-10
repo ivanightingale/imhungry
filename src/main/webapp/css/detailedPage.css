@@ -29,6 +29,7 @@ button[type=submit] {
 }
 
 .backToResults {
+	background-color: orange;
 	position: fixed;
 	margin-left: 80%;
 	margin-top: 10px;
@@ -37,6 +38,7 @@ button[type=submit] {
 }
 
 .printableVersion {
+	background-color: orange;
 	position: fixed;
 	margin-left: 80%;
 	top:20vh;
@@ -63,6 +65,7 @@ button[type=submit] {
 }
 
 #dropdown{
+	background-color: orange;
 	border-style: solid;
 	border-color: black;
 	border-width: 2px;
