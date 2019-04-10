@@ -135,10 +135,6 @@ And(/^enter radius of (\d+)$/) do
   select 'd',from:'radius_dropdown'
 end
 
-Then(/^I should see "([^"]*)"$/) do |arg|
-  expect(page).to have_field(arg)
-end
-
-Then(/^I should see "([^"]*)" in red$/) do |arg|
-  expect(page).to have_field(arg)
+Then(/^I should see "([^"]*)" text$/) do |arg|
+  expect(page).to have_text(arg)
 end

@@ -26,4 +26,4 @@ Feature: Detailed Results Pages
     And I search for "chicken" and expect 5 results
     And press "submit" button
     And press a restaurant
-    Then I should not see "Grocery List"
+    Then I should not see "Grocery"

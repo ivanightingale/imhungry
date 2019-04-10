@@ -13,13 +13,22 @@ Scenario: the default page should be Search Page
 	And There should be a "signup" button
 
 #2
-	Scenario: the default page should be Search Page
+Scenario: if you login with wrong password it displays invalid password
 
-		When I press "login" button
-		And enter "testuser" into "username"
-		And enter "wrongpassword" into "password"
-		And press "submit" button
-		Then I should see "Invalid password!" in red
+	When I press "login" button
+	And enter "testuser" into "username"
+	And enter "wrongpassword" into "password"
+	And press "submit" button
+	Then I should see "Invalid Password!" text
+
+#2
+Scenario: if you login with not a real user name it displays invalid username
+
+	When I press "login" button
+	And enter "fakeuser" into "username"
+	And enter "password" into "password"
+	And press "submit" button
+	Then I should see "Invalid Username!" text
 #3
 
 Scenario: initiating the search redirects to Results Page if I am logged in a
@@ -48,10 +57,10 @@ Scenario: if logged in you can add recipe item to grocery list
 	And I search for "chicken" and expect 5 results
 	And press "submit" button
 	And press a recipe
-	And select the list "Grocery List"
+	And select the list "Grocery"
 	And press "addtolist" button
 	And press "backtoresults" button
-	And select the list "Grocery List"
+	And select the list "Grocery"
 	And press "manage_list" button
 	Then I should see an info item
 

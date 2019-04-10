@@ -124,7 +124,7 @@ public class Database
             else if(listname.equals("Do Not Show")) {
                 ps = conn.prepareStatement("SELECT DISTINCT rec.rID, rec.userID, r.recipeIDapi, r.prepTime, r.rating, r.CookTime, r.ingredient, r.instructions, r.imageURL, r.rname, rec.rID FROM Recipedonotshow rec JOIN Recipe r WHERE rec.userID=? AND rec.rID = r.recipID");
             }
-            else if(listname.equals("Grocery List")){
+            else if(listname.equals("Grocery")){
                 ps = conn.prepareStatement("SELECT DISTINCT grow.grocID, grow.userID, grow.recipeID AS 'rID', r.recipeIDapi, r.prepTime, r.rating, r.CookTime, r.ingredient, r.instructions, r.imageURL, r.rname FROM Groceries grow JOIN Recipe r WHERE grow.userID=? AND grow.recipeID = r.recipID");
             }
             ps.setInt(1, userID);
@@ -151,7 +151,7 @@ public class Database
             }
 
             //return grocery list after go thru recipes because no restaurants in grocery list
-            if(listname.equals("Grocery List")){
+            if(listname.equals("Grocery")){
                 return pList;
             }
             if(listname.equals("Favorites")) {
@@ -220,16 +220,16 @@ public class Database
                 int dbids = rs.getInt("recipID");
                 if (listname.equals("Favorites")) {
                     //checking that the specified user has the specified recipe in the Favorites list
-                    ps = conn.prepareStatement("SELECT r.rID AND r.userID FROM RecipeFavorites r WHERE r.rID = ? & r.userID = ?");
+                    ps = conn.prepareStatement("SELECT r.rID AND r.userID FROM RecipeFavorites r WHERE r.rID = ? AND r.userID = ?");
                 } else if (listname.equals("Do Not Show")) {
                     //checking that the specified user has the specified recipe in the Donotshow list
-                    ps = conn.prepareStatement("SELECT r.rID FROM RecipeDonotshow r WHERE r.rID = ? & r.userID = ?");
+                    ps = conn.prepareStatement("SELECT r.rID FROM RecipeDonotshow r WHERE r.rID = ? AND r.userID = ?");
                 } else if (listname.equals("To Explore")) {
                     //checking that the specified user has the specified recipe in the to explore list
-                    ps = conn.prepareStatement("SELECT r.rID FROM RecipeToExplore r WHERE r.rID = ? & r.userID = ?");
-                } else if (listname.equals("Grocery List")) {
+                    ps = conn.prepareStatement("SELECT r.rID FROM RecipeToExplore r WHERE r.rID = ? AND r.userID = ?");
+                } else if (listname.equals("Grocery")) {
                     //checking that the specified user has the specified recipe in the to explore list
-                    ps = conn.prepareStatement("SELECT g.recipeID FROM Groceries g WHERE g.recipeID = ? & g.userID = ?");
+                    ps = conn.prepareStatement("SELECT g.recipeID FROM Groceries g WHERE g.recipeID = ? AND g.userID = ?");
                 }
                 ps.setInt(1, dbids);
                 ps.setInt(2, userID);
@@ -247,7 +247,7 @@ public class Database
                 } else if (listname.equals("To Explore")) {
                     //checking that the specified user has the specified recipe in the to explore list
                     ps = conn.prepareStatement("INSERT INTO RecipeToExplore(rID, userid) VALUES(?,?)");
-                } else if (listname.equals("Grocery List")) {
+                } else if (listname.equals("Grocery")) {
                     //checking that the specified user has the specified recipe in the to explore list
                     ps = conn.prepareStatement("INSERT INTO Groceries(recipeID, userID) VALUES(?,?)");
                 }
@@ -284,9 +284,9 @@ public class Database
                 if (listname.equals("Favorites")) {
                     ps = conn.prepareStatement("SELECT r.rID FROM RestFavorites r WHERE r.rID= ? AND r.userID= ?");
                 } else if (listname.equals("Do Not Show")) {
-                    ps = conn.prepareStatement("SELECT r.rID FROM Restdonotshow r WHERE r.rID= ? & r.userID= ?");
+                    ps = conn.prepareStatement("SELECT r.rID FROM Restdonotshow r WHERE r.rID= ? AND r.userID= ?");
                 } else if (listname.equals("To Explore")) {
-                    ps = conn.prepareStatement("SELECT r.rID FROM RestToExplore r WHERE r.rID= ? & r.userID= ?");
+                    ps = conn.prepareStatement("SELECT r.rID FROM RestToExplore r WHERE r.rID= ? AND r.userID= ?");
                 }
                 ps.setInt(1, dbids);
                 ps.setInt(2, userID);
@@ -345,7 +345,7 @@ public class Database
                 } else if (listname.equals("To Explore")) {
                     //checking that the specified user has the specified recipe in the To Explore list
                     ps = conn.prepareStatement("SELECT r.rID FROM RecipeToExplore r WHERE r.rID = ? AND r.userID = ?");
-                } else if (listname.equals("Grocery List")) {
+                } else if (listname.equals("Grocery")) {
                     //checking that the specified user has the specified recipe in the Grocery List
                     ps = conn.prepareStatement("SELECT g.recipeID FROM Groceries g WHERE g.recipeID = ? AND g.userID = ?");
                 }
@@ -366,7 +366,7 @@ public class Database
                 } else if (listname.equals("To Explore")) {
                     //checking that the specified user has the specified recipe in the To Explore list
                     ps = conn.prepareStatement("DELETE FROM RecipeToExplore  WHERE rID = ? AND userID = ?");
-                } else if (listname.equals("Grocery List")) {
+                } else if (listname.equals("Grocery")) {
                     //checking that the specified user has the specified recipe in the Grocery list
                     ps = conn.prepareStatement("DELETE FROM Groceries  WHERE recipeID = ? AND userID = ?");
                 }
