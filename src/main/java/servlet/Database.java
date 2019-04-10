@@ -3,6 +3,7 @@ package servlet;
 import com.google.gson.Gson;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import info.Info;
+import info.Searches;
 import info.RecipeInfo;
 import info.RestaurantInfo;
 
@@ -338,16 +339,16 @@ public class Database
                 int dbids = rs.getInt("recipID");
                 if (listname.equals("Favorites")) {
                     //checking that the specified user has the specified recipe in the Favorites list
-                    ps = conn.prepareStatement("SELECT r.rID FROM RecipeFavorites r WHERE r.rID = ? AND r.userID = ?");
+                    ps = conn.prepareStatement("SELECT r.rID AND r.userID FROM RecipeFavorites r WHERE r.rID = ? AND r.userID = ?");
                 } else if (listname.equals("Do Not Show")) {
                     //checking that the specified user has the specified recipe in the Do Not Show list
-                    ps = conn.prepareStatement("SELECT r.rID FROM RecipeDonotshow r WHERE r.rID = ? AND r.userID = ?");
+                    ps = conn.prepareStatement("SELECT r.rID AND r.userID FROM RecipeDonotshow r WHERE r.rID = ? AND r.userID = ?");
                 } else if (listname.equals("To Explore")) {
                     //checking that the specified user has the specified recipe in the To Explore list
-                    ps = conn.prepareStatement("SELECT r.rID FROM RecipeToExplore r WHERE r.rID = ? AND r.userID = ?");
+                    ps = conn.prepareStatement("SELECT r.rID AND r.userID FROM RecipeToExplore r WHERE r.rID =? AND r.userID = ?");
                 } else if (listname.equals("Grocery")) {
                     //checking that the specified user has the specified recipe in the Grocery List
-                    ps = conn.prepareStatement("SELECT g.recipeID FROM Groceries g WHERE g.recipeID = ? AND g.userID = ?");
+                    ps = conn.prepareStatement("SELECT g.recipeID AND g.userID FROM Groceries g WHERE g.recipeID =? AND g.userID =?");
                 }
                 ps.setInt(1, dbids);
                 ps.setInt(2, userID);
@@ -447,11 +448,48 @@ public class Database
         }
     }
 
-    public String getPrevTests(int id) {
-        return null;
+    public ArrayList<Searches> getPrevTests(int userID) {
+        ArrayList<Searches> searchHistory = new ArrayList<Searches>();
+        try {
+            ps = conn.prepareStatement("SELECT p.userID, p.searchTerm, p.specradius, p.expectRes FROM previousSearch p WHERE p.userID = ?");
+            ps.setInt(1, userID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String searchTerm = rs.getString("searchTerm");
+                int specifiedRadius = rs.getInt("specradius");
+                int expectedResults = rs.getInt("expectRes");
+                searchHistory.add(new Searches(searchTerm, specifiedRadius, expectedResults));
+            }
+            return searchHistory;
+        }catch(SQLException e){
+            System.out.println("SQLException in function \"validate\"");
+            e.printStackTrace();
+        }
+        return searchHistory;
     }
 
-    public void addPrevSearch(int i, String testSearch, int i1, int i2) {
-
+    public Boolean addPrevSearch(int userID, String testSearch, int radius, int results) {
+        try {
+            ps = conn.prepareStatement("SELECT p.userID, p.searchTerm, p.specradius, p.expectRes FROM previousSearch p WHERE p.userID = ? AND p.searchTerm =? AND p.specradius= ? AND p.expectRes = ?");
+            ps.setInt(1, userID);
+            ps.setString(2, testSearch);
+            ps.setInt(3, radius);
+            ps.setInt(4, results);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+               return false;
+            }
+            ps = conn.prepareStatement("INSERT INTO previousSearch(userID, searchTerm, specradius, expectRes) VALUES(?,?,?,?)");
+            ps.setInt(1, userID);
+            ps.setString(2, testSearch);
+            ps.setInt(3, radius);
+            ps.setInt(4, results);
+            ps.executeUpdate();
+            return true;
+        }catch(SQLException e){
+            System.out.println("SQLException in function \"validate\"");
+            e.printStackTrace();
+        }
+        return false;
     }
 }
