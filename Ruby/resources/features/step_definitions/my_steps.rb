@@ -138,3 +138,32 @@ end
 Then(/^I should see "([^"]*)" text$/) do |arg|
   expect(page).to have_text(arg)
 end
+
+
+When(/^I search for "([^"]*)"$/) do |arg|
+  pending
+end
+
+And(/^expect (\d+) results$/) do |arg|
+  pending
+end
+
+Then(/^I should see a page one button$/) do
+  pending
+end
+
+Then(/^I should see three pages with five recipe results and five restaurant results on each page$/) do
+  pending
+end
+
+Then(/^I should see (\d+) pages$/) do |arg|
+  pending
+end
+
+And(/^expect (\d+) "([^"]*)" results$/) do |arg1, arg2|
+  pending
+end
+
+And(/^(\d+) "([^"]*)" results$/) do |arg1, arg2|
+  pending
+end

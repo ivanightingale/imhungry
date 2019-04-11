@@ -20,3 +20,4 @@ Background:
     And I search for "chicken" and expect 5 results
     And press "submit" button
     Then I should see the "next" button
+

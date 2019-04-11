@@ -90,3 +90,18 @@ Scenario: There is a button for previousSearches on the Search page
 	And press "backtosearch" button
 	And press "prevSearch" button
 	Then I should see "chicken, 5, 1" text
+
+   #7
+   Scenario: search results page should have pagination buttons
+		When I search for "pizza"
+		And expect 10 results
+		Then I should see a page 1 button
+
+
+        #8
+	Scenario: search page should show only five results
+		When I search for "pizza"
+		And expect 10 results
+		Then I should see 3 pages
+		And expect 5 "recipe" results
+		And 5 "restaurant" results
