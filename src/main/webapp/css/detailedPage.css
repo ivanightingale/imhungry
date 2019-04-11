@@ -14,7 +14,7 @@ a:hover
 }
 
 button[type=submit] {
-	background:white;
+	background:orange;
 	color: black;
 	width:17vw;
 	min-width: 12rem;
@@ -74,11 +74,11 @@ button[type=submit] {
 }
 
 .dropDown select {
-  /*display: none;*/
+  display: none;
 }
 
 .select-selected {
-  background-color: White;
+  background-color: orange;
 }
 
 .select-selected:after {
