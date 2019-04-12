@@ -7,6 +7,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -158,7 +159,7 @@ public class SearchServletTest {
 		sessionObj.put("Favorites", new ArrayList<Info>());
 		sessionObj.put("To Explore", new ArrayList<Info>());
 		sessionObj.put("Do Not Show", new ArrayList<Info>());
-		sessionObj.put("Previous Searches",  new ArrayList<Searches>());
+		sessionObj.put("PreviousSearches",  new ArrayList<Searches>());
 		sessionObj.put("userID", 1);
 		when(request.getSession()).thenReturn(session);
 		StringWriter stringWriter = new StringWriter();
@@ -192,11 +193,27 @@ public class SearchServletTest {
 		when(sc.getRequestDispatcher(anyString())).thenReturn(rd);
 		doNothing().when(rd).forward(any(), any());
 		doGetMethod.invoke(searchServlet, request, response);
+		Gson gson = new Gson();
+		if( ((ArrayList<Searches>)sessionObj.get("PreviousSearches")).size() == 1){
+			assertEquals(gson.toJson(sessionObj.get("PreviousSearches")), gson.toJson(new ArrayList<>(Arrays.asList(new Searches("pancakeTest", 6, 5)))));
 
+		}
+		else if( ((ArrayList<Searches>)sessionObj.get("PreviousSearches")).size() == 2){
+			assertEquals(gson.toJson(sessionObj.get("PreviousSearches")), gson.toJson(new ArrayList<>(Arrays.asList(new Searches("testSearch", 5, 1), new Searches("pancakeTest", 6, 5)))));
+
+		}
 		//Make sure the correct response was set
-		assertEquals(sessionObj.get("Previous Searches"), new ArrayList<>(Arrays.asList(new Searches("pancakeTest", 6, 5))));
+		//assertEquals(gson.toJson(sessionObj.get("PreviousSearches")), gson.toJson(new ArrayList<>(Arrays.asList(new Searches("pancakeTest", 6, 5)))));
 		Database db = new Database();
-		assertEquals(db.getPrevSearch(1), new ArrayList<>(Arrays.asList(new Searches("pancakeTest", 6, 5))));
+		if( (db.getPrevSearch(1).size() == 1)){
+			assertEquals(gson.toJson(db.getPrevSearch(1)), gson.toJson(new ArrayList<>(Arrays.asList(new Searches("pancakeTest", 6, 5)))));
+
+		}
+		else if(  (db.getPrevSearch(1).size() == 2)){
+			assertEquals(gson.toJson(db.getPrevSearch(1)), gson.toJson(new ArrayList<>(Arrays.asList(new Searches("testSearch", 5, 1), new Searches("pancakeTest", 6, 5)))));
+
+		}
+		//assertEquals(gson.toJson(db.getPrevSearch(1)), gson.toJson(new ArrayList<>(Arrays.asList(new Searches("pancakeTest", 6, 5)))));
 	}
 	
 }

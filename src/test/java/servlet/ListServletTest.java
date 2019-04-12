@@ -49,11 +49,11 @@ public class ListServletTest {
 		sessionObj.put("userID", 1);
 		List<Info> list = new ArrayList<>();
 		list.add(new RecipeInfo("testrecipe", 5, 12345, 10, 10, new ArrayList<>(Arrays.asList("1. ingredient", "2. ingredient")), new ArrayList<>(Arrays.asList("1. step", "2. step")), "url", 1));
-		sessionObj.put("Groceries", list);
+		sessionObj.put("Grocery", list);
 		when(request.getSession()).thenReturn(session);
 		StringWriter stringWriter = new StringWriter();
 		when(response.getWriter()).thenReturn(new PrintWriter(stringWriter));
-		when(request.getParameter("list")).thenReturn("Groceries");
+		when(request.getParameter("list")).thenReturn("Grocery");
 		//BufferedReader br = new BufferedReader(new StringReader(new Gson().toJson(new Message("userID","2"))));
 		//when(request.getReader()).thenReturn(br);
 		doAnswer(new Answer()
@@ -82,7 +82,7 @@ public class ListServletTest {
 
 
 		//Make sure the correct response was set
-		assertEquals(stringWriter.toString(), (new Gson().toJson(new Message("Groceries", new ArrayList<>(Arrays.asList("1. ingredient", "2. ingredient")))))+System.lineSeparator());
+		assertEquals(stringWriter.toString(), (new Gson().toJson(new Message("Grocery", new ArrayList<>(Arrays.asList("1. ingredient", "2. ingredient")))))+System.lineSeparator());
 	}
 
 	@Test
