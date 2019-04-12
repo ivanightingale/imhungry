@@ -64,6 +64,7 @@ public class LoginServlet extends HttpServlet
                             session.setAttribute("Do Not Show", db.getLists(userIDstore, "Do Not Show"));
                             session.setAttribute("To Explore", db.getLists(userIDstore, "To Explore"));
                             session.setAttribute("Grocery", db.getLists(userIDstore, "Grocery"));
+                            session.setAttribute("PreviousSearches", db.getPrevSearch(userIDstore));
                             String next = "/searchPage.jsp";
                             respWriter.println(gson.toJson(new Message("LoggedIn", userIDstore)));
                         }
@@ -88,6 +89,8 @@ public class LoginServlet extends HttpServlet
                     {
                         String salt = PasswordHashing.getRandomSalt();
                         db.createUser(username, PasswordHashing.hashPassword(password, salt), salt);
+
+                        //REFACTOR!!!!!! make it empty arraylists because no need to call to database when we know it is empty
                         int userIDstore = db.getUserID(username);
                         session.setAttribute("hello", "Hello " + username);
                         session.setAttribute("userID", userIDstore);
@@ -95,6 +98,7 @@ public class LoginServlet extends HttpServlet
                         session.setAttribute("Do Not Show", db.getLists(userIDstore, "Do Not Show"));
                         session.setAttribute("To Explore", db.getLists(userIDstore, "To Explore"));
                         session.setAttribute("Grocery", db.getLists(userIDstore, "Grocery"));
+                        session.setAttribute("PreviousSearches", db.getPrevSearch(userIDstore));
                         String next = "/searchPage.jsp";
                         respWriter.println(gson.toJson(new Message("Created", userIDstore)));
                     }

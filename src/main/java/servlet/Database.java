@@ -446,7 +446,7 @@ public class Database
         }
     }
 
-    public ArrayList<Searches> getPrevTests(int userID) {
+    public ArrayList<Searches> getPrevSearch(int userID) {
         ArrayList<Searches> searchHistory = new ArrayList<Searches>();
         try {
             ps = conn.prepareStatement("SELECT p.userID, p.searchTerm, p.specradius, p.expectRes FROM previousSearch p WHERE p.userID = ?");

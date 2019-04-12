@@ -214,7 +214,7 @@ public class SearchServlet extends HttpServlet {
 		}
 
 		Collections.sort(recipes);  //sort RecipeInfo in ascending order based on preparation time
-
+//REFACTOR DULICATE CODE
 		//move recipes in Favorites List to the top
 		for(int i = recipes.size() - 1; i > 0; i--) {
 			if(favoritesList.contains(recipes.get(i))) {
@@ -264,7 +264,7 @@ public class SearchServlet extends HttpServlet {
 		getPhoneAndURL(restaurants);
 
 		Collections.sort(restaurants);  //sort RestaurantInfo in ascending order based on drive time
-
+//REFACTOR DUPLICATE CODE
 		//move restaurants in Favorites List to the top
 		for(int i = restaurants.size() - 1; i > 0; i--) {
 			if(favoritesList.contains(restaurants.get(i))) {
