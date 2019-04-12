@@ -19,6 +19,7 @@
 -- Creates database imhungry
 --
 CREATE DATABASE `imhungry`;
+USE `imhungry`;
 
 --
 -- Table structure for table `groceries`
