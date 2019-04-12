@@ -15,6 +15,9 @@ body{
 	padding-top: 20vh;
 	color: white;
 }
+#prev_search {
+	font-size: 2rem;
+}
 
 #format{
 	margin-top: 5vh;
@@ -60,7 +63,7 @@ body{
 
 #submit {
 	size: 10vw;
-	/*background-color: orange;*/
+	background-color: orange;
 }
 
 .hover_text{

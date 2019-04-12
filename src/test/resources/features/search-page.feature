@@ -20,7 +20,15 @@ Scenario: initiating the search redirects to Results Page
 Scenario: there should be an input box to let users filter restaurant results by radius
 	Then I should see the input box for selecting specific radius
 
+	 #7
+	Scenario: search results page should have pagination buttons
+		When I search for "pizza" and expect 10 results
+		Then I should see a page one button
 
- #7
- Scenario: default page should have a background image
-	 Then I should see a background image
+
+		#8
+	Scenario: search page should show only five results
+		When I search for "pizza" and expect 10 results
+		Then I should see three pages with five recipe results and five restaurant results on each page
+
+

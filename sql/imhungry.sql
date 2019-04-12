@@ -31,7 +31,7 @@ CREATE TABLE `groceries` (
   KEY `foreign2_idx` (`recipeID`),
   CONSTRAINT `foreign2` FOREIGN KEY (`recipeID`) REFERENCES `recipe` (`recipID`),
   CONSTRAINT `foreignK` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,6 +40,7 @@ CREATE TABLE `groceries` (
 
 LOCK TABLES `groceries` WRITE;
 /*!40000 ALTER TABLE `groceries` DISABLE KEYS */;
+INSERT INTO `groceries` VALUES (1,1,1);
 /*!40000 ALTER TABLE `groceries` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -343,4 +344,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-04-09 21:14:55
+-- Dump completed on 2019-04-11 19:32:18

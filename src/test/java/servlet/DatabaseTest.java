@@ -144,7 +144,7 @@ public class DatabaseTest
     public void addPrevSearchTest() {
         Database db = new Database();
         db.addPrevSearch(1, "testSearch", 5, 1);
-        ArrayList<Searches> prevT = db.getPrevTests(1);
+        ArrayList<Searches> prevT = db.getPrevSearch(1);
         boolean isPrevStored = false;
         for(int i = 0; i < prevT.size(); i++){
             if(prevT.get(i).searchTerm.equals("testSearch") && prevT.get(i).specifiedRadius == 5 && prevT.get(i).expectedResults == 1){
