@@ -37,7 +37,7 @@ public class Database
 
     public Boolean checkUser(String username) {
         try {
-            ps = conn.prepareStatement("SELECT u.userID FROM User u WHERE username=?");
+            ps = conn.prepareStatement("SELECT u.userID FROM user u WHERE username=?");
             ps.setString(1, username);
             rs = ps.executeQuery();
             if (!rs.next()) {
@@ -57,7 +57,7 @@ public class Database
         try {
             if (checkUser(username)) {
                 int userID = getUserID(username);
-                ps = conn.prepareStatement("SELECT u.pw, u.salt FROM User u WHERE username=? AND userID =?");
+                ps = conn.prepareStatement("SELECT u.pw, u.salt FROM user u WHERE username=? AND userID =?");
                 ps.setString(1, username);
                 ps.setInt(2, userID);
                 rs = ps.executeQuery();
@@ -79,7 +79,7 @@ public class Database
 
     public int getUserID(String username) {
         try {
-            ps = conn.prepareStatement("SELECT u.userID FROM User u WHERE username=?");
+            ps = conn.prepareStatement("SELECT u.userID FROM user u WHERE username=?");
             ps.setString(1, username);
             rs = ps.executeQuery();
             if (rs.next()) {
@@ -98,7 +98,7 @@ public class Database
             return false;
         }
         try {
-            ps = conn.prepareStatement("INSERT INTO User(username, pw, salt) VALUES(?,?,?)");
+            ps = conn.prepareStatement("INSERT INTO user(username, pw, salt) VALUES(?,?,?)");
             ps.setString(1, username);
             ps.setString(2, passwordHash);
             ps.setString(3, salt);
