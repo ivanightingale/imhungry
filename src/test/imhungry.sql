@@ -36,7 +36,7 @@ CREATE TABLE `groceries` (
   KEY `foreign2_idx` (`recipeID`),
   CONSTRAINT `foreign2` FOREIGN KEY (`recipeID`) REFERENCES `recipe` (`recipID`),
   CONSTRAINT `foreignK` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
