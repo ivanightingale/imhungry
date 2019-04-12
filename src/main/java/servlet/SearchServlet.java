@@ -38,6 +38,7 @@ public class SearchServlet extends HttpServlet {
 
 	private static final String SPOONACULAR_RECIPE_API_PREFIX = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes";
 	//private static final String SPOONACULAR_RAPID_API_KEY = "5d400066d1msh1a0901e6bb0917dp1b2dc1jsn1dcafa5afeb5";
+	//Mackenzie's Credit Card attached to (below) & Luke's old teammate's Credit Card (above)
 	private static final String SPOONACULAR_RAPID_API_KEY = "64cd03670fmsh3472c2b61fbfa38p129c7ajsnd0c9ef0f31be";
 
 	private static final String GOOGLE_CX_API_KEY = "AIzaSyAH3GjzX5RNq1ObGtaJEuciQziHrakn4cM";
@@ -258,6 +259,10 @@ public class SearchServlet extends HttpServlet {
 		for(Info doNotShowInfo : doNotShowList) {
 			restaurants.remove(doNotShowInfo);
 		}
+
+		if(restaurants.size()==0){
+		    return null;
+        }
 		//remove extra items
 		while(restaurants.size() > numResults) {
 			restaurants.remove(restaurants.size() - 1);
@@ -303,7 +308,11 @@ public class SearchServlet extends HttpServlet {
 		}
 		distanceURL += "&key=" + MAPS_API_KEY;
 
-		JsonArray distances = new JsonParser().parse(getJSONResponse(distanceURL)).getAsJsonObject().get("rows").getAsJsonArray().get(0).getAsJsonObject().get("elements").getAsJsonArray();
+        JsonArray distanc = new JsonParser().parse(getJSONResponse(distanceURL)).getAsJsonObject().get("rows").getAsJsonArray();
+        if(distanc.size() == 0){
+            return null;
+        }
+        JsonArray distances = distanc.get(0).getAsJsonObject().get("elements").getAsJsonArray();
 
 		Map<RestaurantInfo,String> resturantDistances = new HashMap<>();
 		for(int i = 0; i < restaurants.size(); i++) {
@@ -326,8 +335,13 @@ public class SearchServlet extends HttpServlet {
 		}
 		driveTimeURL += "&key=" + MAPS_API_KEY;
 
-		//extract relevant part of the JSON response
-		JsonArray driveTimes = new JsonParser().parse(getJSONResponse(driveTimeURL)).getAsJsonObject().get("rows").getAsJsonArray().get(0).getAsJsonObject().get("elements").getAsJsonArray();
+        JsonArray driveTim = new JsonParser().parse(getJSONResponse(driveTimeURL)).getAsJsonObject().get("rows").getAsJsonArray();
+
+        //extract relevant part of the JSON response
+        if (driveTim.size() == 0){
+            return;
+        }
+		JsonArray driveTimes = driveTim.get(0).getAsJsonObject().get("elements").getAsJsonArray();
 		//modify respective RestaurantInfo objects, store drive time data
 		for(int i = 0; i < restaurants.size(); i++) {
 			JsonObject durationJSON = driveTimes.get(i).getAsJsonObject().get("duration").getAsJsonObject();
