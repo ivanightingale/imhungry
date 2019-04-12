@@ -4,7 +4,7 @@ services:
   - mysql
 
 before_install:
-  - mysql -u root --password="" < src/test/imhungry.sqltest
+  - mysql -u root --password="" < src/test/imhungry.sql
 
 script:
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
