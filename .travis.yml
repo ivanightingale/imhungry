@@ -1,5 +1,11 @@
 language: java
 
+services:
+  - mysql
+
+before_install:
+  - mysql -u root --password="root1234!" < sql/imhungry.sql
+
 script:
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
   - mvn test -B
