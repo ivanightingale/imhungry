@@ -4,6 +4,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Recipe Page</title>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="css/detailedPage.css" />
         <link rel="stylesheet" type="text/css" href="css/common.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,6 +35,10 @@
 				<span id="ingre1" style="font-size:2rem">Ingredients:</span>
 				<div id="ingre2"></div>
 			</div>
+
+            <br>
+            <hr>
+
 			<div class ="instr">
 				<span id="instr1" style="font-size:2rem">Instructions:</span>
 				<div id="instr2"></div>

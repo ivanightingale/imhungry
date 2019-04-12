@@ -35,8 +35,13 @@
             </div>
 
 			<br>
+			<br>
+
+			<select id= "prev_search">
+				<option value="prev_search1">Prev - Search 1</option>
+			</select>
 			<%--<input type = "image" src="resources/grumpy.png" onmousedown="sadToHappy()" onmouseleave="happyToSad()" name = "submit" id ="submit" value = "Feed Me!" />--%>
-			
+
 		</form>
 	</div>
 

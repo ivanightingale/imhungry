@@ -7,6 +7,10 @@
 		<title>List Management</title>
 		<link rel="stylesheet" type="text/css" href="css/listPage.css" />
 		<link rel="stylesheet" type="text/css" href="css/common.css">
+		<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
 
 	</head>
 	<body>
@@ -31,7 +35,7 @@
 		<form action="resultPage.jsp">
 			<input type="hidden" id="queryStringInput" name="search" value="" />
 			<input type="hidden" id="numberResultsInput" name="number" value="cache" />
-			<input type="submit" id = "back_result" value="Back to Result" />
+			<input type="submit" id = "back_result" value="Back to Results Page " />
 		</form>
 	
 		<form action="searchPage.jsp">

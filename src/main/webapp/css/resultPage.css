@@ -135,7 +135,11 @@ input[type=submit] {
 }
 
 .Res_section1 {
-	font-weight: 900;
+	font-weight: 600;
+}
+
+.Rec_section1 {
+	font-weight: 600;
 }
 
 .Res_section1, .Res_section3 {
@@ -188,12 +192,14 @@ input[type=submit] {
 }
 
 .item{
-	background-color: #FFD27F;
+	/*background-color: #FFD27F;*/
 	margin-top:3vh;
 }
 
-.item:nth-child(odd) {background-color:#FFD27F;}
-.item:nth-child(even) {background-color:#FFD27F;}
+.item:nth-child(odd) {border-color: black;
+border-style: solid;}
+.item:nth-child(even) {border-color: black;
+	border-style: solid}
 
 #column1 {
 	position: relative;
@@ -227,6 +233,7 @@ a:hover {
 }
 
 .next {
-	background-color: #4CAF50;
+	background-color: #FFD27F;
+	text-decoration: none;
 	color: white;
 }

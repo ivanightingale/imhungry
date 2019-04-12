@@ -286,7 +286,6 @@ public class SearchServlet extends HttpServlet {
 				restaurants.remove(entry.getKey());
 			}
 		}
-
 		return restaurants;
 	}
 

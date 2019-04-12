@@ -5,6 +5,12 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="css/resultPage.css" />
 	<link rel="stylesheet" type="text/css" href="css/common.css">
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
 	<meta charset="UTF-8">
 	<title>Result Page</title>
 </head>
@@ -43,11 +49,14 @@
 			<div class = "sub_header">Recipes</div>
 		</div>
 
-        <button id="next" class="next">Next &raquo;</button>
+		<div id=”pages”></div>
+
 	</div>
 
     <script src="js/dropdown.js"></script>
     <script src="js/parseQueryString.js"></script>
+	<script src="js/resultPage.js"></script>
+
     <script>
         var query = parseQuery(window.location.search);
         //Have to replace '+'s with ' 's before displaying name to user
@@ -73,6 +82,17 @@
         window.localStorage.setItem("search", query.search);
         window.localStorage.setItem("searchResults", JSON.stringify(results));
         window.localStorage.setItem("imageURLs", JSON.stringify(imageURLs));
+
+        //create buttons for paginating results array (5 results/pg)
+		// var numButtons = (results.length)/5;
+		// for (var i = 0; i < numButtons; i++) {
+		// 	var pgButton = document.createElement("BUTTON");
+		// 	pgButton.set
+		// 	pgButton.innerHTML = "";
+		// 	document.querySelector("#pages").appendChild(pgButton);
+		// }
+
+
 
         //First, populate restaurant results
         var col1 = document.getElementById("column1");

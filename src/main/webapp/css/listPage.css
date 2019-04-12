@@ -93,6 +93,7 @@ button {
 }
 #back_result{
 	position: fixed;
+	padding: 10px;
 	top:calc(21vh + 6rem);
 }
 
