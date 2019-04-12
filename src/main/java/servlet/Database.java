@@ -397,7 +397,7 @@ public class Database
                     ps = conn.prepareStatement("SELECT r.rID FROM restdonotshow r WHERE r.rID = ? AND r.userID = ?");
                 } else if (listname.equals("To Explore")) {
                     //checking that the specified user has the specified recipe in the To Explore list
-                    ps = conn.prepareStatement("SELECT r.rID FROM restoexplore r WHERE r.rID = ? AND r.userID = ?");
+                    ps = conn.prepareStatement("SELECT r.rID FROM resttoexplore r WHERE r.rID = ? AND r.userID = ?");
                 }
                 ps.setInt(1, dbids);
                 ps.setInt(2, userID);
