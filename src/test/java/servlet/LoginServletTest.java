@@ -50,6 +50,7 @@ public class LoginServletTest
         sessionObj.put("Favorites",list);
         sessionObj.put("To Explore",list);
         sessionObj.put("Do Not Show",list);
+        sessionObj.put("Grocery",list);
         when(request.getSession()).thenReturn(session);
         StringWriter stringWriter = new StringWriter();
         when(response.getWriter()).thenReturn(new PrintWriter(stringWriter));

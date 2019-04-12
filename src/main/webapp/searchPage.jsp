@@ -26,7 +26,7 @@
             <div class = hover_format>
                 <input type = "number" name = "radius" class = "number" value = "1" min= "1" />
                 <div class = "hover_text">
-                    Radius Selected
+                    Radius Selected (in miles)
                 </div>
             </div>
 

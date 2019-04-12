@@ -1,6 +1,6 @@
--- MySQL dump 10.13  Distrib 8.0.15, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.15, for macos10.14 (x86_64)
 --
--- Host: localhost    Database: imhungry
+-- Host: 127.0.0.1    Database: imhungry
 -- ------------------------------------------------------
 -- Server version	8.0.15
 
@@ -44,14 +44,14 @@ LOCK TABLES `groceries` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `previoussearch`
+-- Table structure for table `previousSearch`
 --
 
-DROP TABLE IF EXISTS `previoussearch`;
+DROP TABLE IF EXISTS `previousSearch`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `previoussearch` (
-  `prevID` int(11) NOT NULL,
+CREATE TABLE `previousSearch` (
+  `prevID` int(11) NOT NULL AUTO_INCREMENT,
   `userID` int(11) NOT NULL,
   `searchTerm` varchar(50) NOT NULL,
   `specradius` int(11) NOT NULL,
@@ -63,12 +63,12 @@ CREATE TABLE `previoussearch` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `previoussearch`
+-- Dumping data for table `previousSearch`
 --
 
-LOCK TABLES `previoussearch` WRITE;
-/*!40000 ALTER TABLE `previoussearch` DISABLE KEYS */;
-/*!40000 ALTER TABLE `previoussearch` ENABLE KEYS */;
+LOCK TABLES `previousSearch` WRITE;
+/*!40000 ALTER TABLE `previousSearch` DISABLE KEYS */;
+/*!40000 ALTER TABLE `previousSearch` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -343,4 +343,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-04-09 19:46:49
+-- Dump completed on 2019-04-09 21:14:55

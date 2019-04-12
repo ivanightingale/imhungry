@@ -3,15 +3,15 @@
 #header{
 	font-size: 3rem;
 	text-align: left;
-	padding-top: 5vh;
-	margin-bottom: 3vh;
+	padding-left: 10%;
+	margin-top: 3%;
 }
 
 #collage {
 	overflow: hidden;
 	position: relative;
-	height: 50vh;
-	width: 50vw;
+	height: 30vh;
+	width: 35vw;
 	margin-left: 25vw;
 	margin-right: 25vw;
 }
@@ -30,67 +30,67 @@
 }
 
 .dropDown {
-    position: absolute;
+	position: absolute;
 	width:15vw;
-   	right:5vw;
-   	top:21vh;
+	right:5vw;
+	top:21vh;
 	font-size:1rem;
 }
 
 .dropDown select {
-  display: none; 
+	display: none;
 }
 
 .select-selected {
-  background-color: White;
+	background-color: #FFD27F;
 }
 
 .select-selected:after {
-  position: absolute;
-  content: "";
-  top: 14px;
-  right: 10px;
-  width: 0;
-  height: 0;
-  border: 6px solid transparent;
-  border-color: #6d6d6d transparent transparent transparent;
+	position: absolute;
+	content: "";
+	top: 14px;
+	right: 10px;
+	width: 0;
+	height: 0;
+	border: 6px solid transparent;
+	border-color: #6d6d6d transparent transparent transparent;
 }
 
 .select-selected.select-arrow-active:after {
-  border-color: transparent transparent #6d6d6d transparent;
-  top: 7px;
+	border-color: transparent transparent #6d6d6d transparent;
+	top: 7px;
 }
 
 .select-items div,.select-selected {
-  color: #6d6d6d;
-  padding: 8px 16px;
-  border: 1px solid transparent;
-  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
-  cursor: pointer;
-  user-select: none;
+	color: #6d6d6d;
+	padding: 8px 16px;
+	border: 1px solid transparent;
+	border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+	cursor: pointer;
+	user-select: none;
 }
 
 .select-items {
-  position: absolute;
-  background-color: White;
-  top: 100%;
-  left: 0;
-  right: 0;
-  z-index: 99;
+	position: absolute;
+	background-color: White;
+	top: 100%;
+	left: 0;
+	right: 0;
+	z-index: 99;
 }
 
 .select-hide {
-  display: none;
+	display: none;
 }
 
 .select-items div:hover, .same-as-selected {
-  background-color: rgba(0, 0, 0, 0.1);
+	background-color: rgba(0, 0, 0, 0.1);
 }
 
 input[type=submit] {
-    background:#A8A8A8; 
-    color: white;
-    width:15vw;
+	background:#FFD27F;
+	color: white;
+	width:15vw;
 	border: 0;
 	box-shadow: none;
 	border-radius: 0;
@@ -101,14 +101,14 @@ input[type=submit] {
 
 #manage_list{
 	position: absolute;
-   	right:5vw;
-   	top:calc(21vh + 3rem);
+	right:5vw;
+	top:calc(21vh + 3rem);
 }
 
 #back_search{
 	position: absolute;
-   	right:5vw;
-   	top:calc(21vh + 6rem);
+	right:5vw;
+	top:calc(21vh + 6rem);
 }
 
 .item {
@@ -131,6 +131,11 @@ input[type=submit] {
 	margin-left: 1rem;
 	height: 2.5rem;
 	line-height: 2.5rem;
+
+}
+
+.Res_section1 {
+	font-weight: 900;
 }
 
 .Res_section1, .Res_section3 {
@@ -183,19 +188,16 @@ input[type=submit] {
 }
 
 .item{
-	background-color: #6D6D6D;
+	background-color: #FFD27F;
 	margin-top:3vh;
 }
 
-
-.item:nth-child(odd) {background-color:#6D6D6D;}
-.item:nth-child(even) {background-color:#A8A8A8;}
-
+.item:nth-child(odd) {background-color:#FFD27F;}
+.item:nth-child(even) {background-color:#FFD27F;}
 
 #column1 {
 	position: relative;
 	width:45%;
-
 }
 
 #column2 {
@@ -204,9 +206,8 @@ input[type=submit] {
 }
 
 .sub_header{
-	font-size:1rem;
+	font-size:2rem;
 	text-align: center;
-
 }
 
 a {

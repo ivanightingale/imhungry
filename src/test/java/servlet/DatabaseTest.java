@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import com.google.gson.Gson;
 import info.Info;
+import info.Searches;
 import info.RecipeInfo;
 import info.RestaurantInfo;
 import org.junit.Test;
@@ -66,7 +67,7 @@ public class DatabaseTest
         db.updateLists(1, true,"Favorites",  info);
         db.updateLists(1, true,"To Explore",  info);
         db.updateLists(1, true,"Do Not Show",  info);
-        db.updateLists(1, true,"Grocery List",  info);
+        db.updateLists(1, true,"Grocery",  info);
 
         //restaurant test
         RestaurantInfo rinfo = new RestaurantInfo("testRest", 5, "placeID", "adress" , 8, "drivetime", 8, "phone", "url");
@@ -97,7 +98,7 @@ public class DatabaseTest
         System.out.println(expUpdate);
         Boolean dnsUpdate = db.updateLists(1, false,"Do Not Show", info);
         System.out.println(dnsUpdate);
-        Boolean glUpdate = db.updateLists(1, false,"Grocery List", info);
+        Boolean glUpdate = db.updateLists(1, false,"Grocery", info);
         System.out.println(glUpdate);
         //adding recipes back to the list
         Boolean favUpdate2 = db.updateLists(1, true,"Favorites",  info);
@@ -106,7 +107,7 @@ public class DatabaseTest
         System.out.println(expUpdate2);
         Boolean dnsUpdate2 = db.updateLists(1, true,"Do Not Show", info);
         System.out.println(dnsUpdate2);
-        Boolean glUpdate2 = db.updateLists(1, true,"Grocery List", info);
+        Boolean glUpdate2 = db.updateLists(1, true,"Grocery", info);
         System.out.println(glUpdate2);
         assertTrue(favUpdate && expUpdate && dnsUpdate && glUpdate && favUpdate2 && expUpdate2 && dnsUpdate2 && glUpdate2);
         RestaurantInfo rinfo = new RestaurantInfo("testRest", 5, "placeID", "adress" , 8, "drivetime", 8, "phone", "url");
@@ -143,8 +144,14 @@ public class DatabaseTest
     public void addPrevSearchTest() {
         Database db = new Database();
         db.addPrevSearch(1, "testSearch", 5, 1);
-        String prevT = db.getPrevTests(1);
-        assertEquals("1, testSearch, 5, 1", prevT);
+        ArrayList<Searches> prevT = db.getPrevTests(1);
+        boolean isPrevStored = false;
+        for(int i = 0; i < prevT.size(); i++){
+            if(prevT.get(i).searchTerm.equals("testSearch") && prevT.get(i).specifiedRadius == 5 && prevT.get(i).expectedResults == 1){
+                isPrevStored = true;
+            }
+        }
+        assertTrue(isPrevStored);
     }
 
     @Test

@@ -4,7 +4,6 @@ body {
 }
 
 a{
-
 	color: inherit;
 	text-decoration:none;
 }
@@ -15,46 +14,63 @@ a:hover
 }
 
 button[type=submit] {
-	background:#A8A8A8;
-	color: white;
-	width:15vw;
+	background:orange;
+	color: black;
+	width:17vw;
 	min-width: 12rem;
-	border: 0;
+	border-style: solid;
+	border-color: black;
 	box-shadow: none;
 	border-radius: 0;
 	font-size:1.5rem;
 	cursor: pointer;
 	padding: 0;
+	height: 8vh;
 }
 
 .backToResults {
+	background-color: orange;
 	position: fixed;
-	margin-bottom:0;
-	right: 20vw;
+	margin-left: 80%;
+	margin-top: 10px;
+	margin-bottom: 10px;
 	top:calc(20vh + 3rem)
 }
 
 .printableVersion {
+	background-color: orange;
 	position: fixed;
-	margin-bottom:0;
-	right: 20vw;
+	margin-left: 80%;
 	top:20vh;
 }
 
 .addToList {
 	position: fixed;
-	margin-bottom:0;
-	right: 20vw;
-	top:calc(20vh + 9rem);
+	margin-left: 105vh;
+}
+
+#addtolist{
+	background-color: orange;
+	color:white;
+	border-color: white;
+	margin-top: 10%;
 }
 
 .dropDown {
 	position: fixed;
-	width:15vw;
-	min-width: 12rem;
-	right:20vw;
+	margin-left: 80%;
+	margin-top: 5vh;
+	margin-bottom: 10px;
 	top:calc(20vh + 6rem);
-	font-size:1rem;
+}
+
+#dropdown{
+	background-color: orange;
+	border-style: solid;
+	border-color: black;
+	border-width: 2px;
+	width:38vh;
+	height: 8vh;
 }
 
 .dropDown select {
@@ -62,7 +78,7 @@ button[type=submit] {
 }
 
 .select-selected {
-  background-color: White;
+  background-color: orange;
 }
 
 .select-selected:after {
@@ -122,19 +138,26 @@ button[type=submit] {
 .textinfo
 {
 	position:absolute;
-	left: 20vw;
-	top: 20vh;
-	width: 40vw;
-	color: #6d6d6d;
-	font-size: 1rem;
+	left: 5vw;
+	top: 15vh;
+	font-size: 2rem;
 }
 
 #title
 {
-	margin-top: 0;
-	font-family: Helvetica, sans-serif;
+	margin-top: 5vh;
 	font-weight: bold;
-	color: #6d6d6d;
+	color: black;
 	font-size:3rem;
+	margin-bottom: 3vh;
+}
+
+.container {
+	display: flex;
+	flex-direction: row;
+}
+
+.col {
+	display: block;
 }
 			
