@@ -85,14 +85,25 @@
 
         //create buttons for paginating results array (5 results/pg)
 		// var numButtons = (results.length)/5;
-		// for (var i = 0; i < numButtons; i++) {
+		// for (var i = 1; i <= numButtons; i++) {
 		// 	var pgButton = document.createElement("BUTTON");
 		// 	pgButton.set
-		// 	pgButton.innerHTML = "";
+		// 	pgButton.innerHTML = "Page " + i;
 		// 	document.querySelector("#pages").appendChild(pgButton);
 		// }
 
-
+		//use ajax to reload that part of the results page
+		function loadDoc() {
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					document.getElementById("demo").innerHTML =
+							this.responseText;
+				}
+			};
+			xhttp.open("GET", "ajax_info.txt", true);
+			xhttp.send();
+		}
 
         //First, populate restaurant results
         var col1 = document.getElementById("column1");
