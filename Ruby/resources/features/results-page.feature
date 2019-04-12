@@ -8,7 +8,7 @@ Background:
   Scenario: page requires a login
 
     When I visit the results page
-    Then I should see the "LogIn Page" page
+    Then I should see the "Login Page" page
 
   #2
   Scenario: there is a next page button for pagination

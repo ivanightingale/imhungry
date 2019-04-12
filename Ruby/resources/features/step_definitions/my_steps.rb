@@ -131,8 +131,8 @@ Then(/^I should see "([^"]*)" field$/) do |arg|
   expect(page).to have_field(arg)
 end
 
-And(/^enter radius of (\d+)$/) do
-  select 'd',from:'radius_dropdown'
+And(/^enter radius of (\d+)$/) do |arg|
+  fill_in('radius', :with => arg)
 end
 
 Then(/^I should see "([^"]*)" text$/) do |arg|
