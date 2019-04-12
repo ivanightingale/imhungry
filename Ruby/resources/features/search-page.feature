@@ -38,7 +38,8 @@ Scenario: initiating the search redirects to Results Page if I am logged in a
     And enter "password" into "password"
     And press "submit" button
     And I should see the "Search" page
-    And I search for "chicken" and expect 5 results
+    And I search for "chicken"
+	And expect 5 results
 	And press "submit" button
 	Then I should see the "Result" page
 
@@ -54,7 +55,8 @@ Scenario: if logged in you can add recipe item to grocery list
 	And enter "password" into "password"
 	And press "submit" button
 	And I should see the "Search" page
-	And I search for "chicken" and expect 5 results
+	And I search for "chicken"
+	And expect 5 results
 	And press "submit" button
 	And press a recipe
 	And select the list "Grocery"
@@ -83,7 +85,8 @@ Scenario: There is a button for previousSearches on the Search page
 	And enter "testuser" into "username"
 	And enter "password" into "password"
 	And press "submit" button
-	And I search for "chicken" and expect 5 results
+	And I search for "chicken"
+	And expect 5 results
 	And enter radius of 1
 	And press a recipe
 	And press "backtoresults" button
@@ -93,15 +96,28 @@ Scenario: There is a button for previousSearches on the Search page
 
    #7
    Scenario: search results page should have pagination buttons
-		When I search for "pizza"
-		And expect 10 results
-		Then I should see a page 1 button
+	   When I press "login" button
+	   And enter "testuser" into "username"
+	   And enter "password" into "password"
+	   And press "submit" button
+	   And I search for "pizza"
+	   And expect 10 results
+	   And enter radius of 5
+	   Then I should see a "page 1" button
 
-
-        #8
+		#8
 	Scenario: search page should show only five results
-		When I search for "pizza"
-		And expect 10 results
-		Then I should see 3 pages
-		And expect 5 "recipe" results
-		And 5 "restaurant" results
+		When I press "login" button
+		And enter "testuser" into "username"
+		And enter "password" into "password"
+		And press "submit" button
+		And I search for "pizza"
+		And expect 16 results
+		And enter radius of 5
+		Then I should see a "page 1" button
+		And I should see a "page 2" button
+		And I should see a "page 3" button
+		And there should be 5 recipe results
+		And there should be 5 restaurant results
+		And there should be 6 recipe results
+		And there should be 6 restaurant results

@@ -23,7 +23,8 @@ Feature: Detailed Results Pages
     And enter "password" into "password"
     And press "submit" button
     And I should see the "Search" page
-    And I search for "chicken" and expect 5 results
+    And I search for "chicken"
+    And expect 5 results
     And press "submit" button
     And press a restaurant
     Then I should not see "Grocery"

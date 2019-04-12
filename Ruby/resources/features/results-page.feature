@@ -17,7 +17,8 @@ Background:
     And enter "testuser" into "username"
     And enter "password" into "password"
     And press "submit" button
-    And I search for "chicken" and expect 5 results
+    And I search for "chicken"
+    And expect 5 results
     And press "submit" button
     Then I should see the "next" button
 

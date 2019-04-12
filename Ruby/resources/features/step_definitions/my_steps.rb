@@ -23,7 +23,7 @@ When(/^press search$/) do
   find_field("q").native.send_keys(:enter)
 end
 
-When(/^I search for "([^"]*)" and expect 5 results$/) do |query|
+When(/^I search for "([^"]*)"$/) do |query|
   fill_in('search', :with => query)
 end
 
@@ -140,30 +140,23 @@ Then(/^I should see "([^"]*)" text$/) do |arg|
 end
 
 
-When(/^I search for "([^"]*)"$/) do |arg|
-  pending
-end
-
 And(/^expect (\d+) results$/) do |arg|
-  pending
+  fill_in('number', :with => arg)
 end
 
-Then(/^I should see a page one button$/) do
-  pending
+
+And(/^there should be (\d+) restaurant results$/) do |arg1|
+  expect(page).to have_css('#Res_item5')
 end
 
-Then(/^I should see three pages with five recipe results and five restaurant results on each page$/) do
-  pending
+And(/^there should be (\d+) recipe results$/) do |arg1|
+  expect(page).to have_css('#Rec_item5')
 end
 
-Then(/^I should see (\d+) pages$/) do |arg|
-  pending
+And(/^there should not be (\d+) recipe results$/) do |arg1|
+  expect(page).to_not have_css('#Rec_item6')
 end
 
-And(/^expect (\d+) "([^"]*)" results$/) do |arg1, arg2|
-  pending
-end
-
-And(/^(\d+) "([^"]*)" results$/) do |arg1, arg2|
-  pending
+And(/^there should not be (\d+) restaurant results$/) do |arg1|
+  expect(page).to_not have_css('#Res_item6')
 end
