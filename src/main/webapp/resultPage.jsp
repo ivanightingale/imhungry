@@ -14,6 +14,7 @@
 	<meta charset="UTF-8">
 	<title>Result Page</title>
 </head>
+
 <body>
 
 <script src="js/loginChecker.js"></script>
