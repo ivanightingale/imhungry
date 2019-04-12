@@ -9,6 +9,7 @@ body {
 	right:15vw;
 	top:21vh;
 	font-size:1rem;
+	background-color: #FFD27F;
 }
 
 .dropDown select {
@@ -16,7 +17,7 @@ body {
 }
 
 .select-selected {
-  background-color: White;
+  background-color: orange;
 }
 
 .select-selected:after {
@@ -62,7 +63,7 @@ body {
 }
 
 input[type=submit], button{
-	background:#A8A8A8;
+	background:orange;
 	color: white;
 	width:15vw;
 	border: 0;

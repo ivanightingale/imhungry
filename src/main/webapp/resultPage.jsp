@@ -4,13 +4,17 @@
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="css/resultPage.css" />
+	<link rel="stylesheet" type="text/css" href="css/common.css">
 	<meta charset="UTF-8">
 	<title>Result Page</title>
 </head>
 <body>
+
 <script src="js/loginChecker.js"></script>
 <script>checkLoggedIn();</script>
-	<div id="commonheader">I'm Hungry</div>
+<div id="common_header">
+	<h4 id = "header_text">I'm Hungry </h4>
+</div>
 	<div id = "header">Results</div>
 	<div id = "collage"></div>
 	
@@ -47,7 +51,7 @@
     <script>
         var query = parseQuery(window.location.search);
         //Have to replace '+'s with ' 's before displaying name to user
-        document.getElementById("header").innerHTML = 'Results for ' + query.search.replace(/\+/g, ' ');
+        document.getElementById("header").innerHTML =  query.search.replace(/\+/g, ' ');
         var results;
         var imageURLs;
         //To reduce server overhead and improve performance, the page will only search from the server if it was arrived at from the search page

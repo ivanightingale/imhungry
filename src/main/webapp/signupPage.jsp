@@ -3,7 +3,7 @@
     <title>Sign Up Page</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <link rel="stylesheet" type="text/css" href="css/loginPage.css">
     <link rel="stylesheet" type="text/css" href="css/common.css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -21,7 +21,7 @@
         <a href="loginPage.jsp" id = "login_link"> Log in </a>
     </div>
 
-    <form onsubmit="return sendData()">
+    <form id = "form" onsubmit="return sendData()">
         <div class="form-group">
             <input class="form-control input-lg" type="text" id="username" name="username" placeholder=" Username">
         </div>
