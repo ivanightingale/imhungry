@@ -53,10 +53,10 @@ UNLOCK TABLES;
 -- Table structure for table `previousSearch`
 --
 
-DROP TABLE IF EXISTS `previousSearch`;
+DROP TABLE IF EXISTS `previoussearch`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 SET character_set_client = utf8mb4 ;
-CREATE TABLE `previousSearch` (
+CREATE TABLE `previoussearch` (
   `prevID` int(11) NOT NULL AUTO_INCREMENT,
   `userID` int(11) NOT NULL,
   `searchTerm` varchar(50) NOT NULL,
