@@ -74,6 +74,6 @@ public class PrevSearchServletTest {
         doGetMethod.invoke(prevSearchServlet, request, response);
 
         //Make sure the correct response was set
-        assertEquals(stringWriter.toString(), (new Gson().toJson(new Message("PreviousSearches", list))+System.lineSeparator()));
+        assertEquals(stringWriter.toString(), (new Gson().toJson(new Message("Previous Searches", list))+System.lineSeparator()));
     }
 }
