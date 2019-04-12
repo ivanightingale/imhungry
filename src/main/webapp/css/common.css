@@ -9,3 +9,10 @@ body {
     padding-top: 20px;
     padding-bottom: 20px;
 }
+
+#header_text {
+    padding-left: 50px;
+    font-size: 35px;
+    margin-top: 0px;
+    margin-bottom:0px;
+}

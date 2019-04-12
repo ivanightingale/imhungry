@@ -23,7 +23,7 @@ When(/^press search$/) do
   find_field("q").native.send_keys(:enter)
 end
 
-When(/^I search for "([^"]*)" and expect 5 results$/) do |query|
+When(/^I search for "([^"]*)"$/) do |query|
   fill_in('search', :with => query)
 end
 
@@ -131,10 +131,32 @@ Then(/^I should see "([^"]*)" field$/) do |arg|
   expect(page).to have_field(arg)
 end
 
-And(/^enter radius of (\d+)$/) do
-  select 'd',from:'radius_dropdown'
+And(/^enter radius of (\d+)$/) do |arg|
+  fill_in('radius', :with => arg)
 end
 
 Then(/^I should see "([^"]*)" text$/) do |arg|
   expect(page).to have_text(arg)
+end
+
+
+And(/^expect (\d+) results$/) do |arg|
+  fill_in('number', :with => arg)
+end
+
+
+And(/^there should be (\d+) restaurant results$/) do |arg1|
+  expect(page).to have_css('#Res_item5')
+end
+
+And(/^there should be (\d+) recipe results$/) do |arg1|
+  expect(page).to have_css('#Rec_item5')
+end
+
+And(/^there should not be (\d+) recipe results$/) do |arg1|
+  expect(page).to_not have_css('#Rec_item6')
+end
+
+And(/^there should not be (\d+) restaurant results$/) do |arg1|
+  expect(page).to_not have_css('#Res_item6')
 end
