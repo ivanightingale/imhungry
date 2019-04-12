@@ -50,7 +50,7 @@ LOCK TABLES `groceries` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `previousSearch`
+-- Table structure for table `previoussearch`
 --
 
 DROP TABLE IF EXISTS `previoussearch`;
@@ -69,12 +69,12 @@ CREATE TABLE `previoussearch` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `previousSearch`
+-- Dumping data for table `previoussearch`
 --
 
-LOCK TABLES `previousSearch` WRITE;
-/*!40000 ALTER TABLE `previousSearch` DISABLE KEYS */;
-/*!40000 ALTER TABLE `previousSearch` ENABLE KEYS */;
+LOCK TABLES `previoussearch` WRITE;
+/*!40000 ALTER TABLE `previoussearch` DISABLE KEYS */;
+/*!40000 ALTER TABLE `previoussearch` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
