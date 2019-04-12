@@ -154,13 +154,13 @@ public class Database
                 return pList;
             }
             if(listname.equals("Favorites")) {
-                ps = conn.prepareStatement("SELECT DISTINCT  rest.userID, rest.rID, r.rname, r.rating, r.placeID, r.address, r.priceL, r.driveTimeT, r.driveTimeV, r.phone, r.url,  rest.rID FROM restfavorites rest JOIN Restaurant r WHERE rest.userID=? AND rest.rID = r.restaurantID");
+                ps = conn.prepareStatement("SELECT DISTINCT  rest.userID, rest.rID, r.rname, r.rating, r.placeID, r.address, r.priceL, r.driveTimeT, r.driveTimeV, r.phone, r.url,  rest.rID FROM restfavorites rest JOIN restaurant r WHERE rest.userID=? AND rest.rID = r.restaurantID");
             }
             else if(listname.equals("To Explore")) {
-                ps = conn.prepareStatement("SELECT DISTINCT  rest.userID, rest.rID, r.rname, r.rating, r.placeID, r.address, r.priceL, r.driveTimeT, r.driveTimeV, r.phone, r.url, rest.rID FROM resttoexplore rest JOIN Restaurant r WHERE rest.userID=? AND rest.rID = r.restaurantID");
+                ps = conn.prepareStatement("SELECT DISTINCT  rest.userID, rest.rID, r.rname, r.rating, r.placeID, r.address, r.priceL, r.driveTimeT, r.driveTimeV, r.phone, r.url, rest.rID FROM resttoexplore rest JOIN restaurant r WHERE rest.userID=? AND rest.rID = r.restaurantID");
             }
             else if(listname.equals("Do Not Show")) {
-                ps = conn.prepareStatement("SELECT DISTINCT  rest.userID, rest.rID, r.rname, r.rating, r.placeID, r.address, r.priceL, r.driveTimeT, r.driveTimeV, r.phone, r.url, rest.rID FROM restdonotshow rest JOIN Restaurant r WHERE rest.userID=? AND rest.rID = r.restaurantID");
+                ps = conn.prepareStatement("SELECT DISTINCT  rest.userID, rest.rID, r.rname, r.rating, r.placeID, r.address, r.priceL, r.driveTimeT, r.driveTimeV, r.phone, r.url, rest.rID FROM restdonotshow rest JOIN restaurant r WHERE rest.userID=? AND rest.rID = r.restaurantID");
             }
 
             ps.setInt(1, userID);
@@ -239,16 +239,16 @@ public class Database
                 }
                 if (listname.equals("Favorites")) {
                     //checking that the specified user has the specified recipe in the Favorites list
-                    ps = conn.prepareStatement("INSERT INTO RecipeFavorites(rID, userid) VALUES(?,?)");
+                    ps = conn.prepareStatement("INSERT INTO recipefavorites(rID, userid) VALUES(?,?)");
                 } else if (listname.equals("Do Not Show")) {
                     //checking that the specified user has the specified recipe in the Donotshow list
-                    ps = conn.prepareStatement("INSERT INTO Recipedonotshow(rID, userid) VALUES(?,?)");
+                    ps = conn.prepareStatement("INSERT INTO recipedonotshow(rID, userid) VALUES(?,?)");
                 } else if (listname.equals("To Explore")) {
                     //checking that the specified user has the specified recipe in the to explore list
-                    ps = conn.prepareStatement("INSERT INTO RecipeToExplore(rID, userid) VALUES(?,?)");
+                    ps = conn.prepareStatement("INSERT INTO recipetoexplore(rID, userid) VALUES(?,?)");
                 } else if (listname.equals("Grocery")) {
                     //checking that the specified user has the specified recipe in the to explore list
-                    ps = conn.prepareStatement("INSERT INTO Groceries(recipeID, userID) VALUES(?,?)");
+                    ps = conn.prepareStatement("INSERT INTO groceries(recipeID, userID) VALUES(?,?)");
                 }
                 ps.setInt(1, dbids);
                 ps.setInt(2, userID);
@@ -262,7 +262,7 @@ public class Database
                 ps.setString(1, ((RestaurantInfo) i).placeID);
                 rs = ps.executeQuery();
                 if (!rs.next()) {
-                    ps = conn.prepareStatement("INSERT INTO Restaurant(rname, address, priceL, driveTimeT, driveTimeV, phone, url, rating, placeID) VALUES(?,?,?,?,?,?,?,?,?)");
+                    ps = conn.prepareStatement("INSERT INTO restaurant(rname, address, priceL, driveTimeT, driveTimeV, phone, url, rating, placeID) VALUES(?,?,?,?,?,?,?,?,?)");
                     ps.setString(1, ((RestaurantInfo) i).name);
                     ps.setString(2, ((RestaurantInfo) i).address);
                     ps.setString(3, ((RestaurantInfo) i).priceLevel);
@@ -296,11 +296,11 @@ public class Database
                     return false;
                 }
                 if (listname.equals("Favorites")) {
-                    ps = conn.prepareStatement("INSERT INTO RestFavorites(rID, userid) VALUES(?,?)");
+                    ps = conn.prepareStatement("INSERT INTO restfavorites(rID, userid) VALUES(?,?)");
                 } else if (listname.equals("Do Not Show")) {
-                    ps = conn.prepareStatement("INSERT INTO Restdonotshow(rID, userid) VALUES(?,?)");
+                    ps = conn.prepareStatement("INSERT INTO restdonotshow(rID, userid) VALUES(?,?)");
                 } else if (listname.equals("To Explore")) {
-                    ps = conn.prepareStatement("INSERT INTO RestToExplore(rID, userid) VALUES(?,?)");
+                    ps = conn.prepareStatement("INSERT INTO resttoexplore(rID, userid) VALUES(?,?)");
                 }
                 ps.setInt(1, dbids);
                 ps.setInt(2, userID);
@@ -377,7 +377,7 @@ public class Database
             }
             //for removing restaurants
             else {
-                //checking if added to Restaurant  Database in the past
+                //checking if added to restaurant  Database in the past
                 // finding the ID of recipe in the database by identifying the unique api recipe ID
                 ps = conn.prepareStatement("SELECT r.placeID, r.restaurantID FROM restaurant r WHERE r.placeID = ?");
                 ps.setString(1, ((RestaurantInfo) i).placeID);
@@ -477,7 +477,7 @@ public class Database
             if (rs.next()) {
                return false;
             }
-            ps = conn.prepareStatement("INSERT INTO previousSearch(userID, searchTerm, specradius, expectRes) VALUES(?,?,?,?)");
+            ps = conn.prepareStatement("INSERT INTO previoussearch(userID, searchTerm, specradius, expectRes) VALUES(?,?,?,?)");
             ps.setInt(1, userID);
             ps.setString(2, testSearch);
             ps.setInt(3, radius);
