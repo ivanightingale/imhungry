@@ -32,6 +32,7 @@ import info.RecipeInfo;
 import info.RestaurantInfo;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import info.Searches;
 
 public class SearchServletTest {
 	
@@ -96,6 +97,16 @@ public class SearchServletTest {
 		List<Info> empty2 = new ArrayList<Info>();
 		ArrayList<RecipeInfo> rest = servlet.recipeSearch("beef", 5, empty1, empty2);
 		assertEquals(5,rest.size());
+	}
+
+	@Test
+	//getting the Searches ArrayList test
+	public void getSearchesInfoTest() {
+		SearchServlet servlet = new SearchServlet();
+		List<Info> empty1 = new ArrayList<Info>();
+		List<Info> empty2 = new ArrayList<Info>();
+		//ArrayList<Searches> prevSearches = servlet.prevSearch();
+		//assertEquals(5,rest.size());
 	}
 
 	@Test
