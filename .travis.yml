@@ -4,7 +4,7 @@ services:
   - mysql
 
 before_install:
-  - mysql -u root --password="" < src/test/imhungry.sql
+  - mysql -u root --password="" < sql/imhungry.sql
 
 before_script:
   - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root1234!') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
