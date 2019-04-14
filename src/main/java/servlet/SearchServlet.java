@@ -37,7 +37,8 @@ public class SearchServlet extends HttpServlet {
 	private static final String TOMMY_TROJAN_LOC = "34.0205663,-118.2876355";
 
 	private static final String SPOONACULAR_RECIPE_API_PREFIX = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes";
-	private static final String SPOONACULAR_RAPID_API_KEY = "5d400066d1msh1a0901e6bb0917dp1b2dc1jsn1dcafa5afeb5";
+	//private static final String SPOONACULAR_RAPID_API_KEY = "5d400066d1msh1a0901e6bb0917dp1b2dc1jsn1dcafa5afeb5";
+	private static final String SPOONACULAR_RAPID_API_KEY = "64cd03670fmsh3472c2b61fbfa38p129c7ajsnd0c9ef0f31be";
 
 	private static final String GOOGLE_CX_API_KEY = "AIzaSyAH3GjzX5RNq1ObGtaJEuciQziHrakn4cM";
 	private static final String GOOGLE_CX_ENGINE = "001810512200125518925:d_yaufj89m8";
@@ -80,6 +81,9 @@ public class SearchServlet extends HttpServlet {
 		String userSearch = request.getParameter("search");
 		int numResults = Integer.parseInt(request.getParameter("number"));
 		int radius = Integer.parseInt(request.getParameter("radius"));
+		Database db = new Database();
+		db.addPrevSearch((Integer)session.getAttribute("userID"), userSearch, radius, numResults);
+		((ArrayList<Searches>)session.getAttribute("PreviousSearches")).add(new Searches(userSearch, radius, numResults));
 
 		//Set up variables to store return value
 		boolean success = true;
@@ -215,7 +219,7 @@ public class SearchServlet extends HttpServlet {
 		}
 
 		Collections.sort(recipes);  //sort RecipeInfo in ascending order based on preparation time
-
+//REFACTOR DULICATE CODE
 		//move recipes in Favorites List to the top
 		for(int i = recipes.size() - 1; i > 0; i--) {
 			if(favoritesList.contains(recipes.get(i))) {
@@ -265,7 +269,7 @@ public class SearchServlet extends HttpServlet {
 		getPhoneAndURL(restaurants);
 
 		Collections.sort(restaurants);  //sort RestaurantInfo in ascending order based on drive time
-
+//REFACTOR DUPLICATE CODE
 		//move restaurants in Favorites List to the top
 		for(int i = restaurants.size() - 1; i > 0; i--) {
 			if(favoritesList.contains(restaurants.get(i))) {

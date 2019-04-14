@@ -9,10 +9,7 @@ import static org.mockito.Mockito.*;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -101,13 +98,52 @@ public class SearchServletTest {
 
 	@Test
 	//getting the Searches ArrayList test
-	public void getSearchesInfoTest() {
-		SearchServlet servlet = new SearchServlet();
-		List<Info> empty1 = new ArrayList<Info>();
-		List<Info> empty2 = new ArrayList<Info>();
-		//ArrayList<Searches> prevSearches = servlet.prevSearch();
-		//assertEquals(5,rest.size());
-	}
+	public void getSearchesInfoTest() throws IOException, NoSuchMethodException, ServletException, IllegalAccessException, InvocationTargetException {
+        SearchServlet searchServlet = mock(SearchServlet.class, CALLS_REAL_METHODS);//Have to partial mock so searchServlet.getServletContext() can be mocked
+        Method doGetMethod = searchServlet.getClass().getDeclaredMethod("doGet", HttpServletRequest.class, HttpServletResponse.class);
+        doGetMethod.setAccessible(true);
+        HttpServletRequest request = mock(HttpServletRequest.class, RETURNS_DEEP_STUBS);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        HttpSession session = mock(HttpSession.class);
+        Map<String, Object> sessionObj = new TreeMap<>();
+        sessionObj.put("Favorites", new ArrayList<>());
+        sessionObj.put("To Explore", new ArrayList<>());
+        sessionObj.put("Do Not Show", new ArrayList<>());
+        sessionObj.put("userID", 1);
+        when(request.getSession()).thenReturn(session);
+        StringWriter stringWriter = new StringWriter();
+        when(response.getWriter()).thenReturn(new PrintWriter(stringWriter));
+        when(request.getParameter("userID")).thenReturn("2");
+        //BufferedReader br = new BufferedReader(new StringReader(new Gson().toJson(new Message("testuser","wrongpassword"))));
+        //when(request.getReader()).thenReturn(br);
+        doAnswer(new Answer()
+        {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable
+            {
+                assertEquals(sessionObj.get(invocationOnMock.getArguments()[0]), invocationOnMock.getArguments()[1]); //ensures the session state is set correctly
+                return null;
+            }
+        }).when(session).setAttribute(anyString(), anyObject());
+        doAnswer(new Answer()
+        {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable
+            {
+                return sessionObj.get((invocationOnMock.getArguments()[0]));
+            }
+        }).when(session).getAttribute(anyString());
+        RequestDispatcher rd = mock(RequestDispatcher.class);
+        ServletContext sc = mock(ServletContext.class);
+        doReturn(sc).when(searchServlet).getServletContext();
+        when(sc.getRequestDispatcher(anyString())).thenReturn(rd);
+        doNothing().when(rd).forward(any(), any());
+        doGetMethod.invoke(searchServlet, request, response);
+
+        //Make sure the correct response was set
+        assertEquals(stringWriter.toString(), (new Gson().toJson(new Message("You aren't logged in!")))+System.lineSeparator());
+    }
+
 
 	@Test
 	//Testing an attempt to search by an unloggedin user
@@ -119,16 +155,20 @@ public class SearchServletTest {
 		HttpServletResponse response = mock(HttpServletResponse.class);
 		HttpSession session = mock(HttpSession.class);
 		Map<String, Object> sessionObj = new TreeMap<>();
-		sessionObj.put("Favorites", new ArrayList<>());
-		sessionObj.put("To Explore", new ArrayList<>());
-		sessionObj.put("Do Not Show", new ArrayList<>());
+		sessionObj.put("Favorites", new ArrayList<Info>());
+		sessionObj.put("To Explore", new ArrayList<Info>());
+		sessionObj.put("Do Not Show", new ArrayList<Info>());
+		sessionObj.put("Previous Searches",  new ArrayList<Searches>());
 		sessionObj.put("userID", 1);
 		when(request.getSession()).thenReturn(session);
 		StringWriter stringWriter = new StringWriter();
 		when(response.getWriter()).thenReturn(new PrintWriter(stringWriter));
-		when(request.getParameter("userID")).thenReturn("2");
-		BufferedReader br = new BufferedReader(new StringReader(new Gson().toJson(new Message("testuser","wrongpassword"))));
-		when(request.getReader()).thenReturn(br);
+		when(request.getParameter("userID")).thenReturn("1");
+		when(request.getParameter("search")).thenReturn("pancakeTest");
+		when(request.getParameter("number")).thenReturn("5");
+		when(request.getParameter("radius")).thenReturn("6");
+		//BufferedReader br = new BufferedReader(new StringReader(new Gson().toJson(new Message("testuser","wrongpassword"))));
+		//when(request.getReader()).thenReturn(br);
 		doAnswer(new Answer()
 		{
 			@Override
@@ -154,7 +194,9 @@ public class SearchServletTest {
 		doGetMethod.invoke(searchServlet, request, response);
 
 		//Make sure the correct response was set
-		assertEquals(stringWriter.toString(), (new Gson().toJson(new Message("You aren't logged in!")))+System.lineSeparator());
+		assertEquals(sessionObj.get("Previous Searches"), new ArrayList<>(Arrays.asList(new Searches("pancakeTest", 6, 5))));
+		Database db = new Database();
+		assertEquals(db.getPrevSearch(1), new ArrayList<>(Arrays.asList(new Searches("pancakeTest", 6, 5))));
 	}
 	
 }

@@ -38,10 +38,12 @@ Scenario: initiating the search redirects to Results Page if I am logged in a
     And enter "password" into "password"
     And press "submit" button
     And I should see the "Search" page
-    And I search for "chicken"
-	And expect 5 results
-	And press "submit" button
-	Then I should see the "Result" page
+
+	# COMMENTED OUT SO THAT WE DON'T OVERLOAD API KEY
+   # And I search for "chicken"
+	#And expect 5 results
+	#And press "submit" button
+	#Then I should see the "Result" page
 
 
 #4 Add recipe to grocery list
