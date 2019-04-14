@@ -112,6 +112,8 @@ public class SearchServlet extends HttpServlet {
 			results.add(castedRestaurantList);
 			results.add(castedRecipeList);
 			//Put together the Search Result and Message object, convert to Json, and reply.
+
+			System.out.println("	results " + results);
 			out.println(new Gson().toJson(new Message("Success",new SearchResult(results, urlList))));
 		}
 		out.close();
