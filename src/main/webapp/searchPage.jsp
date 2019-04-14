@@ -53,6 +53,7 @@
                 for(i=0; i<prevSearches.length; i++) {
                     var search = document.createElement("option");
                     search.setAttribute("value", JSON.stringify(prevSearches[i]));
+                    search.setAttribute("id", "prev_search"+i);
                     search.innerHTML = prevSearches[i].searchTerm;
                     prevDrop.appendChild(search);
                 }
