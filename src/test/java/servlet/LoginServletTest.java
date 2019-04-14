@@ -2,10 +2,7 @@ package servlet;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import info.Info;
-import info.Message;
-import info.RecipeInfo;
-import info.RestaurantInfo;
+import info.*;
 import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -46,11 +43,12 @@ public class LoginServletTest
         RecipeInfo info = new RecipeInfo("testrecipe", 5, 12345, 10, 10, new ArrayList<>(Arrays.asList("1. ingredient", "2. ingredient")), new ArrayList<>(Arrays.asList("1. step", "2. step")), "url", 1);
         ArrayList<Info> list = new ArrayList<>(Collections.singletonList(info));
         RestaurantInfo rinfo = new RestaurantInfo("testRest", 5, "placeID", "adress" , 8, "drivetime", 8, "phone", "url");
-        sessionObj.put("Grocery",list);
+        sessionObj.put("Grocery",new ArrayList<>(list));
         list.add(rinfo);
         sessionObj.put("Favorites",list);
         sessionObj.put("To Explore",list);
         sessionObj.put("Do Not Show",list);
+        sessionObj.put("PreviousSearches", new ArrayList<Searches>());
         when(request.getSession()).thenReturn(session);
         StringWriter stringWriter = new StringWriter();
         when(response.getWriter()).thenReturn(new PrintWriter(stringWriter));
@@ -191,6 +189,8 @@ public class LoginServletTest
         sessionObj.put("Favorites",list);
         sessionObj.put("To Explore",list);
         sessionObj.put("Do Not Show",list);
+        sessionObj.put("Grocery",list);
+        sessionObj.put("PreviousSearches",new ArrayList<Searches>());
         when(request.getSession()).thenReturn(session);
         StringWriter stringWriter = new StringWriter();
         when(response.getWriter()).thenReturn(new PrintWriter(stringWriter));
