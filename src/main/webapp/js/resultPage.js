@@ -23,8 +23,6 @@ window.localStorage.setItem("search", query.search);
 window.localStorage.setItem("searchResults", JSON.stringify(results));
 window.localStorage.setItem("imageURLs", JSON.stringify(imageURLs));
 
-console.log("results " + results);
-
 //create buttons for paginating results array (5 results/pg)
 // var numButtons = (results.length)/5;
 //
@@ -76,12 +74,13 @@ console.log("results " + results);
 //     xhttp.send();
 // }
 
-
 //check if the restaurant results are empty; if so return empty results msg
-let restaurant_error = document.createElement("p");
-restaurant_error.innerHTML = "No restaurants within desired radius(mi)";
-restaurant_error.style.color = "red";
-document.querySelector("#restaurantColumn").appendChild(restaurant_error);
+if (results[0].length == 0) {
+    let restaurant_error = document.createElement("p");
+    restaurant_error.innerHTML = "No restaurants within desired radius(mi)";
+    restaurant_error.style.color = "red";
+    document.querySelector("#restaurantColumn").appendChild(restaurant_error);
+}
 
 //First, populate restaurant results
 var col1 = document.getElementById("column1");
