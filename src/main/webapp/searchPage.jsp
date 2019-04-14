@@ -16,8 +16,7 @@
 	<div id = "format">
 		<form action = "resultPage.jsp" method = "GET" onsubmit="if(localStorage.getItem('loggedIn')===null) {window.location = '/loginPage.jsp'; return false;} else return true;">
 			<select id= "prev_search">
-				<option value="prev_search1"></option>
-				<option value="prev_search2">Prev - Search 1</option>
+				<option value="prev_search1">Previous Searches</option>
 
 			</select>
 
