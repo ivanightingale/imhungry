@@ -23,27 +23,65 @@ window.localStorage.setItem("search", query.search);
 window.localStorage.setItem("searchResults", JSON.stringify(results));
 window.localStorage.setItem("imageURLs", JSON.stringify(imageURLs));
 
+console.log("results " + results);
+
 //create buttons for paginating results array (5 results/pg)
 // var numButtons = (results.length)/5;
+//
 // for (var i = 1; i <= numButtons; i++) {
 // 	var pgButton = document.createElement("BUTTON");
-// 	pgButton.set
-// 	pgButton.innerHTML = "Page " + i;
-// 	document.querySelector("#pages").appendChild(pgButton);
+//     pgButton.innerHTML = "Page " + i;
+//     pgButton.setAttribute("id", "page"+i);
+//     pgButton.setAttribute("class", "page");
+//     pgButton.addEventListener('click',loadResults);
+//
+//     document.getElementById("pages").appendChild(pgButton);
+// }
+//
+// function loadList() {
+//     var begin = ((currentPage - 1) * numberPerPage);
+//     var end = begin + numberPerPage;
+//
+//     pageList = list.slice(begin, end);
+//     drawList();    // draws out our data
+//     check();         // determines the states of the pagination buttons
+// }
+//
+//
+// function drawList() {
+//     document.getElementById("list").innerHTML = "";
+//
+//     for (r = 0; r < pageList.length; r++) {
+//         document.getElementById("list").innerHTML += pageList[r] + "";
+//     }
+// }
+//
+// function check() {
+//     document.getElementById("next").disabled = currentPage == numberOfPages ? true : false;
+//     document.getElementById("previous").disabled = currentPage == 1 ? true : false;
+//     document.getElementById("first").disabled = currentPage == 1 ? true : false;
+//     document.getElementById("last").disabled = currentPage == numberOfPages ? true : false;
 // }
 
 //use ajax to reload that part of the results page
-function loadDoc() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("demo").innerHTML =
-                this.responseText;
-        }
-    };
-    xhttp.open("GET", "ajax_info.txt", true);
-    xhttp.send();
-}
+// function loadResults() {
+//     var xhttp = new XMLHttpRequest();
+//     xhttp.onreadystatechange = function() {
+//         if (this.readyState == 4 && this.status == 200) {
+//             document.getElementById("pages").innerHTML =
+//                 this.responseText;
+//         }
+//     };
+//     xhttp.open("GET", "ajax_info.txt", true);
+//     xhttp.send();
+// }
+
+
+//check if the restaurant results are empty; if so return empty results msg
+let restaurant_error = document.createElement("p");
+restaurant_error.innerHTML = "No restaurants within desired radius(mi)";
+restaurant_error.style.color = "red";
+document.querySelector("#restaurantColumn").appendChild(restaurant_error);
 
 //First, populate restaurant results
 var col1 = document.getElementById("column1");

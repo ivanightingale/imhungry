@@ -15,6 +15,12 @@
 	<div id = "header">I'm Hungry </div>
 	<div id = "format">
 		<form action = "resultPage.jsp" method = "GET" onsubmit="if(localStorage.getItem('loggedIn')===null) {window.location = '/loginPage.jsp'; return false;} else return true;">
+			<select id= "prev_search">
+				<option value="prev_search1"></option>
+				<option value="prev_search2">Prev - Search 1</option>
+
+			</select>
+
 			<input type = "text" name = "search" id = "search" placeholder = "Enter Food" required />
 			<div id = "hover_format" class = "hover_format">
 				<input type = "number" name = "number" id = "number" class = "number" value = "5" min= "1" />
@@ -35,11 +41,7 @@
             </div>
 
 			<br>
-			<br>
 
-			<select id= "prev_search">
-				<option value="prev_search1">Prev - Search 1</option>
-			</select>
 			<%--<input type = "image" src="resources/grumpy.png" onmousedown="sadToHappy()" onmouseleave="happyToSad()" name = "submit" id ="submit" value = "Feed Me!" />--%>
 
 		</form>
