@@ -46,7 +46,6 @@
 		<div id = "container">
 		</div>
 
-		<script src="js/dropdown.js"></script>
 		<script src="js/ListClient.js"></script>
 		<script src="js/parseQueryString.js"></script>
 		<script>
