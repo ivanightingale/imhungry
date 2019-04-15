@@ -1,11 +1,11 @@
 package info;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class SortLists {
-    public static ArrayList<Info> sortAlphabetically(ArrayList<Info> list) {
+    public static List<Info> sortAlphabetically(List<Info> list) {
         if (list == null) return null;
 
         Collections.sort(list, new AlphabeticalComp());
@@ -13,7 +13,7 @@ public class SortLists {
         return list;
     }
 
-    public static ArrayList<Info> sortByRating(ArrayList<Info> list) {
+    public static List<Info> sortByRating(List<Info> list) {
         if (list == null) return null;
 
         Collections.sort(list, new RatingComp());

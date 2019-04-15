@@ -3,11 +3,7 @@ package servlet;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
-import info.Info;
-import info.Message;
-import info.RecipeInfo;
-import info.RestaurantInfo;
+import info.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -83,7 +79,7 @@ public class ListServlet extends HttpServlet
 
             Info item = gson.fromJson(infoJson, infoType); //Parse Info object from JSON
             //we would not need the following line
-            List<Info> list = (List<Info>)session.getAttribute(listName); //Get the requested list from session
+            List<Info> list = (List<Info>) session.getAttribute(listName); //Get the requested list from session
             //Switch on requested action
             Database db = new Database();
             int userID = (int) session.getAttribute("userID");
@@ -104,6 +100,17 @@ public class ListServlet extends HttpServlet
                     break;
                 case "resetLists":
                     session.invalidate(); //Note: This is for debuggin only; the page will break if this is called and a new search is not immediately made
+                    break;
+                case "reorderList":
+                    RecipeInfo ri = (RecipeInfo) item;
+                    String order = ri.name;
+                    if (order.equals("Alphabetically")){
+                        list = SortLists.sortAlphabetically(list);
+                    } else if (order.equals("Rating")){
+                        list = SortLists.sortByRating(list);
+                    }
+                    session.setAttribute(listName, list);
+                    respWriter.println(gson.toJson(new Message("Changed order of lists to " + order)));
                     break;
                 default:
                     throw new Exception("Invalid action.");
