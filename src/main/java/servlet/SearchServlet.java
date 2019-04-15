@@ -39,8 +39,8 @@ public class SearchServlet extends HttpServlet {
 	private static final String SPOONACULAR_RECIPE_API_PREFIX = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes";
 	//private static final String SPOONACULAR_RAPID_API_KEY = "5d400066d1msh1a0901e6bb0917dp1b2dc1jsn1dcafa5afeb5";
 	//Mackenzie's Credit Card attached to (below) & Luke's old teammate's Credit Card (above)
-	private static final String SPOONACULAR_RAPID_API_KEY = "64cd03670fmsh3472c2b61fbfa38p129c7ajsnd0c9ef0f31be";
-	//private static final String SPOONACULAR_RAPID_API_KEY = "c2a6b9a24dmsh003243b0b928762p186ee7jsn03f96ad98af5";
+	//private static final String SPOONACULAR_RAPID_API_KEY = "64cd03670fmsh3472c2b61fbfa38p129c7ajsnd0c9ef0f31be";
+	private static final String SPOONACULAR_RAPID_API_KEY = "c2a6b9a24dmsh003243b0b928762p186ee7jsn03f96ad98af5";
 	private static final String GOOGLE_CX_API_KEY = "AIzaSyAH3GjzX5RNq1ObGtaJEuciQziHrakn4cM";
 	private static final String GOOGLE_CX_ENGINE = "001810512200125518925:d_yaufj89m8";
 	private static final int IMAGE_COLLAGE_NUM = 10;
