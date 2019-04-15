@@ -82,7 +82,7 @@
                         <option value="Favorites">Favorites</option>
                         <option value="To Explore">To Explore</option>
                         <option value="Do Not Show">Do Not Show</option>
-                        <option value="Grocery">Grocery</option>
+                        <option id="Grocery" value="Grocery">Grocery</option>
                     </select>
                 </div>
             </div>
