@@ -152,6 +152,7 @@ public class DatabaseTest
             }
         }
         assertTrue(isPrevStored);
+        db.addPrevSearch(1, "testSearch", 5, 1);
     }
 
     @Test
