@@ -11,17 +11,17 @@ Background:
 		Then I should see the "Login Page" page
 
 	#2
-	Scenario: login to testuser and see that favorites
+	#Scenario: login to testuser and see that favorites
 
-		When I press "login" button
-		And enter "testuser" into "username"
-		And enter "password" into "password"
-		And press "submit" button
-		And I search for "chicken"
-		And expect 5 results
-		And press "submit" button
-		And select the list "Grocery"
-		And press "manage_list" button
-		Then I should see an info item
+		#When I press "login" button
+		#And enter "testuser" into "username"
+		#And enter "password" into "password"
+		#And press "submit" button
+		#And I search for "chicken"
+		#And expect 5 results
+		#And press "submit" button
+		#And select the list "Favorites"
+		#And press "manage_list" button
+		#Then I should see an info item
 
 

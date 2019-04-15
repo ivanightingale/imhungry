@@ -31,7 +31,6 @@
             </div>
         </div>
 
-        <script src="js/dropdown.js"></script>
         <script src="js/parseQueryString.js"></script>
         <script src="js/recipePage.js"></script>
 	</body>

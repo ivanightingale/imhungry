@@ -65,7 +65,6 @@ public class LoginServlet extends HttpServlet
                             session.setAttribute("To Explore", db.getLists(userIDstore, "To Explore"));
                             session.setAttribute("Grocery", db.getLists(userIDstore, "Grocery"));
                             session.setAttribute("PreviousSearches", db.getPrevSearch(userIDstore));
-                            String next = "/searchPage.jsp";
                             respWriter.println(gson.toJson(new Message("LoggedIn", userIDstore)));
                         }
                         //wrong password
@@ -99,7 +98,6 @@ public class LoginServlet extends HttpServlet
                         session.setAttribute("To Explore", db.getLists(userIDstore, "To Explore"));
                         session.setAttribute("Grocery", db.getLists(userIDstore, "Grocery"));
                         session.setAttribute("PreviousSearches", db.getPrevSearch(userIDstore));
-                        String next = "/searchPage.jsp";
                         respWriter.println(gson.toJson(new Message("Created", userIDstore)));
                     }
                     else

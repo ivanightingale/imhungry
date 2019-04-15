@@ -30,3 +30,5 @@ Feature: Detailed Results Pages
    # And press "submit" button
    # And press a restaurant
    # Then I should not see "Grocery"
+
+

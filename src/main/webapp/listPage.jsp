@@ -26,7 +26,7 @@
 					<option value="Favorites">Favorites</option>
 					<option value="To Explore">To Explore</option>
 					<option value="Do Not Show">Do Not Show</option>
-					<option value="Grocery">Grocery</option>
+					<option id="Grocery" value="Grocery">Grocery</option>
 				</select>
 			</div>
 			<input type="submit" id = "manage_list" value="Manage List" />
@@ -46,7 +46,6 @@
 		<div id = "container">
 		</div>
 
-		<script src="js/dropdown.js"></script>
 		<script src="js/ListClient.js"></script>
 		<script src="js/parseQueryString.js"></script>
 		<script>

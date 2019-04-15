@@ -160,3 +160,35 @@ end
 And(/^there should not be (\d+) restaurant results$/) do |arg1|
   expect(page).to_not have_css('#Res_item6')
 end
+
+And(/^I should see a "([^"]*)" dropdown$/) do |arg|
+  expect(page).to have_selector(arg)
+end
+
+And(/^I should see prevSearch dropdown$/) do
+  expect(page).to have_select('prev_search')
+end
+
+And(/^click the "([^"]*)" selector$/) do |arg|
+  find_by_id(arg).click
+end
+
+Then(/^I should see "([^"]*)" in "([^"]*)"$/) do |arg1, arg2|
+  expect(find_field(arg2).value).to eq arg1
+end
+
+And(/^I should see (\d+) in "([^"]*)"$/) do |arg1, arg2|
+  expect(find_field(arg2).value).to eq arg1
+end
+
+And(/^select "([^"]*)" from dropdown$/) do |arg1|
+  find_by_id(arg1).select
+end
+
+And(/^click prevSearch dropdown$/) do
+  find_by_id('prev_search').click
+end
+
+And(/^click on dropdown$/) do
+  find_by_id('dropdown').click
+end
