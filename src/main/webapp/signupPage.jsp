@@ -50,7 +50,13 @@
             xhttp.send(JSON.stringify({header:document.getElementById("username").value,body:passhash}));
             var response = JSON.parse(xhttp.response);
             if(response.header != "LoggedIn") {
-                document.getElementById("warning").innerHTML="Login failed:<br/>" + response.header;
+
+                if ((response.header == "Created")) {
+                    document.getElementById("warning").innerHTML = "Account Created";
+                    document.getElementById("warning").style.color = "black";
+                } else {
+                    document.getElementById("warning").innerHTML = "Login failed:<br/>" + response.header;
+                }
                 return false;
             }
             localStorage.setItem("loggedIn", "notnull");

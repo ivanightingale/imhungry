@@ -15,6 +15,11 @@
 	<div id = "header">I'm Hungry </div>
 	<div id = "format">
 		<form action = "resultPage.jsp" method = "GET" onsubmit="if(localStorage.getItem('loggedIn')===null) {window.location = '/loginPage.jsp'; return false;} else return true;">
+			<select id= "prev_search">
+				<option value="prev_search1">Previous Searches</option>
+
+			</select>
+
 			<input type = "text" name = "search" id = "search" placeholder = "Enter Food" required />
 			<div id = "hover_format" class = "hover_format">
 				<input type = "number" name = "number" id = "number" class = "number" value = "5" min= "1" />
@@ -35,11 +40,7 @@
             </div>
 
 			<br>
-			<br>
 
-			<select id= "prev_search">
-				<option value="prev_search1">Previous Searches</option>
-			</select>
 			<%--<input type = "image" src="resources/grumpy.png" onmousedown="sadToHappy()" onmouseleave="happyToSad()" name = "submit" id ="submit" value = "Feed Me!" />--%>
 			<script>
                 var xhttp = new XMLHttpRequest();
@@ -52,6 +53,7 @@
                 for(i=0; i<prevSearches.length; i++) {
                     var search = document.createElement("option");
                     search.setAttribute("value", JSON.stringify(prevSearches[i]));
+                    search.setAttribute("id", "prev_search"+i);
                     search.innerHTML = prevSearches[i].searchTerm;
                     prevDrop.appendChild(search);
                 }

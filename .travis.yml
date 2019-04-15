@@ -25,4 +25,11 @@ before_script:
 
 script:
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-  - mvn test -B
+  - mvn test -Dtest="info.*Test"
+  - mvn test -Dtest="security.*Test"
+  - mvn test -Dtest=DatabaseTest
+  - mvn test -Dtest=SearchServletTest
+  - mysql -u root --password="root1234!" < sql/imhungry.sql
+  - mvn test -Dtest=LoginServletTest
+  - mvn test -Dtest=ListServletTest
+  - mvn test -Dtest=PrevSearchServletTest

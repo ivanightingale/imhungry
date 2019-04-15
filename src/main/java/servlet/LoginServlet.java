@@ -6,6 +6,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import info.Info;
+import info.Searches;
+import java.util.*;
 import info.Message;
 import info.RecipeInfo;
 import info.RestaurantInfo;
@@ -20,7 +22,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
-import java.util.List;
+
 import java.util.stream.Collectors;
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/Login")
@@ -35,9 +37,9 @@ public class LoginServlet extends HttpServlet
         PrintWriter respWriter = response.getWriter();
         Gson gson = new Gson();
         String reqBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator())); //Java 8 magic to collect all lines from a BufferedReadder, in this case the request.
-        while(reqBody.length()>0 && reqBody.charAt(0) != '{') {
-            reqBody = reqBody.substring(1);
-        }
+       // while(reqBody.length()>0 && reqBody.charAt(0) != '{') {
+         //   reqBody = reqBody.substring(1);
+        //}
         Message reqMessage = gson.fromJson(reqBody, Message.class);
         String username = reqMessage.header;
         String password = (String) reqMessage.body;
@@ -65,9 +67,9 @@ public class LoginServlet extends HttpServlet
                             session.setAttribute("To Explore", db.getLists(userIDstore, "To Explore"));
                             session.setAttribute("Grocery", db.getLists(userIDstore, "Grocery"));
                             session.setAttribute("PreviousSearches", db.getPrevSearch(userIDstore));
-                            String next = "/searchPage.jsp";
                             respWriter.println(gson.toJson(new Message("LoggedIn", userIDstore)));
                         }
+
                         //wrong password
                         else
                         {
@@ -75,7 +77,8 @@ public class LoginServlet extends HttpServlet
                             respWriter.close();
                             return;
                         }
-                    }//user does not exist
+                    }
+                    //user does not exist
                     else
                     {
                         respWriter.println(gson.toJson(new Message("Invalid Username!")));
@@ -94,12 +97,11 @@ public class LoginServlet extends HttpServlet
                         int userIDstore = db.getUserID(username);
                         session.setAttribute("hello", "Hello " + username);
                         session.setAttribute("userID", userIDstore);
-                        session.setAttribute("Favorites", db.getLists(userIDstore, "Favorites"));
-                        session.setAttribute("Do Not Show", db.getLists(userIDstore, "Do Not Show"));
-                        session.setAttribute("To Explore", db.getLists(userIDstore, "To Explore"));
-                        session.setAttribute("Grocery", db.getLists(userIDstore, "Grocery"));
-                        session.setAttribute("PreviousSearches", db.getPrevSearch(userIDstore));
-                        String next = "/searchPage.jsp";
+                        session.setAttribute("Favorites", new ArrayList<Info>());
+                        session.setAttribute("Do Not Show", new ArrayList<Info>());
+                        session.setAttribute("To Explore",new ArrayList<Info>());
+                        session.setAttribute("Grocery", new ArrayList<Info>());
+                        session.setAttribute("PreviousSearches",new ArrayList<Searches>() );
                         respWriter.println(gson.toJson(new Message("Created", userIDstore)));
                     }
                     else

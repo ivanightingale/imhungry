@@ -10,15 +10,5 @@ Background:
     When I visit the results page
     Then I should see the "Login Page" page
 
-  #2
-  Scenario: there is a next page button for pagination
 
-    When I press "login" button
-    And enter "testuser" into "username"
-    And enter "password" into "password"
-    And press "submit" button
-    And I search for "chicken"
-    And expect 5 results
-    And press "submit" button
-    Then I should see the "next" button
 

@@ -38,8 +38,9 @@ public class SearchServlet extends HttpServlet {
 
 	private static final String SPOONACULAR_RECIPE_API_PREFIX = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes";
 	//private static final String SPOONACULAR_RAPID_API_KEY = "5d400066d1msh1a0901e6bb0917dp1b2dc1jsn1dcafa5afeb5";
-	private static final String SPOONACULAR_RAPID_API_KEY = "64cd03670fmsh3472c2b61fbfa38p129c7ajsnd0c9ef0f31be";
-
+	//Mackenzie's Credit Card attached to (below) & Luke's old teammate's Credit Card (above)
+	//private static final String SPOONACULAR_RAPID_API_KEY = "64cd03670fmsh3472c2b61fbfa38p129c7ajsnd0c9ef0f31be";
+	private static final String SPOONACULAR_RAPID_API_KEY = "c2a6b9a24dmsh003243b0b928762p186ee7jsn03f96ad98af5";
 	private static final String GOOGLE_CX_API_KEY = "AIzaSyAH3GjzX5RNq1ObGtaJEuciQziHrakn4cM";
 	private static final String GOOGLE_CX_ENGINE = "001810512200125518925:d_yaufj89m8";
 	private static final int IMAGE_COLLAGE_NUM = 10;
@@ -81,9 +82,14 @@ public class SearchServlet extends HttpServlet {
 		String userSearch = request.getParameter("search");
 		int numResults = Integer.parseInt(request.getParameter("number"));
 		int radius = Integer.parseInt(request.getParameter("radius"));
-		Database db = new Database();
-		db.addPrevSearch((Integer)session.getAttribute("userID"), userSearch, radius, numResults);
-		((ArrayList<Searches>)session.getAttribute("PreviousSearches")).add(new Searches(userSearch, radius, numResults));
+		ArrayList<Searches> prevSearches = ((ArrayList<Searches>)session.getAttribute("PreviousSearches"));
+		Searches search = new Searches(userSearch, radius, numResults);
+		if(!prevSearches.contains(search))
+		{
+			Database db = new Database();
+			db.addPrevSearch((Integer)session.getAttribute("userID"), userSearch, radius, numResults);
+			prevSearches.add(search);
+		}
 
 		//Set up variables to store return value
 		boolean success = true;
@@ -116,6 +122,8 @@ public class SearchServlet extends HttpServlet {
 			results.add(castedRestaurantList);
 			results.add(castedRecipeList);
 			//Put together the Search Result and Message object, convert to Json, and reply.
+
+			System.out.println("	results " + results);
 			out.println(new Gson().toJson(new Message("Success",new SearchResult(results, urlList))));
 		}
 		out.close();
@@ -217,16 +225,19 @@ public class SearchServlet extends HttpServlet {
 		}
 
 		Collections.sort(recipes);  //sort RecipeInfo in ascending order based on preparation time
-//REFACTOR DULICATE CODE
 		//move recipes in Favorites List to the top
-		for(int i = recipes.size() - 1; i > 0; i--) {
-			if(favoritesList.contains(recipes.get(i))) {
-				recipes.add(0, recipes.get(i));
+		return (ArrayList<RecipeInfo>)((Object)(helperSort(true, (ArrayList<Info>)((Object)recipes), favoritesList)));
+	}
+
+	private ArrayList<Info> helperSort(Boolean isRecipe, ArrayList<Info> r, List<Info> favoritesList){
+		for (int i = r.size() - 1; i > 0; i--) {
+			if (favoritesList.contains(r.get(i))) {
+				r.add(0, r.get(i));
 				i++;
-				recipes.remove(i);
+				r.remove(i);
 			}
 		}
-		return recipes;
+		return r;
 	}
 
 
@@ -258,6 +269,10 @@ public class SearchServlet extends HttpServlet {
 		for(Info doNotShowInfo : doNotShowList) {
 			restaurants.remove(doNotShowInfo);
 		}
+
+		if(restaurants.size()==0){
+		    return null;
+        }
 		//remove extra items
 		while(restaurants.size() > numResults) {
 			restaurants.remove(restaurants.size() - 1);
@@ -267,15 +282,7 @@ public class SearchServlet extends HttpServlet {
 		getPhoneAndURL(restaurants);
 
 		Collections.sort(restaurants);  //sort RestaurantInfo in ascending order based on drive time
-//REFACTOR DUPLICATE CODE
-		//move restaurants in Favorites List to the top
-		for(int i = restaurants.size() - 1; i > 0; i--) {
-			if(favoritesList.contains(restaurants.get(i))) {
-				restaurants.add(0, restaurants.get(i));
-				i++;
-				restaurants.remove(i);
-			}
-		}
+		restaurants = (ArrayList<RestaurantInfo>)((Object)(helperSort(false,  (ArrayList<Info>)((Object)restaurants), favoritesList)));
 
 		//filter restaurants by distance
 		//create Map of Restaurant Name, Restaurant distance
@@ -297,13 +304,11 @@ public class SearchServlet extends HttpServlet {
 	public Map<RestaurantInfo, String> getDistances (ArrayList<RestaurantInfo> restaurants) {
 		String distanceURL = GOOGLE_MAPS_API_PREFIX + "/distancematrix/json?units=imperial&origins="
 				+ TOMMY_TROJAN_LOC + "&destinations=";
-
-		for(int i = 0; i < restaurants.size(); i++) {
-			distanceURL += "place_id:" + restaurants.get(i).placeID + "%7C";
-		}
-		distanceURL += "&key=" + MAPS_API_KEY;
-
-		JsonArray distances = new JsonParser().parse(getJSONResponse(distanceURL)).getAsJsonObject().get("rows").getAsJsonArray().get(0).getAsJsonObject().get("elements").getAsJsonArray();
+        JsonArray distanc = helperDriveTime(distanceURL, restaurants);
+        if(distanc.size() == 0){
+            return null;
+        }
+        JsonArray distances = distanc.get(0).getAsJsonObject().get("elements").getAsJsonArray();
 
 		Map<RestaurantInfo,String> resturantDistances = new HashMap<>();
 		for(int i = 0; i < restaurants.size(); i++) {
@@ -321,13 +326,13 @@ public class SearchServlet extends HttpServlet {
 				+ TOMMY_TROJAN_LOC + "&destinations=";
 		//concatenate the request URL to make use of the Distance Matrix API, obtaining drive times of multiple
 		//destinations in one request
-		for(int i = 0; i < restaurants.size(); i++) {
-			driveTimeURL += "place_id:" + restaurants.get(i).placeID + "%7C";
-		}
-		driveTimeURL += "&key=" + MAPS_API_KEY;
+        JsonArray driveTim = helperDriveTime(driveTimeURL, restaurants);
 
-		//extract relevant part of the JSON response
-		JsonArray driveTimes = new JsonParser().parse(getJSONResponse(driveTimeURL)).getAsJsonObject().get("rows").getAsJsonArray().get(0).getAsJsonObject().get("elements").getAsJsonArray();
+        //extract relevant part of the JSON response
+        if (driveTim.size() == 0){
+            return;
+        }
+		JsonArray driveTimes = driveTim.get(0).getAsJsonObject().get("elements").getAsJsonArray();
 		//modify respective RestaurantInfo objects, store drive time data
 		for(int i = 0; i < restaurants.size(); i++) {
 			JsonObject durationJSON = driveTimes.get(i).getAsJsonObject().get("duration").getAsJsonObject();
@@ -335,6 +340,15 @@ public class SearchServlet extends HttpServlet {
 			restaurants.get(i).driveTimeValue = durationJSON.get("value").getAsInt();
 		}
 	}
+	private JsonArray helperDriveTime(String driveTimeURL, ArrayList<RestaurantInfo> restaurants){
+        for(int i = 0; i < restaurants.size(); i++) {
+            driveTimeURL += "place_id:" + restaurants.get(i).placeID + "%7C";
+        }
+        driveTimeURL += "&key=" + MAPS_API_KEY;
+
+        JsonArray driveTim = new JsonParser().parse(getJSONResponse(driveTimeURL)).getAsJsonObject().get("rows").getAsJsonArray();
+        return driveTim;
+    }
 
 	//A separate request is needed to get detailed information including phone and URL.
 	public void getPhoneAndURL(ArrayList<RestaurantInfo> restaurants) {
