@@ -1,10 +1,24 @@
 language: java
+language: ruby
+sudo: required
+addons:
+ chrome: stable
 
 services:
   - mysql
 
 before_install:
-  - mysql -u root --password="" < src/test/imhungry.sql
+  - mysql -u root --password="" < sql/imhungry.sql
+  - gem update --system
+  - gem install bundler
+  - wget http://chromedriver.storage.googleapis.com/2.46/chromedriver_linux64.zip
+  - unzip chromedriver_linux64.zip
+  - rm chromedriver_linux64.zip
+  - sudo mv -f chromedriver /usr/local/bin/
+  - sudo chmod +x /usr/local/bin/chromedriver
+  - google-chrome-stable --headless --no-sandbox
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
 
 before_script:
   - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root1234!') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root

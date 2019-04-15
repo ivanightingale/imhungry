@@ -1,6 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.15, for macos10.14 (x86_64)
+CREATE DATABASE  IF NOT EXISTS `imhungry` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */;
+USE `imhungry`;
+-- MySQL dump 10.13  Distrib 8.0.15, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: imhungry
+-- Host: localhost    Database: imhungry
 -- ------------------------------------------------------
 -- Server version	8.0.15
 
@@ -31,7 +33,7 @@ CREATE TABLE `groceries` (
   KEY `foreign2_idx` (`recipeID`),
   CONSTRAINT `foreign2` FOREIGN KEY (`recipeID`) REFERENCES `recipe` (`recipID`),
   CONSTRAINT `foreignK` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,31 +47,31 @@ INSERT INTO `groceries` VALUES (1,1,1);
 UNLOCK TABLES;
 
 --
--- Table structure for table `previousSearch`
+-- Table structure for table `previoussearch`
 --
 
-DROP TABLE IF EXISTS `previousSearch`;
+DROP TABLE IF EXISTS `previoussearch`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `previousSearch` (
+CREATE TABLE `previoussearch` (
   `prevID` int(11) NOT NULL AUTO_INCREMENT,
   `userID` int(11) NOT NULL,
-  `searchTerm` varchar(50) NOT NULL,
+  `searchTerm` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `specradius` int(11) NOT NULL,
   `expectRes` int(11) NOT NULL,
   PRIMARY KEY (`prevID`),
   KEY `foreignK3_idx` (`userID`),
   CONSTRAINT `foreignK3` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `previousSearch`
+-- Dumping data for table `previoussearch`
 --
 
-LOCK TABLES `previousSearch` WRITE;
-/*!40000 ALTER TABLE `previousSearch` DISABLE KEYS */;
-/*!40000 ALTER TABLE `previousSearch` ENABLE KEYS */;
+LOCK TABLES `previoussearch` WRITE;
+/*!40000 ALTER TABLE `previoussearch` DISABLE KEYS */;
+/*!40000 ALTER TABLE `previoussearch` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -84,13 +86,13 @@ CREATE TABLE `recipe` (
   `recipeIDapi` int(11) NOT NULL,
   `prepTime` int(11) NOT NULL,
   `cookTime` int(11) NOT NULL,
-  `ingredient` varchar(1000) NOT NULL,
-  `instructions` varchar(1000) NOT NULL,
-  `imageURL` varchar(150) NOT NULL,
+  `ingredient` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `instructions` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `imageURL` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `rating` int(11) NOT NULL,
-  `rname` varchar(50) NOT NULL,
+  `rname` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`recipID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -119,7 +121,7 @@ CREATE TABLE `recipedonotshow` (
   KEY `fk8` (`rID`),
   CONSTRAINT `fk7` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`),
   CONSTRAINT `fk8` FOREIGN KEY (`rID`) REFERENCES `recipe` (`recipID`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -148,7 +150,7 @@ CREATE TABLE `recipefavorites` (
   KEY `fk4` (`rID`),
   CONSTRAINT `fk3` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`),
   CONSTRAINT `fk4` FOREIGN KEY (`rID`) REFERENCES `recipe` (`recipID`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -177,7 +179,7 @@ CREATE TABLE `recipetoexplore` (
   KEY `fk12` (`rID`),
   CONSTRAINT `fk11` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`),
   CONSTRAINT `fk12` FOREIGN KEY (`rID`) REFERENCES `recipe` (`recipID`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -199,17 +201,17 @@ DROP TABLE IF EXISTS `restaurant`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `restaurant` (
   `restaurantID` int(11) NOT NULL AUTO_INCREMENT,
-  `rname` varchar(50) NOT NULL,
-  `address` varchar(50) NOT NULL,
-  `priceL` varchar(50) NOT NULL,
-  `driveTimeT` varchar(50) NOT NULL,
+  `rname` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `address` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `priceL` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `driveTimeT` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `driveTimeV` int(11) NOT NULL,
-  `phone` varchar(50) NOT NULL,
-  `url` varchar(150) NOT NULL,
+  `phone` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `url` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `rating` int(11) NOT NULL,
-  `placeID` varchar(50) NOT NULL,
+  `placeID` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`restaurantID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -238,7 +240,7 @@ CREATE TABLE `restdonotshow` (
   KEY `fk6` (`rID`),
   CONSTRAINT `fk5` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`),
   CONSTRAINT `fk6` FOREIGN KEY (`rID`) REFERENCES `restaurant` (`restaurantID`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -267,7 +269,7 @@ CREATE TABLE `restfavorites` (
   KEY `fk2` (`rID`),
   CONSTRAINT `fk1` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`),
   CONSTRAINT `fk2` FOREIGN KEY (`rID`) REFERENCES `restaurant` (`restaurantID`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -296,7 +298,7 @@ CREATE TABLE `resttoexplore` (
   KEY `fk10` (`rID`),
   CONSTRAINT `fk10` FOREIGN KEY (`rID`) REFERENCES `restaurant` (`restaurantID`),
   CONSTRAINT `fk9` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -318,11 +320,11 @@ DROP TABLE IF EXISTS `user`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `user` (
   `userID` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL,
-  `pw` varchar(100) NOT NULL,
-  `salt` varchar(100) NOT NULL,
+  `username` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `pw` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `salt` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`userID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -344,4 +346,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-04-11 19:32:18
+-- Dump completed on 2019-04-14 16:50:49
