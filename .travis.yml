@@ -33,5 +33,6 @@ script:
   - mvn test -Dtest=LoginServletTest
   - mvn test -Dtest=ListServletTest
   - mvn test -Dtest=PrevSearchServletTest
+  - mvn tomcat7:run
   - cd Ruby/resources
   - cucumber
