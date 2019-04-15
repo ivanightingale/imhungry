@@ -10,7 +10,7 @@ require 'webdrivers'
 #end
 
 Capybara.register_driver :selenium do |app|
-  Capybara::Selenium::Driver.new(app, browser: :selenium_chrome)
+  Capybara::Selenium::Driver.new(app, browser: :chrome)
 end
 
-Capybara.default_driver = :chrome
+Capybara.default_driver = :selenium
