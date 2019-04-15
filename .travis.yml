@@ -8,7 +8,7 @@ services:
   - mysql
 
 before_install:
-  - mysql -u root --password="" < src/test/imhungry.sql
+  - mysql -u root --password="" < sql/imhungry.sql
   - gem update --system
   - gem install bundler
   - wget http://chromedriver.storage.googleapis.com/2.46/chromedriver_linux64.zip
