@@ -33,3 +33,5 @@ script:
   - mvn test -Dtest=LoginServletTest
   - mvn test -Dtest=ListServletTest
   - mvn test -Dtest=PrevSearchServletTest
+  - cd Ruby/resources
+  - cucumber
