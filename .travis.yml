@@ -10,9 +10,7 @@ services:
 before_install:
   - mysql -u root --password="" < sql/imhungry.sql
   - gem update --system
-  - cd Ruby
   - gem install bundler
-  - cd ..
   - wget http://chromedriver.storage.googleapis.com/2.46/chromedriver_linux64.zip
   - unzip chromedriver_linux64.zip
   - rm chromedriver_linux64.zip
