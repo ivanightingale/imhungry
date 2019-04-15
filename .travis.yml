@@ -11,7 +11,7 @@ before_install:
   - mysql -u root --password="" < sql/imhungry.sql
   - gem update --system
   - gem install bundler
-  - wget http://chromedriver.storage.googleapis.com/2.46/chromedriver_linux64.zip
+  - wget http://chromedriver.storage.googleapis.com/73.0.3683.68/chromedriver_linux64.zip
   - unzip chromedriver_linux64.zip
   - rm chromedriver_linux64.zip
   - sudo mv -f chromedriver /usr/local/bin/
@@ -33,3 +33,7 @@ script:
   - mvn test -Dtest=LoginServletTest
   - mvn test -Dtest=ListServletTest
   - mvn test -Dtest=PrevSearchServletTest
+  - mvn tomcat7:run &
+  - sleep 10
+  - cd Ruby/resources
+  - cucumber
