@@ -11,7 +11,8 @@ import static org.junit.Assert.assertNotSame;
 import static security.PasswordHashing.hashPassword;
 
 
-public class TestPasswordHashing{
+public class PasswordHashingTest
+{
     @Test
     public void hashPasswordTest() {
         // expected hash output from function when password = "123456"
