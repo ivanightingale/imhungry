@@ -95,23 +95,14 @@ public class SearchServlet extends HttpServlet {
 		boolean success = true;
 		String errorMsg = "";
 
-		//Check for null input
-		if (userSearch == null) {
-			success = false;
-			errorMsg += "The file doesn't exist!";
-		}
-
 		//get lists
 		ArrayList<RecipeInfo> recipeList = recipeSearch(userSearch, numResults, doNotShowList, favoritesList);
 		ArrayList<RestaurantInfo> restaurantList = restaurantSearch(userSearch, numResults, radius, doNotShowList, favoritesList);
 		ArrayList<String> urlList = getImageURLs(userSearch);
 
 		//return content
-		if (!success){
-			//create error message
-			out.println(errorMsg);
-
-		} else {
+		if (success)
+		{
 			//create success message
 			//Cast result arrays to arrays of their parent's types
 			//This cast is potentially dangerous, but OK because we 100% know that recipe and restaurantList can also be represented as List<Info>s
@@ -231,6 +222,7 @@ public class SearchServlet extends HttpServlet {
 
 	private ArrayList<Info> helperSort(Boolean isRecipe, ArrayList<Info> r, List<Info> favoritesList){
 		for (int i = r.size() - 1; i > 0; i--) {
+			// not responsible for testing project 1
 			if (favoritesList.contains(r.get(i))) {
 				r.add(0, r.get(i));
 				i++;
@@ -305,7 +297,7 @@ public class SearchServlet extends HttpServlet {
 		String distanceURL = GOOGLE_MAPS_API_PREFIX + "/distancematrix/json?units=imperial&origins="
 				+ TOMMY_TROJAN_LOC + "&destinations=";
         JsonArray distanc = helperDriveTime(distanceURL, restaurants);
-        if(distanc.size() == 0){
+        if(distanc == null){
             return null;
         }
         JsonArray distances = distanc.get(0).getAsJsonObject().get("elements").getAsJsonArray();
@@ -328,8 +320,7 @@ public class SearchServlet extends HttpServlet {
 		//destinations in one request
         JsonArray driveTim = helperDriveTime(driveTimeURL, restaurants);
 
-        //extract relevant part of the JSON response
-        if (driveTim.size() == 0){
+        if (driveTim.size()==0){
             return;
         }
 		JsonArray driveTimes = driveTim.get(0).getAsJsonObject().get("elements").getAsJsonArray();
@@ -341,7 +332,10 @@ public class SearchServlet extends HttpServlet {
 		}
 	}
 	private JsonArray helperDriveTime(String driveTimeURL, ArrayList<RestaurantInfo> restaurants){
-        for(int i = 0; i < restaurants.size(); i++) {
+        if(restaurants.size()==0){
+        	return new JsonArray();
+		}
+		for(int i = 0; i < restaurants.size(); i++) {
             driveTimeURL += "place_id:" + restaurants.get(i).placeID + "%7C";
         }
         driveTimeURL += "&key=" + MAPS_API_KEY;
