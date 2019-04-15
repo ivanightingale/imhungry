@@ -1,16 +1,10 @@
 package servlet;
-import javax.servlet.RequestDispatcher;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
 import info.Info;
 import info.Searches;
 import java.util.*;
 import info.Message;
-import info.RecipeInfo;
-import info.RestaurantInfo;
 import security.PasswordHashing;
 
 import javax.servlet.ServletException;
@@ -21,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Type;
 
 import java.util.stream.Collectors;
 

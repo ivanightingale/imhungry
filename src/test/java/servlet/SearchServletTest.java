@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
 import info.Message;
 import org.junit.Test;
 
@@ -64,6 +66,14 @@ public class SearchServletTest {
 	}
 	
 	@Test
+	//getDriveTimes tests if arraylist of restaurants given is null
+	public void getDriveTimesTest2() {
+		SearchServlet servlet = new SearchServlet();
+		ArrayList<RestaurantInfo> testConfirm = new ArrayList<RestaurantInfo>();
+		servlet.getDriveTimes(testConfirm);
+	}
+
+	@Test
 	//getDriveTimes test
 	public void getDriveTimesTest1() {
 		SearchServlet servlet = new SearchServlet();
@@ -77,6 +87,7 @@ public class SearchServletTest {
 		assertTrue(testConfirm.get(0).driveTimeValue < 550);
 		assertTrue(testConfirm.get(0).driveTimeValue > 250);
 	}
+
 	@Test
 	//getting the Restaurant arraylist API test
 	public void getResInfoTest() {
@@ -95,6 +106,60 @@ public class SearchServletTest {
 		List<Info> empty2 = new ArrayList<Info>();
 		ArrayList<RecipeInfo> rest = servlet.recipeSearch("beef", 5, empty1, empty2);
 		assertEquals(5,rest.size());
+	}
+
+	@Test
+	//testing that the if distance > radius no restaurants show up
+	public void getNoRestaurantsinRadius() throws IOException, NoSuchMethodException, ServletException, IllegalAccessException, InvocationTargetException {
+		SearchServlet searchServlet = mock(SearchServlet.class, CALLS_REAL_METHODS);//Have to partial mock so searchServlet.getServletContext() can be mocked
+		Method doGetMethod = searchServlet.getClass().getDeclaredMethod("doGet", HttpServletRequest.class, HttpServletResponse.class);
+		doGetMethod.setAccessible(true);
+		HttpServletRequest request = mock(HttpServletRequest.class, RETURNS_DEEP_STUBS);
+		HttpServletResponse response = mock(HttpServletResponse.class);
+		HttpSession session = mock(HttpSession.class);
+		Map<String, Object> sessionObj = new TreeMap<>();
+		sessionObj.put("Favorites", new ArrayList<Info>());
+		sessionObj.put("To Explore", new ArrayList<Info>());
+		sessionObj.put("Do Not Show", new ArrayList<Info>());
+		sessionObj.put("PreviousSearches",  new ArrayList<Searches>());
+		sessionObj.put("userID", 1);
+		when(request.getSession()).thenReturn(session);
+		StringWriter stringWriter = new StringWriter();
+		when(response.getWriter()).thenReturn(new PrintWriter(stringWriter));
+		when(request.getParameter("userID")).thenReturn("1");
+		when(request.getParameter("search")).thenReturn("pancakes");
+		when(request.getParameter("number")).thenReturn("5");
+		when(request.getParameter("radius")).thenReturn("0");
+		doAnswer(new Answer()
+		{
+			@Override
+			public Object answer(InvocationOnMock invocationOnMock) throws Throwable
+			{
+				assertEquals(sessionObj.get(invocationOnMock.getArguments()[0]), invocationOnMock.getArguments()[1]); //ensures the session state is set correctly
+				return null;
+			}
+		}).when(session).setAttribute(anyString(), anyObject());
+		doAnswer(new Answer()
+		{
+			@Override
+			public Object answer(InvocationOnMock invocationOnMock) throws Throwable
+			{
+				return sessionObj.get((invocationOnMock.getArguments()[0]));
+			}
+		}).when(session).getAttribute(anyString());
+		RequestDispatcher rd = mock(RequestDispatcher.class);
+		ServletContext sc = mock(ServletContext.class);
+		doReturn(sc).when(searchServlet).getServletContext();
+		when(sc.getRequestDispatcher(anyString())).thenReturn(rd);
+		doNothing().when(rd).forward(any(), any());
+		doGetMethod.invoke(searchServlet, request, response);
+
+		JsonObject JOresponse = new JsonParser().parse(stringWriter.toString()).getAsJsonObject();
+		JsonArray resultArray = JOresponse.get("body").getAsJsonObject().get("results").getAsJsonArray();
+		JsonArray restaurantArray = resultArray.get(0).getAsJsonArray();
+		assertEquals(0, restaurantArray.size());
+
+
 	}
 
 	@Test
