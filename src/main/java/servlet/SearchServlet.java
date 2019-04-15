@@ -309,13 +309,7 @@ public class SearchServlet extends HttpServlet {
 	public Map<RestaurantInfo, String> getDistances (ArrayList<RestaurantInfo> restaurants) {
 		String distanceURL = GOOGLE_MAPS_API_PREFIX + "/distancematrix/json?units=imperial&origins="
 				+ TOMMY_TROJAN_LOC + "&destinations=";
-
-		for(int i = 0; i < restaurants.size(); i++) {
-			distanceURL += "place_id:" + restaurants.get(i).placeID + "%7C";
-		}
-		distanceURL += "&key=" + MAPS_API_KEY;
-
-        JsonArray distanc = new JsonParser().parse(getJSONResponse(distanceURL)).getAsJsonObject().get("rows").getAsJsonArray();
+        JsonArray distanc = helperDriveTime(distanceURL, restaurants);
         if(distanc.size() == 0){
             return null;
         }
@@ -337,12 +331,7 @@ public class SearchServlet extends HttpServlet {
 				+ TOMMY_TROJAN_LOC + "&destinations=";
 		//concatenate the request URL to make use of the Distance Matrix API, obtaining drive times of multiple
 		//destinations in one request
-		for(int i = 0; i < restaurants.size(); i++) {
-			driveTimeURL += "place_id:" + restaurants.get(i).placeID + "%7C";
-		}
-		driveTimeURL += "&key=" + MAPS_API_KEY;
-
-        JsonArray driveTim = new JsonParser().parse(getJSONResponse(driveTimeURL)).getAsJsonObject().get("rows").getAsJsonArray();
+        JsonArray driveTim = helperDriveTime(driveTimeURL, restaurants);
 
         //extract relevant part of the JSON response
         if (driveTim.size() == 0){
@@ -356,6 +345,15 @@ public class SearchServlet extends HttpServlet {
 			restaurants.get(i).driveTimeValue = durationJSON.get("value").getAsInt();
 		}
 	}
+	private JsonArray helperDriveTime(String driveTimeURL, ArrayList<RestaurantInfo> restaurants){
+        for(int i = 0; i < restaurants.size(); i++) {
+            driveTimeURL += "place_id:" + restaurants.get(i).placeID + "%7C";
+        }
+        driveTimeURL += "&key=" + MAPS_API_KEY;
+
+        JsonArray driveTim = new JsonParser().parse(getJSONResponse(driveTimeURL)).getAsJsonObject().get("rows").getAsJsonArray();
+        return driveTim;
+    }
 
 	//A separate request is needed to get detailed information including phone and URL.
 	public void getPhoneAndURL(ArrayList<RestaurantInfo> restaurants) {
