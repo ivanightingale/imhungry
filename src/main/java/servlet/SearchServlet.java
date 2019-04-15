@@ -225,16 +225,19 @@ public class SearchServlet extends HttpServlet {
 		}
 
 		Collections.sort(recipes);  //sort RecipeInfo in ascending order based on preparation time
-//REFACTOR DULICATE CODE
 		//move recipes in Favorites List to the top
-		for(int i = recipes.size() - 1; i > 0; i--) {
-			if(favoritesList.contains(recipes.get(i))) {
-				recipes.add(0, recipes.get(i));
+		return (ArrayList<RecipeInfo>)((Object)(helperSort(true, (ArrayList<Info>)((Object)recipes), favoritesList)));
+	}
+
+	private ArrayList<Info> helperSort(Boolean isRecipe, ArrayList<Info> r, List<Info> favoritesList){
+		for (int i = r.size() - 1; i > 0; i--) {
+			if (favoritesList.contains(r.get(i))) {
+				r.add(0, r.get(i));
 				i++;
-				recipes.remove(i);
+				r.remove(i);
 			}
 		}
-		return recipes;
+		return r;
 	}
 
 
@@ -279,15 +282,7 @@ public class SearchServlet extends HttpServlet {
 		getPhoneAndURL(restaurants);
 
 		Collections.sort(restaurants);  //sort RestaurantInfo in ascending order based on drive time
-//REFACTOR DUPLICATE CODE
-		//move restaurants in Favorites List to the top
-		for(int i = restaurants.size() - 1; i > 0; i--) {
-			if(favoritesList.contains(restaurants.get(i))) {
-				restaurants.add(0, restaurants.get(i));
-				i++;
-				restaurants.remove(i);
-			}
-		}
+		restaurants = (ArrayList<RestaurantInfo>)((Object)(helperSort(false,  (ArrayList<Info>)((Object)restaurants), favoritesList)));
 
 		//filter restaurants by distance
 		//create Map of Restaurant Name, Restaurant distance
