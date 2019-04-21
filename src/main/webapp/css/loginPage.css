@@ -1,0 +1,56 @@
+#login_link {
+    color: #42A2D4;
+    display: inline-block;
+    vertical-align: top;
+    font-weight:900;
+}
+#account {
+    display: inline-block;
+    vertical-align: top;
+    font-weight:900;
+}
+
+#submit {
+    color: white;
+    background-color: darkorange;
+    border: none;
+    font-size: 17px;
+    width: 20rem;
+    padding-top: 10px;
+    padding-bottom:10px;
+}
+
+#formContent {
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    background: #fff;
+    text-align: center;
+    border: 1px;
+    left:30%;
+}
+
+#signuptext {
+    color: #B26200;
+    font-size: 3rem;
+    bottom:5px;
+    margin-top: 3%;
+    margin-bottom: 0px;
+
+}
+
+.form-group {
+    padding-bottom: 5px;
+    margin-left: 37%;
+    width: 100%;
+}
+
+.form-control {
+    width: 25%;
+    height: 7%;
+}
+
+#form_footer {
+    text-decoration: none;
+    color: black;
+    margin-left: 11%;
+}

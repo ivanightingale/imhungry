@@ -1,21 +1,28 @@
 @charset "UTF-8";
 
 body{
-	font-family: Helvetica, sans-serif;
-	background-color: #f5f5f5;
+	background: url('home_background.png') no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 }
 
 #header{
-	font-family: Helvetica, sans-serif;
-	font-size: 10rem;
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 5rem;
 	text-align: center;
 	padding-top: 20vh;
+	color: white;
+}
+#prev_search {
+	font-size: 2rem;
 }
 
 #format{
 	margin-top: 5vh;
 	display: block;
-    text-align: center;
+	text-align: center;
 }
 
 #search{
@@ -23,34 +30,57 @@ body{
 	font-size: 2rem;
 }
 
-#number{
+.number{
 	font-size: 2rem;
-	margin-left:1rem;
 	width: 4rem;
 }
 
+.search{
+	font-size: 2rem;
+}
+
+#login {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	color: white;
+	background-color:transparent;
+	margin-left: 75%;
+	margin-top: 25px;
+	border: 0px;
+	font-size: 25px;
+}
+
+#signup {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	color: white;
+	background-color:transparent;
+	margin-top: 25px;
+	font-size: 25px;
+	border-style: solid;
+	border-color: white;
+}
+
 #submit {
-	font-family: Helvetica, sans-serif;
 	size: 10vw;
-	color: red;
-	margin-top: 5vh;
+	background-color: orange;
 }
 
-#hover_text{
+.hover_text{
 	font-size: 1rem;
-
+	color: white;
 }
 
-#hover_format{
+.hover_format{
 	display: inline;
 }
 
-#hover_text{
+.hover_text{
 	margin-left:1rem;
-	margin-top:1rem;
+	margin-top:3rem;
 	position:absolute;
 	display: none;
 }
-#hover_format:hover #hover_text {
-  display: inline;
+.hover_format:hover .hover_text {
+	display: inline-block;
 }

@@ -6,15 +6,27 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>List Management</title>
 		<link rel="stylesheet" type="text/css" href="css/listPage.css" />
+		<link rel="stylesheet" type="text/css" href="css/common.css">
+		<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+
 	</head>
 	<body>
-		<form action="listPage.jsp" method="GET">
+	<script src="js/loginChecker.js"></script>
+	<script>checkLoggedIn();</script>
+	<div id="common_header">
+		<h4 id = "header_text">I'm Hungry </h4>
+	</div>
+    <form action="listPage.jsp" method="GET">
 			<div class="dropDown">
 				<select id = "dropdown" name="list">
 					<option value="invalid">&nbsp</option>
 					<option value="Favorites">Favorites</option>
 					<option value="To Explore">To Explore</option>
 					<option value="Do Not Show">Do Not Show</option>
+					<option id="Grocery" value="Grocery">Grocery</option>
 				</select>
 			</div>
 			<input type="submit" id = "manage_list" value="Manage List" />
@@ -23,7 +35,7 @@
 		<form action="resultPage.jsp">
 			<input type="hidden" id="queryStringInput" name="search" value="" />
 			<input type="hidden" id="numberResultsInput" name="number" value="cache" />
-			<input type="submit" id = "back_result" value="Back to Result" />
+			<input type="submit" id = "back_result" value="Back to Results Page " />
 		</form>
 	
 		<form action="searchPage.jsp">
@@ -34,7 +46,6 @@
 		<div id = "container">
 		</div>
 
-		<script src="js/dropdown.js"></script>
 		<script src="js/ListClient.js"></script>
 		<script src="js/parseQueryString.js"></script>
 		<script>
@@ -52,6 +63,11 @@
 			var col1 = document.getElementById("container");
 			//Check if the list is empty first though
 			if(list == null || list.length === 0) col1.innerHTML = "This list is empty. Add something to see it here!" ;
+			else if(listName === "Grocery") {
+                for (var i = 0; i < list.length; i++) {
+                    col1.innerHTML += i+1 + ". " + list[i] + "<br />";
+                }
+			}
 			else {
                 for (var i = 0; i < list.length; i++) {
                     let sec1 = null;

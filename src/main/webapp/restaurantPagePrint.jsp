@@ -7,7 +7,10 @@
 		<link rel="stylesheet" type="text/css" href="css/detailedPage.css" />
 	</head>
 	<body>
-		<div class = "textinfo">
+	<script src="js/loginChecker.js"></script>
+	<script>checkLoggedIn();</script>
+    <div id="commonheader">I'm Hungry</div>
+	<div class = "textinfo">
 			<p id="title"></p>
 			<div class = "address">
 				<span id="address1" style="font-size: 2rem">Address:</span>
@@ -23,7 +26,6 @@
 			</div>
 		</div>
 
-		<script src="js/dropdown.js"></script>
 		<script src="js/parseQueryString.js"></script>
 		<script src="js/restaurantPage.js"></script>
 	</body>
